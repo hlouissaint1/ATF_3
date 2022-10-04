@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20220331 12:12:17.156" schemaversion="2" generator="Robot 4.1.2rc2.dev1 (Python 2.7.5 on linux2)">
+<suite source="/var/www/html/htdocs/iSensor_Regression/PostDeploy/Post_Package_Deployment_Verification.txt" id="s1" name="Post Package Deployment Verification">
+<kw type="SETUP" name="Setup iSensor Environment">
+<kw name="Start EC2 Instance">
+<arg>${ISENSOR_IP}</arg>
+<msg timestamp="20220331 12:12:41.480" level="FAIL">No keyword with name 'Start EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Start FMC EC2 Instance</msg>
+<status status="FAIL" endtime="20220331 12:12:41.480" starttime="20220331 12:12:41.480"/>
+</kw>
+<kw name="Open SSH Connection" library="iSensorConfiguration">
+<status status="NOT RUN" endtime="20220331 12:12:41.481" starttime="20220331 12:12:41.481"/>
+</kw>
+<status status="FAIL" endtime="20220331 12:12:41.481" starttime="20220331 12:12:41.472"/>
+</kw>
+<test id="s1-t1" name="Notify Start Of Test via Email">
+<status status="FAIL" endtime="20220331 12:12:41.482" starttime="20220331 12:12:41.482">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Start FMC EC2 Instance</status>
+</test>
+<test id="s1-t2" name="Verify Current State of Target iSensor">
+<status status="FAIL" endtime="20220331 12:12:41.483" starttime="20220331 12:12:41.483">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Start FMC EC2 Instance</status>
+</test>
+<test id="s1-t3" name="Verify Rulesets Can Be Pushed To iSensor">
+<status status="FAIL" endtime="20220331 12:12:41.484" starttime="20220331 12:12:41.483">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Start FMC EC2 Instance</status>
+</test>
+<test id="s1-t4" name="Verify RCMSMQTransmit">
+<status status="FAIL" endtime="20220331 12:12:41.485" starttime="20220331 12:12:41.484">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Start FMC EC2 Instance</status>
+</test>
+<test id="s1-t5" name="Verify Shuns Can Be Added">
+<status status="FAIL" endtime="20220331 12:12:41.485" starttime="20220331 12:12:41.485">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Start FMC EC2 Instance</status>
+</test>
+<kw type="TEARDOWN" name="Close Connections and Report Results">
+<kw name="Stop iSensor EC2 Instance">
+<kw name="Stop EC2 Instance">
+<arg>${ISENSOR_IP}</arg>
+<msg timestamp="20220331 12:12:41.494" level="FAIL">No keyword with name 'Stop EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Stop FMC EC2 Instance</msg>
+<status status="FAIL" endtime="20220331 12:12:41.494" starttime="20220331 12:12:41.493"/>
+</kw>
+<status status="FAIL" endtime="20220331 12:12:41.494" starttime="20220331 12:12:41.486"/>
+</kw>
+<kw name="Close All Connections" library="SSHLibrary">
+<doc>Closes all open connections.</doc>
+<status status="PASS" endtime="20220331 12:12:41.494" starttime="20220331 12:12:41.494"/>
+</kw>
+<kw name="Run Keyword If All Tests Passed" library="BuiltIn">
+<arg>Email Test Has Passed</arg>
+<doc>Runs the given keyword with the given arguments, if all tests passed.</doc>
+<status status="PASS" endtime="20220331 12:12:41.495" starttime="20220331 12:12:41.494"/>
+</kw>
+<kw name="Run Keyword If Any Tests Failed" library="BuiltIn">
+<arg>Email Test Has Failed</arg>
+<doc>Runs the given keyword with the given arguments, if one or more tests failed.</doc>
+<kw name="Email Test Has Failed">
+<kw name="Set Mail Subject" library="scwxCorelib.Mail">
+<arg>Post package deployment test has FAILED</arg>
+<arg>catenate=True</arg>
+<status status="PASS" endtime="20220331 12:12:41.973" starttime="20220331 12:12:41.495"/>
+</kw>
+<kw name="Append Config" library="scwxCorelib.Mail">
+<arg>iSensor Model: Dell ${ISENSOR_MODEL}</arg>
+<status status="PASS" endtime="20220331 12:12:41.974" starttime="20220331 12:12:41.974"/>
+</kw>
+<kw name="Log To Mail" library="scwxCorelib.Mail">
+<arg>Test Report:</arg>
+<arg>reportfile</arg>
+<msg timestamp="20220331 12:12:41.975" level="DEBUG">content: Test Report:
+link:reportfile
+options:{}</msg>
+<msg timestamp="20220331 12:12:41.975" level="DEBUG">LINKER: "https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20220331_121215.aawoke.Post_Package_Deployment_Verification.html"</msg>
+<msg timestamp="20220331 12:12:41.975" level="DEBUG">content w/link = Test Report:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20220331_121215.aawoke.Post_Package_Deployment_Verification.html
+</msg>
+<status status="PASS" endtime="20220331 12:12:41.975" starttime="20220331 12:12:41.974"/>
+</kw>
+<kw name="Log To Mail" library="scwxCorelib.Mail">
+<arg>Test Log:</arg>
+<arg>logfile</arg>
+<msg timestamp="20220331 12:12:41.975" level="DEBUG">content: Test Log:
+link:logfile
+options:{}</msg>
+<msg timestamp="20220331 12:12:41.976" level="DEBUG">LINKER: "https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20220331_121215.aawoke.Post_Package_Deployment_Verification.html"</msg>
+<msg timestamp="20220331 12:12:41.976" level="DEBUG">content w/link = Test Log:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20220331_121215.aawoke.Post_Package_Deployment_Verification.html
+</msg>
+<status status="PASS" endtime="20220331 12:12:41.976" starttime="20220331 12:12:41.975"/>
+</kw>
+<kw name="Mail Report" library="scwxCorelib.Mail">
+<var>${resp}</var>
+<arg>attach=reportfile,logfile</arg>
+<msg timestamp="20220331 12:12:41.977" level="DEBUG">email distro is ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']</msg>
+<msg timestamp="20220331 12:12:41.977" level="DEBUG">Processing Mail Report keyword...
+	Distribution:['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	subject: Test ID (Production): 20220331.121241 - Post package deployment test has FAILED
+	To: ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	Body:Test Report:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20220331_121215.aawoke.Post_Package_Deployment_Verification.html
+Test Log:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20220331_121215.aawoke.Post_Package_Deployment_Verification.html
+</msg>
+<msg timestamp="20220331 12:12:42.035" level="INFO">Successfully sent mail from localhost with subject "Test ID (Production): 20220331.121241 - Post package deployment test has FAILED" to hlouissaint@secureworks.com;pmankoo@secureworks.com;msuwoto@secureworks.com;ibilyy@secureworks.com;tbernhard@secureworks.com;igayashan@secureworks.com;hrashmi@secureworks.com;mnanayakkara@secureworks.com;aawoke@secureworks.com;</msg>
+<msg timestamp="20220331 12:12:42.036" level="INFO">${resp} = Message "Test ID (Production): 20220331.121241 - Post package deployment test has FAILED" Sent</msg>
+<status status="PASS" endtime="20220331 12:12:42.036" starttime="20220331 12:12:41.976"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20220331 12:12:42.037" level="INFO">Message "Test ID (Production): 20220331.121241 - Post package deployment test has FAILED" Sent</msg>
+<status status="PASS" endtime="20220331 12:12:42.037" starttime="20220331 12:12:42.036"/>
+</kw>
+<status status="PASS" endtime="20220331 12:12:42.037" starttime="20220331 12:12:41.495"/>
+</kw>
+<status status="PASS" endtime="20220331 12:12:42.037" starttime="20220331 12:12:41.495"/>
+</kw>
+<status status="FAIL" endtime="20220331 12:12:42.038" starttime="20220331 12:12:41.486">No keyword with name 'Stop EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Stop FMC EC2 Instance</status>
+</kw>
+<status status="FAIL" endtime="20220331 12:12:42.038" starttime="20220331 12:12:17.161">Suite setup failed:
+No keyword with name 'Start EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Start FMC EC2 Instance
+
+Also suite teardown failed:
+No keyword with name 'Stop EC2 Instance' found. Did you mean:
+    aws_ec2_instance.Stop FMC EC2 Instance</status>
+</suite>
+<statistics>
+<total>
+<stat fail="5" skip="0" pass="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="5" skip="0" id="s1" name="Post Package Deployment Verification" pass="0">Post Package Deployment Verification</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

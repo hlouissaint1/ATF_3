@@ -1,0 +1,28 @@
+*** Settings ***
+Documentation     Commmon utilities to handle/validate iSensor Inspector Agents
+
+Library		OperatingSystem
+Library		SSHLibrary
+Library		BuiltIn
+
+*** Keywords ***
+Disable Inspector Service
+    :For    ${setting}    In    Range    10
+    \    ${inspinit_status}=    Execute Command    svstat /service/inspinit/ | awk '{print $2}'
+    \    Exit For Loop If    'down'=='${inspinit_status}'
+	\    BuiltIn.Run Keyword If    'up' == '${inspinit_status}'    Stop Inspinit Service
+	\    sleep    2
+
+
+Enable Inspector Service
+    :For    ${setting}    In    Range    10
+    \    ${inspinit_status}=    Execute Command    svstat /service/inspinit/ | awk '{print $2}'
+    \    Exit For Loop If    'up'=='${inspinit_status}'
+	\    BuiltIn.Run Keyword If    'down' == '${inspinit_status}'    Start Inspinit Service
+	\    sleep    2
+
+Stop Inspinit Service
+    write    svc -d /service/inspinit
+
+Start Inspinit Service
+    write    svc -u /service/inspinit

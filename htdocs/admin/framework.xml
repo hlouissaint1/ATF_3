@@ -1,0 +1,9 @@
+<?xml-stylesheet type="text/xsl" href="framework.xslt"?>
+<framework>
+  <atf environment="Production" address="10.248.81.224">
+    <url>https://r-atl1atfprod02.mss-bo.secureworks.net/admin/</url>
+    <certificate>IQy5Q8mqzDdWYkAFxIlZm6+JU9BN7QpAmp2XBeway7w=</certificate>
+    <private-key name="/root/.ssh/id_rsa"/>
+  </atf>
+</framework>
+

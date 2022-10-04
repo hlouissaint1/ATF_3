@@ -1,0 +1,129 @@
+*** Settings ***
+Documentation     Commmon utilities to handle/validate iSensor alerts
+
+Library		OperatingSystem    
+Library		SSHLibrary
+Library		BuiltIn
+Library		String
+Library		Collections
+
+
+*** Variables ***
+#${HOSTIP}		%{TAF_iSensorMgmtIp}
+@{fields}=		Classification
+...			Priority
+...			Action	
+...			Impact_flag
+...			Impact
+...			Blocked
+...			VLan
+...			MPLS label
+...			Pad2
+...			Sensor ID	
+...			Event ID
+...			Time
+...			src IP
+...			dst IP
+...			sport/itype
+...			dport/icode
+...			proto
+...			PSensor ID
+...			PEvent ID
+...			PTime
+
+#*** Test Cases ***
+#Test Keyword
+#	Open Connection			172.16.121.138			alias=172.16.121.138
+#	Login				root				tester
+#	${alert_file}=			Set Variable			/secureworks/msg/compound/alerts2.1495645200
+#	${alert}=			Execute Command 		/secureworks/bin/readalert ${alert_file} |grep -A 10 "\\[**\\]"
+#	Log To Console			${alert}
+#	: FOR				${field}			IN				@{fields}
+#	\				${value}=			Parse ReadAlert Element		${alert}	${field}
+#	\				Log to Console			${field}=${value}
+#	\				Log to Console			READALERT_${field.upper().replace(' ','_')}_VALUE = ${READALERT_${field.upper()}_VALUE}
+#	${blocked}=			Get Readalert Blocked Count	${alert}
+#	Log To Console			Blocked = ${blocked}
+#	Validate Readalert Elements	/secureworks/msg/compound/alerts2.1495753200	
+	
+
+*** Keywords ***
+
+Look For Compound Alert
+	${filelist}=				Execute Command	    ls -al /secureworks/msg/compound/*
+        ${files}=                               Execute Command     ls -al /secureworks/msg/compound/* |wc -l
+        Should Not Be Equal As Integers         ${files}            0
+
+
+Get Compound Alerts Using XPDFOO
+        ${files}=                   Execute Command     ls -al /secureworks/msg/compound/* |wc -l
+        ${alerts}=                  Execute Command     /secureworks/bin/xpdfoo /secureworks/msg/compound/* |pcregrep -o "(?<=event sid: )\\d+" |sort |uniq
+        [Return]                    AlertFiles:${files},AlertCount:${alerts}
+
+
+Validate Readalert Elements	[Arguments]			${alertfile}
+#	${alert}=               Execute Command                 /secureworks/bin/readalert ${alert_file} |grep -A 10 "\\[**\\]"
+	${alert}=               Execute Command                 /secureworks/bin/readalert ${alert_file} |grep -A 9 'Segmented Packet' | grep -v 'Snort agent configuratio'
+        Log                     ${alert}
+	@{topline}=		Get Regexp Matches		${alert}			\\[\\*\\*\\].*\\[\\*\\*\\]
+	Run Keyword If		len(${topline})==0		Fatal Error			Readalert Output is missing top line
+	@{alertid}=		Get Regexp Matches		${topline}[0]			\\d+\\sVID\\d+\\s
+	Run Keyword If		len(@{alertid})==0		Fatal Error			Alert is missing ID
+	FOR                     ${field}                        IN                              @{fields}
+				${value}=			Parse ReadAlert Element		${alert}	${field}
+        END
+				Should Not Contain		${value}=			Not Found	Readalert value "${field}" is missing
+
+Get Readalert Blocked Count	[Arguments]			${alert}
+	${value}=		Parse ReadAlert Element		${alert}			Blocked
+	[Return]		${value}
+
+Parse Readalert Element		[Arguments]				${alert}			${element}		
+	Set Suite Variable	${READALERT_${element.upper()}_VALUE}					Not Found
+	${regex}=		Set Variable				\\[${element}\:\\s.*\\]
+	@{extract}=		Get Regexp Matches			${alert}			${regex}
+	Return From Keyword If 	len(@{extract})==0			Not Found
+	${fetch}=		Fetch From Left				${extract}[0]			]
+	${value}=		Fetch From Right			${fetch}			:
+	Set Suite Variable	${READALERT_${element.upper()}_VALUE}	${value}
+	[Return]		${value}
+	
+
+Read Formatted Alert Using Readalert				[Arguments]		${alert}
+
+	${output}						${rc}=			Execute Command		readalert ${alert} |head -1	return_rc=True
+	
+	${regex}=				"\[Classification:\s\w+\]\s\[Priority:\s\d+\]\s\[Action:\s\w+\]\s\[Impact_flag:\s\d+\]\s\[Impact:\s\d+\]\s\[Blocked:\s\d+\]\s\[VLan:\s\d+\]"
+	${output}				${rc}=			Execute Command		readalert ${alert} |grep -A 1 "\[\*\*\]" |tail -1 |pcregrep ${regex}
+	Should Be Equal as Integers		${rc}			0			No alert: "${alert}" found
+	@
+	
+Set Up U2 Catch Alert	
+	Put File				lib/catch_alert.py		catch_alert.py				mode=755
+	${markID}=				Get Current Date
+	Set Suite Variable			${JOBID}			${markID}
+	Set Suite Variable			${XPD_LOGMARK}			ID: ${markID}, Job Started
+	${pid}=					Execute Command			~/catch_alert.py /secureworks/msg/u2/ "U2 alert detected" "${markID}"	320
+	Log					${pid} - ${JOBID}, ${XPD_LOGMARK}
+
+Watch For U2 Alerts
+	${logevents}=						Execute Command			grep -A 100 "${XPD_LOGMARK}" /secureworks/log/atf.log
+	LOG			${logevents}
+	${timed_out}=		Run Keyword And Return Status	Should Contain			${logevents}			Timed out waiting for alert
+	Run Keyword If		${timed_out}			Fatal Error			Timed out waiting on U2 alert		
+	Should Contain		${logevents}			${JOBID}, U2 alert detected
+	@{alertstr}=		Get Regexp Matches		${logevents}			found:.*
+	${alert_list}=		Remove String			@{alertstr}[0]			found:
+	@{alerts}=		Split String			${alert_list}			seperator=,
+        [Return]                @{alerts}
+	
+	
+Remove Compound Alerts
+        ${result}=                      Execute Command                 	rm -f /secureworks/msg/compound/*
+        ${dir_listing}=                 SSHLibrary.List Directory               /secureworks/msg/compound/
+	Should Be Empty                 ${dir_listing}                          The compound directory is not empty!!!
+
+Verify Appropriate Alert is Generated                [Arguments]         ${search_string}
+    ${alert}=               Execute Command                 /secureworks/bin/readalert | grep -i '${search_string}'
+    log    ${alert}
+    should contain          ${alert}    ${search_string}

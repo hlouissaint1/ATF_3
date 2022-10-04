@@ -1,0 +1,68 @@
+Documentation         # Test Case for Ruleset Performance Balanced Category
+
+*** Settings ***
+Resource                iSensorConfiguration.txt
+Resource		post_deployment_keywords.txt
+Library                 SSHLibrary
+Library                 OperatingSystem
+Library                 BuiltIn
+Library                 String
+Library                 Collections
+Library                 scwxCorelib.ATF         ${TestEnvironment}              ${ATF_User}
+Library                 scwxCorelib.Mail          ${TestEnvironment}              ${ATF_User}
+Library                 scwxIMSClib.RCMS        ${TestEnvironment}              ${ATF_User}
+Suite Setup             Open SSH Connection
+Suite Teardown          Close Connections and Report Results
+
+*** Variables ***
+${category}                     balanced
+${POLICY}                       1
+
+
+*** Test Case ***
+
+Notify Start Of Test via Email
+        Set Mail Subject                Verify RCMSMQTransmit is functioning
+        ${iSensor_Model}=               Execute Command                                         cat /HWTYPE |pcregrep -o 'R\\d{3}'
+        Append Config                   iSensor Model: Dell ${iSensor_Model}
+        Set Suite Variable              ${ISENSOR_MODEL}                                        ${iSensor_Model}
+        ${resp}=                        Mail Report
+        Log                             ${resp}
+        Set Test Message                ${resp}
+
+
+Verify Current State of Target iSensor
+        Log                     Test is running in ${TestEnvironment}
+        Open SSH Connection
+        Validate and Log iSensor Configuration
+
+Verify RCMSMQTransmit
+	Execute an RCMSMQTransmit Command
+
+*** Keywords ***
+
+Close Connections and Report Results
+        Close All Connections
+        Run Keyword If All Tests Passed        Email Test Has Passed
+        Run Keyword If Any Tests Failed        Email Test Has Failed
+
+Email Test Has Passed
+        Set Mail Subject        Post package deployment test has PASSED                         catenate=True
+        Append Config           iSensor Model: Dell ${ISENSOR_MODEL}
+        Log To Mail             Test Report:            reportfile
+        Log To Mail             Test Log:               logfile
+        ${resp}=                Mail Report             attach=reportfile,logfile
+        Log                     ${resp}
+
+Insert Report Details
+
+
+Email Test Has Failed
+        Set Mail Subject        Post package deployment test has FAILED                         catenate=True
+        Append Config           iSensor Model: Dell ${ISENSOR_MODEL}
+        Log To Mail             Test Report:            reportfile
+        Log To Mail             Test Log:               logfile
+        ${resp}=                Mail Report             attach=reportfile,logfile
+        Log                     ${resp}
+
+

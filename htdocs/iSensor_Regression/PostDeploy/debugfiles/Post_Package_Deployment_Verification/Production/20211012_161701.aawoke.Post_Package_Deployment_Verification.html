@@ -1,0 +1,2817 @@
+==============================================================================
+20211012 16:21:25.155 - INFO - + START SUITE: Post Package Deployment Verification [ ]
+==============================================================================
+20211012 16:21:25.156 - INFO - +- START SETUP: iSensorConfiguration.Open SSH Connection [ ]
+20211012 16:21:25.156 - INFO - +-- START KEYWORD: iSensorConfiguration.iSensor Get Login and Password [ ]
+20211012 16:21:25.157 - INFO - +--- START KEYWORD: BuiltIn.Set Suite Variable [ ${USERNAMEi} | %{isensor_User} ]
+20211012 16:21:25.164 - INFO - ${USERNAMEi} = root
+20211012 16:21:25.164 - INFO - +--- END KEYWORD: BuiltIn.Set Suite Variable (7)
+20211012 16:21:25.165 - INFO - +--- START KEYWORD: BuiltIn.Set Suite Variable [ ${PASSWORDi} | %{isensor_Password} ]
+20211012 16:21:25.168 - INFO - ${PASSWORDi} = tester
+20211012 16:21:25.168 - INFO - +--- END KEYWORD: BuiltIn.Set Suite Variable (3)
+20211012 16:21:25.168 - INFO - +-- END KEYWORD: iSensorConfiguration.iSensor Get Login and Password (12)
+20211012 16:21:25.169 - INFO - +-- START KEYWORD: SSHLibrary.Open Connection [ ${HOSTIP} | alias=${HOSTIP} ]
+20211012 16:21:25.169 - INFO - +-- END KEYWORD: SSHLibrary.Open Connection (0)
+20211012 16:21:25.170 - INFO - +-- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Login Using Password ]
+20211012 16:21:25.170 - INFO - +--- START KEYWORD: iSensorConfiguration.Login Using Password [ ]
+20211012 16:21:25.171 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Log In To iSensor ]
+20211012 16:21:25.171 - INFO - +----- START KEYWORD: iSensorConfiguration.Log In To iSensor [ ]
+20211012 16:21:25.171 - INFO - +------ START KEYWORD: SSHLibrary.Login [ ${USERNAMEi} | ${PASSWORDi} ]
+20211012 16:21:25.172 - INFO - Logging into '10.238.129.126:22' as 'root'.
+20211012 16:21:28.184 - FAIL - timeout: timed out
+20211012 16:21:28.184 - DEBUG - Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/library.py", line 1009, in login
+    jumphost_connection, keep_alive_interval)
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/library.py", line 1087, in _login
+    login_output = login_method(username, *args)
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/abstractclient.py", line 208, in login
+    jumphost_connection, keep_alive_interval)
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/pythonclient.py", line 186, in _login
+    timeout=float(self.config.timeout), sock=sock_tunnel)
+  File "/usr/lib/python2.7/site-packages/paramiko/client.py", line 305, in connect
+    retry_on_signal(lambda: sock.connect(addr))
+  File "/usr/lib/python2.7/site-packages/paramiko/util.py", line 269, in retry_on_signal
+    return function()
+  File "/usr/lib/python2.7/site-packages/paramiko/client.py", line 305, in <lambda>
+    retry_on_signal(lambda: sock.connect(addr))
+  File "/usr/lib64/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+20211012 16:21:28.184 - INFO - +------ END KEYWORD: SSHLibrary.Login (3013)
+20211012 16:21:28.186 - INFO - +----- END KEYWORD: iSensorConfiguration.Log In To iSensor (3015)
+20211012 16:21:28.186 - INFO - ${logged_in_successfully} = False
+20211012 16:21:28.187 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword And Return Status (3015)
+20211012 16:21:28.187 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword Unless [ ${logged_in_successfully} | Log In To iSensor Using Shared Key ]
+20211012 16:21:28.187 - INFO - +----- START KEYWORD: iSensorConfiguration.Log In To iSensor Using Shared Key [ ]
+20211012 16:21:28.188 - INFO - +------ START KEYWORD: BuiltIn.Run Keyword And Return Status [ Login With Public Key | root | /root/.ssh/id_rsa ]
+20211012 16:21:28.188 - INFO - +------- START KEYWORD: SSHLibrary.Login With Public Key [ root | /root/.ssh/id_rsa ]
+20211012 16:21:28.189 - INFO - Logging into '10.238.129.126:22' as 'root'.
+20211012 16:21:31.193 - FAIL - timeout: timed out
+20211012 16:21:31.193 - DEBUG - Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/library.py", line 1080, in login_with_public_key
+    jumphost_connection, is_truthy(read_config), keep_alive_interval)
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/library.py", line 1087, in _login
+    login_output = login_method(username, *args)
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/abstractclient.py", line 286, in login_with_public_key
+    read_config, keep_alive_interval)
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/pythonclient.py", line 234, in _login_with_public_key
+    sock=sock_tunnel)
+  File "/usr/lib/python2.7/site-packages/paramiko/client.py", line 305, in connect
+    retry_on_signal(lambda: sock.connect(addr))
+  File "/usr/lib/python2.7/site-packages/paramiko/util.py", line 269, in retry_on_signal
+    return function()
+  File "/usr/lib/python2.7/site-packages/paramiko/client.py", line 305, in <lambda>
+    retry_on_signal(lambda: sock.connect(addr))
+  File "/usr/lib64/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+20211012 16:21:31.193 - INFO - +------- END KEYWORD: SSHLibrary.Login With Public Key (3005)
+20211012 16:21:31.194 - INFO - ${logged_in_successfully} = False
+20211012 16:21:31.194 - INFO - +------ END KEYWORD: BuiltIn.Run Keyword And Return Status (3006)
+20211012 16:21:31.194 - INFO - +------ START KEYWORD: BuiltIn.Run Keyword Unless [ ${logged_in_successfully} | Fail | Failed to login to the iSensor ]
+20211012 16:21:31.195 - INFO - +------- START KEYWORD: BuiltIn.Fail [ Failed to login to the iSensor ]
+20211012 16:21:31.195 - FAIL - Failed to login to the iSensor
+20211012 16:21:31.195 - DEBUG - Traceback (most recent call last):
+  None
+20211012 16:21:31.196 - INFO - +------- END KEYWORD: BuiltIn.Fail (1)
+20211012 16:21:31.196 - INFO - +------ END KEYWORD: BuiltIn.Run Keyword Unless (2)
+20211012 16:21:31.198 - INFO - +----- END KEYWORD: iSensorConfiguration.Log In To iSensor Using Shared Key (3011)
+20211012 16:21:31.199 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword Unless (3012)
+20211012 16:21:31.200 - INFO - +--- END KEYWORD: iSensorConfiguration.Login Using Password (6030)
+20211012 16:21:31.200 - INFO - ${logged_in_successfully} = False
+20211012 16:21:31.200 - INFO - +-- END KEYWORD: BuiltIn.Run Keyword And Return Status (6030)
+20211012 16:21:31.200 - INFO - +-- START KEYWORD: BuiltIn.Run Keyword Unless [ ${logged_in_successfully} | Fail | Failed to login to the iSensor ]
+20211012 16:21:31.201 - INFO - +--- START KEYWORD: BuiltIn.Fail [ Failed to login to the iSensor ]
+20211012 16:21:31.202 - FAIL - Failed to login to the iSensor
+20211012 16:21:31.202 - DEBUG - Traceback (most recent call last):
+  None
+20211012 16:21:31.202 - INFO - +--- END KEYWORD: BuiltIn.Fail (1)
+20211012 16:21:31.202 - INFO - +-- END KEYWORD: BuiltIn.Run Keyword Unless (2)
+20211012 16:21:31.203 - INFO - +-- START KEYWORD: BuiltIn.Set Suite Variable [ ${QUICKSTART} | False ]
+20211012 16:21:31.203 - INFO - +-- END KEYWORD: BuiltIn.Set Suite Variable (1)
+20211012 16:21:31.203 - INFO - +-- START KEYWORD: iSensorConfiguration.Get UIN [ ]
+20211012 16:21:31.203 - INFO - +-- END KEYWORD: iSensorConfiguration.Get UIN (0)
+20211012 16:21:31.203 - INFO - +-- START KEYWORD: iSensorConfiguration.Get Management Interface [ ]
+20211012 16:21:31.203 - INFO - +-- END KEYWORD: iSensorConfiguration.Get Management Interface (0)
+20211012 16:21:31.203 - INFO - +-- START KEYWORD: SSHLibrary.Set Client Configuration [ timeout=3 seconds | prompt=${UIN} ]
+20211012 16:21:31.203 - INFO - +-- END KEYWORD: SSHLibrary.Set Client Configuration (0)
+20211012 16:21:31.203 - INFO - +-- START KEYWORD: SSHLibrary.Execute Command [ export TERM=xterm ]
+20211012 16:21:31.204 - INFO - +-- END KEYWORD: SSHLibrary.Execute Command (1)
+20211012 16:21:31.204 - INFO - +-- START KEYWORD: SSHLibrary.Execute Command [ export PATH=${ISENSOR_PATH} ]
+20211012 16:21:31.204 - INFO - +-- END KEYWORD: SSHLibrary.Execute Command (0)
+20211012 16:21:31.205 - INFO - +-- START KEYWORD: SSHLibrary.Execute Command [ unalias grep 2>/dev/null ]
+20211012 16:21:31.205 - INFO - +-- END KEYWORD: SSHLibrary.Execute Command (0)
+20211012 16:21:31.205 - INFO - +-- START KEYWORD: SSHLibrary.Execute Command [ unalias egrep 2>/dev/null ]
+20211012 16:21:31.205 - INFO - +-- END KEYWORD: SSHLibrary.Execute Command (0)
+20211012 16:21:31.206 - INFO - +- END SETUP: iSensorConfiguration.Open SSH Connection (6050)
+------------------------------------------------------------------------------
+20211012 16:21:31.207 - INFO - +- START TEST: Start iSensor EC2 Instance [ ]
+------------------------------------------------------------------------------
+20211012 16:21:31.207 - INFO - +- END TEST: Start iSensor EC2 Instance (1)
+------------------------------------------------------------------------------
+20211012 16:21:31.208 - INFO - +- START TEST: Notify Start Of Test via Email [ ]
+------------------------------------------------------------------------------
+20211012 16:21:31.209 - INFO - +- END TEST: Notify Start Of Test via Email (0)
+------------------------------------------------------------------------------
+20211012 16:21:31.209 - INFO - +- START TEST: Verify Current State of Target iSensor [ ]
+------------------------------------------------------------------------------
+20211012 16:21:31.210 - INFO - +- END TEST: Verify Current State of Target iSensor (1)
+------------------------------------------------------------------------------
+20211012 16:21:31.210 - INFO - +- START TEST: Verify Rulesets Can Be Pushed To iSensor [ ]
+------------------------------------------------------------------------------
+20211012 16:21:31.211 - INFO - +- END TEST: Verify Rulesets Can Be Pushed To iSensor (1)
+------------------------------------------------------------------------------
+20211012 16:21:31.211 - INFO - +- START TEST: Verify RCMSMQTransmit [ ]
+------------------------------------------------------------------------------
+20211012 16:21:31.212 - INFO - +- END TEST: Verify RCMSMQTransmit (1)
+------------------------------------------------------------------------------
+20211012 16:21:31.212 - INFO - +- START TEST: Verify Shuns Can Be Added [ ]
+------------------------------------------------------------------------------
+20211012 16:21:31.213 - INFO - +- END TEST: Verify Shuns Can Be Added (1)
+------------------------------------------------------------------------------
+20211012 16:21:31.214 - INFO - +- START TEARDOWN: Close Connections and Report Results [ ]
+20211012 16:21:31.214 - INFO - +-- START KEYWORD: Stop iSensor EC2 Instance [ ]
+20211012 16:21:31.215 - INFO - +--- START KEYWORD: aws_ec2_instance.Stop EC2 Instance [ ${ISENSOR_IP} ]
+20211012 16:21:31.216 - INFO - +---- START KEYWORD: scwxAWS_EC2.Manage Ec2 Instance [ stop | ${ip_address} ]
+20211012 16:21:31.219 - DEBUG - Starting new HTTPS connection (1): vault.aws.secureworks.com:443
+20211012 16:21:31.345 - DEBUG - https://vault.aws.secureworks.com:443 "POST /v1/auth/approle/login HTTP/1.1" 200 1032
+20211012 16:21:31.359 - DEBUG - https://vault.aws.secureworks.com:443 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 869
+20211012 16:21:31.367 - DEBUG - https://vault.aws.secureworks.com:443 "GET /v1/atf/data/vault HTTP/1.1" 200 386
+20211012 16:21:31.372 - DEBUG - https://vault.aws.secureworks.com:443 "GET /v1/atf/data/vault HTTP/1.1" 200 386
+20211012 16:21:47.183 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+20211012 16:21:47.186 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+20211012 16:21:47.187 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+20211012 16:21:47.189 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+20211012 16:21:47.189 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+20211012 16:21:47.190 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+20211012 16:21:47.191 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+20211012 16:21:47.195 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+20211012 16:21:47.195 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+20211012 16:21:47.195 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+20211012 16:21:47.195 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+20211012 16:21:47.203 - DEBUG - Loading JSON file: /usr/lib/python2.7/site-packages/botocore/data/endpoints.json
+20211012 16:21:47.297 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x7fbc521bce60>
+20211012 16:21:47.316 - DEBUG - Loading JSON file: /usr/lib/python2.7/site-packages/botocore/data/ec2/2016-11-15/service-2.json
+20211012 16:21:47.679 - DEBUG - Event creating-client-class.ec2: calling handler <function add_generate_presigned_url at 0x7fbc521cc320>
+20211012 16:21:47.686 - DEBUG - Setting ec2 timeout as (60, 60)
+20211012 16:21:47.689 - DEBUG - Loading JSON file: /usr/lib/python2.7/site-packages/botocore/data/_retry.json
+20211012 16:21:47.693 - DEBUG - Registering retry handlers for service: ec2
+20211012 16:21:47.699 - DEBUG - Event before-parameter-build.ec2.DescribeInstances: calling handler <bound method ParameterAlias.alias_parameter_in_call of <botocore.handlers.ParameterAlias object at 0x7fbc51f3ba90>>
+20211012 16:21:47.700 - DEBUG - Event before-parameter-build.ec2.DescribeInstances: calling handler <function generate_idempotent_uuid at 0x7fbc51f431b8>
+20211012 16:21:47.701 - DEBUG - Event before-call.ec2.DescribeInstances: calling handler <function inject_api_version_header_if_needed at 0x7fbc51f44668>
+20211012 16:21:47.701 - DEBUG - Making request for OperationModel(name=DescribeInstances) with params: {'body': {'Action': u'DescribeInstances', u'Filter.1.Value.1': 'vpc-0d69173470c40a9cf', 'Version': u'2016-11-15', u'Filter.1.Name': 'vpc-id'}, 'url': u'https://ec2.us-east-1.amazonaws.com/', 'headers': {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', 'User-Agent': 'Boto3/1.18.57 Python/2.7.5 Linux/3.10.0-1160.42.2.el7.x86_64 Botocore/1.21.57'}, 'context': {'auth_type': None, 'client_region': 'us-east-1', 'has_streaming_input': False, 'client_config': <botocore.config.Config object at 0x7fbc5128f190>}, 'query_string': '', 'url_path': '/', 'method': u'POST'}
+20211012 16:21:47.703 - DEBUG - Event request-created.ec2.DescribeInstances: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x7fbc5128f150>>
+20211012 16:21:47.703 - DEBUG - Event choose-signer.ec2.DescribeInstances: calling handler <function set_operation_specific_signer at 0x7fbc51f430c8>
+20211012 16:21:47.707 - DEBUG - Calculating signature using v4 auth.
+20211012 16:21:47.708 - DEBUG - CanonicalRequest:
+POST
+/
+
+content-type:application/x-www-form-urlencoded; charset=utf-8
+host:ec2.us-east-1.amazonaws.com
+x-amz-date:20211012T162147Z
+
+content-type;host;x-amz-date
+fe96b874f59166087ed31db2c010e1bf90ca6b61001d3d9ff4153a94171794d3
+20211012 16:21:47.708 - DEBUG - StringToSign:
+AWS4-HMAC-SHA256
+20211012T162147Z
+20211012/us-east-1/ec2/aws4_request
+f4377c8c68c9abc3490bea1e0099f5c604167f82087068029de28948e05638a9
+20211012 16:21:47.709 - DEBUG - Signature:
+fe1c61bbb260f51d6c70a80599a0695b4be194fc0ead341836cbc83950b61e44
+20211012 16:21:47.710 - DEBUG - Sending http request: <AWSPreparedRequest stream_output=False, method=POST, url=https://ec2.us-east-1.amazonaws.com/, headers={'Content-Length': '103', 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'AWS4-HMAC-SHA256 Credential=AKIA2K6L4ECJIHK55HHJ/20211012/us-east-1/ec2/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature=fe1c61bbb260f51d6c70a80599a0695b4be194fc0ead341836cbc83950b61e44', 'X-Amz-Date': '20211012T162147Z', 'User-Agent': 'Boto3/1.18.57 Python/2.7.5 Linux/3.10.0-1160.42.2.el7.x86_64 Botocore/1.21.57'}>
+20211012 16:21:47.713 - DEBUG - Certificate path: /usr/lib/python2.7/site-packages/certifi/cacert.pem
+20211012 16:21:47.713 - DEBUG - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com:443
+20211012 16:21:48.154 - DEBUG - https://ec2.us-east-1.amazonaws.com:443 "POST / HTTP/1.1" 200 None
+20211012 16:21:48.160 - DEBUG - Response headers: {'x-amzn-RequestId': 'f555b618-2e97-4a74-9c06-8459051c7369', 'Transfer-Encoding': 'chunked', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'vary': 'accept-encoding', 'Server': 'AmazonEC2', 'Cache-Control': 'no-cache, no-store', 'Date': 'Tue, 12 Oct 2021 16:21:47 GMT', 'Content-Type': 'text/xml;charset=UTF-8'}
+20211012 16:21:48.161 - DEBUG - Response body:
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>f555b618-2e97-4a74-9c06-8459051c7369</requestId>
+    <reservationSet>
+        <item>
+            <reservationId>r-0c952d2ba00033849</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-059c67428ae73f73c</instanceId>
+                    <imageId>ami-07d5f7168298e58a0</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-96.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated (2021-10-11 20:07:03 GMT)</reason>
+                    <keyName>terraform-20210209021555585400000001</keyName>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes>
+                        <item>
+                            <productCode>bhx85r4r91ls2uwl69ajm9v1b</productCode>
+                            <type>marketplace</type>
+                        </item>
+                    </productCodes>
+                    <instanceType>c4.4xlarge</instanceType>
+                    <launchTime>2021-10-11T18:55:12.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.96</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-03eaa1c7ca30710ed</groupId>
+                            <groupName>terraform-20210209021555589600000002</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.UserInitiatedShutdown</code>
+                        <message>Client.UserInitiatedShutdown: User initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/xvda</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/xvda</deviceName>
+                            <ebs>
+                                <volumeId>vol-0bbfd357f2e4ebf9d</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-02-09T02:19:29.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>AAF66F81-334B-4DD5-85C5-4F01FFBDD0D2</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>Cisco FMC</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>vFMC-6.4-prod</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>FMC</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-05551d6e2941c4617</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:5a:96:bc:71:8f</macAddress>
+                            <privateIpAddress>10.238.129.96</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-96.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-03eaa1c7ca30710ed</groupId>
+                                    <groupName>terraform-20210209021555589600000002</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0091b832e749e7cd8</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-02-09T02:19:28.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.96</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-96.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>false</enaSupport>
+                    <cpuOptions>
+                        <coreCount>8</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions/>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-0765b5f54599d25fa</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-0d1a1dfed42b76850</instanceId>
+                    <imageId>ami-020790e9a294ea856</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-105.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated (2021-10-12 14:27:19 GMT)</reason>
+                    <keyName>terraform-20210209022143549200000001</keyName>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes>
+                        <item>
+                            <productCode>bhx85r4r91ls2uwl69ajm9v1b</productCode>
+                            <type>marketplace</type>
+                        </item>
+                    </productCodes>
+                    <instanceType>c4.4xlarge</instanceType>
+                    <launchTime>2021-10-12T14:24:57.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.105</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-08b753ff190982b12</groupId>
+                            <groupName>terraform-20210209022143553300000002</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.UserInitiatedShutdown</code>
+                        <message>Client.UserInitiatedShutdown: User initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/xvda</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/xvda</deviceName>
+                            <ebs>
+                                <volumeId>vol-015923565fc5a9417</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-02-09T02:21:49.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>A360E904-0660-4293-BB9B-3802BE2D1F41</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>FMC</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>vFMC-6.6-prod</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>Cisco FMC</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-0151940580c069df3</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:fd:b2:33:1e:27</macAddress>
+                            <privateIpAddress>10.238.129.105</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-105.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-08b753ff190982b12</groupId>
+                                    <groupName>terraform-20210209022143553300000002</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0cdd36c7445e4810c</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-02-09T02:21:48.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.105</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-105.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>8</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions/>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-028e631a3a8fbf03e</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-041dfaf3611490347</instanceId>
+                    <imageId>ami-035c0e90bfb262a49</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-126.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated (2021-10-12 16:08:26 GMT)</reason>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes/>
+                    <instanceType>c5.2xlarge</instanceType>
+                    <launchTime>2021-08-18T12:21:59.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.126</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-084b42b521ed6702f</groupId>
+                            <groupName>terraform-20210818122154579900000001</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.UserInitiatedShutdown</code>
+                        <message>Client.UserInitiatedShutdown: User initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <volumeId>vol-05b227b2f0e424294</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-08-18T12:22:00.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>7898B2E7-3E4E-448C-BE52-03DC543E78C2</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>shutdown</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>AA_isensor_prod_A-00013_ATF_Don'tShut</value>
+                        </item>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-02f28bb6aeea59b1e</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:5d:b0:24:99:d9</macAddress>
+                            <privateIpAddress>10.238.129.106</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-106.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-084b42b521ed6702f</groupId>
+                                    <groupName>terraform-20210818122154579900000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-00488c0294b70033d</attachmentId>
+                                <deviceIndex>1</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-08-18T12:22:54.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.106</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-106.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-055c1bb74364ebfd6</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:2d:6f:0e:3f:71</macAddress>
+                            <privateIpAddress>10.238.129.93</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-93.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-084b42b521ed6702f</groupId>
+                                    <groupName>terraform-20210818122154579900000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0197a2d890f9b6a79</attachmentId>
+                                <deviceIndex>2</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-08-18T12:22:54.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.93</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-93.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-0c9eada673228bfe1</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:52:fa:34:a6:87</macAddress>
+                            <privateIpAddress>10.238.129.126</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-126.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-084b42b521ed6702f</groupId>
+                                    <groupName>terraform-20210818122154579900000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-002651466aa0822da</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-08-18T12:21:59.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.126</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-126.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>4</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions>
+                        <hostnameType>IP_NAME</hostnameType>
+                        <enableResourceNameDnsARecord>false</enableResourceNameDnsARecord>
+                        <enableResourceNameDnsAAAARecord>false</enableResourceNameDnsAAAARecord>
+                    </privateDnsNameOptions>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-0ac4b97ad2d1b6976</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-07439a9779bde7ed9</instanceId>
+                    <imageId>ami-035c0e90bfb262a49</imageId>
+                    <instanceState>
+                        <code>16</code>
+                        <name>running</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-110.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason/>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes/>
+                    <instanceType>c5.2xlarge</instanceType>
+                    <launchTime>2021-10-12T07:43:21.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.110</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-0a5ddb72464ae07db</groupId>
+                            <groupName>terraform-20210908183619411200000001</groupName>
+                        </item>
+                    </groupSet>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <volumeId>vol-0928a105e2921da77</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-09-08T18:36:27.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>A6B99869-CC7B-47DE-A064-A9507BB7ED74</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>AA_isensor_prod_A-00014</value>
+                        </item>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-091494b215dcc810b</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:9a:8f:85:9a:9b</macAddress>
+                            <privateIpAddress>10.238.129.82</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-82.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-0a5ddb72464ae07db</groupId>
+                                    <groupName>terraform-20210908183619411200000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0a6ea49366f54c70c</attachmentId>
+                                <deviceIndex>1</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-09-08T18:37:20.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.82</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-82.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-093e3b54942869ea0</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:a2:d0:db:7f:91</macAddress>
+                            <privateIpAddress>10.238.129.110</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-110.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-0a5ddb72464ae07db</groupId>
+                                    <groupName>terraform-20210908183619411200000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-046e44168cb2f8712</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-09-08T18:36:25.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.110</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-110.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-0e881c67b897c8a4f</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:e1:25:ac:10:59</macAddress>
+                            <privateIpAddress>10.238.129.124</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-124.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-0a5ddb72464ae07db</groupId>
+                                    <groupName>terraform-20210908183619411200000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-01798a41dafa83b57</attachmentId>
+                                <deviceIndex>2</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-09-08T18:37:19.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.124</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-124.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>4</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions>
+                        <hostnameType>IP_NAME</hostnameType>
+                        <enableResourceNameDnsARecord>false</enableResourceNameDnsARecord>
+                        <enableResourceNameDnsAAAARecord>false</enableResourceNameDnsAAAARecord>
+                    </privateDnsNameOptions>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-0780c72b1f73021bb</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-06785372560ff0556</instanceId>
+                    <imageId>ami-09e2b70dc22dd2989</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-76.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated</reason>
+                    <keyName>account-compromise-mongo-pilot</keyName>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes/>
+                    <instanceType>c5.2xlarge</instanceType>
+                    <launchTime>2021-09-30T20:24:12.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.76</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-056553b4d13e36ec9</groupId>
+                            <groupName>terraform-20210414160306107700000001</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.InstanceInitiatedShutdown</code>
+                        <message>Client.InstanceInitiatedShutdown: Instance initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <volumeId>vol-0f7bc05438b6e5d46</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-09-10T14:55:32.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken/>
+                    <tagSet>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>AA_isensor_prod_A-00009</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-0bff3a845563368df</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description>Primary network interface</description>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:ee:37:ff:a1:35</macAddress>
+                            <privateIpAddress>10.238.129.76</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-76.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-056553b4d13e36ec9</groupId>
+                                    <groupName>terraform-20210414160306107700000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-067dbc6454f14beeb</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-09-10T14:55:31.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.76</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-76.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>true</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>4</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions>
+                        <hostnameType>IP_NAME</hostnameType>
+                        <enableResourceNameDnsARecord>false</enableResourceNameDnsARecord>
+                        <enableResourceNameDnsAAAARecord>false</enableResourceNameDnsAAAARecord>
+                    </privateDnsNameOptions>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-02292c785f964c567</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-004bbc924c7608511</instanceId>
+                    <imageId>ami-00974421b6013adfc</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-75.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated</reason>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes/>
+                    <instanceType>c5.2xlarge</instanceType>
+                    <launchTime>2021-10-11T12:57:30.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.75</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-05d87baca93f9559f</groupId>
+                            <groupName>terraform-20211001155900876300000001</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.InstanceInitiatedShutdown</code>
+                        <message>Client.InstanceInitiatedShutdown: Instance initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <volumeId>vol-0aea2102ba062d0ab</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-10-01T15:59:08.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>80439EE1-9EF5-41E8-A70E-5A2E7CCC806B</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>Name</key>
+                            <value>AA_isensor_Prod_A-00015</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>iSensor</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-048ba398c69397dd1</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:f0:0a:cb:08:1b</macAddress>
+                            <privateIpAddress>10.238.129.77</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-77.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-05d87baca93f9559f</groupId>
+                                    <groupName>terraform-20211001155900876300000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0daa81bed0f3d7305</attachmentId>
+                                <deviceIndex>2</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-10-01T16:00:01.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.77</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-77.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-0e74423edd9990030</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:de:c2:64:12:bb</macAddress>
+                            <privateIpAddress>10.238.129.75</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-75.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-05d87baca93f9559f</groupId>
+                                    <groupName>terraform-20211001155900876300000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0948e8b20444ec4c0</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-10-01T15:59:06.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.75</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-75.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-0ae982b9c5b53d29f</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:1d:d5:ee:fd:43</macAddress>
+                            <privateIpAddress>10.238.129.83</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-83.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-05d87baca93f9559f</groupId>
+                                    <groupName>terraform-20211001155900876300000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0e7c999ca1111d57d</attachmentId>
+                                <deviceIndex>1</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-10-01T16:00:01.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.83</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-83.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>4</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions>
+                        <hostnameType>IP_NAME</hostnameType>
+                        <enableResourceNameDnsARecord>false</enableResourceNameDnsARecord>
+                        <enableResourceNameDnsAAAARecord>false</enableResourceNameDnsAAAARecord>
+                    </privateDnsNameOptions>
+                </item>
+            </instancesSet>
+        </item>
+    </reservationSet>
+</DescribeInstancesResponse>
+20211012 16:21:48.184 - DEBUG - Event needs-retry.ec2.DescribeInstances: calling handler <botocore.retryhandler.RetryHandler object at 0x7fbc5125e2d0>
+20211012 16:21:48.184 - DEBUG - No retry needed.
+20211012 16:21:48.185 - DEBUG - Event before-parameter-build.ec2.StopInstances: calling handler <bound method ParameterAlias.alias_parameter_in_call of <botocore.handlers.ParameterAlias object at 0x7fbc51f3ba90>>
+20211012 16:21:48.185 - DEBUG - Event before-parameter-build.ec2.StopInstances: calling handler <function generate_idempotent_uuid at 0x7fbc51f431b8>
+20211012 16:21:48.185 - DEBUG - Event before-call.ec2.StopInstances: calling handler <function inject_api_version_header_if_needed at 0x7fbc51f44668>
+20211012 16:21:48.185 - DEBUG - Making request for OperationModel(name=StopInstances) with params: {'body': {'Action': u'StopInstances', 'Version': u'2016-11-15', u'InstanceId.1': 'i-041dfaf3611490347'}, 'url': u'https://ec2.us-east-1.amazonaws.com/', 'headers': {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', 'User-Agent': 'Boto3/1.18.57 Python/2.7.5 Linux/3.10.0-1160.42.2.el7.x86_64 Botocore/1.21.57'}, 'context': {'auth_type': None, 'client_region': 'us-east-1', 'has_streaming_input': False, 'client_config': <botocore.config.Config object at 0x7fbc5128f190>}, 'query_string': '', 'url_path': '/', 'method': u'POST'}
+20211012 16:21:48.186 - DEBUG - Event request-created.ec2.StopInstances: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x7fbc5128f150>>
+20211012 16:21:48.186 - DEBUG - Event choose-signer.ec2.StopInstances: calling handler <function set_operation_specific_signer at 0x7fbc51f430c8>
+20211012 16:21:48.186 - DEBUG - Calculating signature using v4 auth.
+20211012 16:21:48.186 - DEBUG - CanonicalRequest:
+POST
+/
+
+content-type:application/x-www-form-urlencoded; charset=utf-8
+host:ec2.us-east-1.amazonaws.com
+x-amz-date:20211012T162148Z
+
+content-type;host;x-amz-date
+2f785ce7634ae0835910a51c5f7c58480bccedc44b59b844d00805c1d8c8c001
+20211012 16:21:48.187 - DEBUG - StringToSign:
+AWS4-HMAC-SHA256
+20211012T162148Z
+20211012/us-east-1/ec2/aws4_request
+a9c28006bdccc1f89c5d21750b3fc88c0e71261f2349f5dec5526060f1c3cd87
+20211012 16:21:48.187 - DEBUG - Signature:
+da7ae0434c8de0c1df29a994952b4715dc92d69c20a4899b59e8ad4d98e604ab
+20211012 16:21:48.187 - DEBUG - Sending http request: <AWSPreparedRequest stream_output=False, method=POST, url=https://ec2.us-east-1.amazonaws.com/, headers={'Content-Length': '72', 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'AWS4-HMAC-SHA256 Credential=AKIA2K6L4ECJIHK55HHJ/20211012/us-east-1/ec2/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature=da7ae0434c8de0c1df29a994952b4715dc92d69c20a4899b59e8ad4d98e604ab', 'X-Amz-Date': '20211012T162148Z', 'User-Agent': 'Boto3/1.18.57 Python/2.7.5 Linux/3.10.0-1160.42.2.el7.x86_64 Botocore/1.21.57'}>
+20211012 16:21:48.187 - DEBUG - Certificate path: /usr/lib/python2.7/site-packages/certifi/cacert.pem
+20211012 16:21:48.546 - DEBUG - https://ec2.us-east-1.amazonaws.com:443 "POST / HTTP/1.1" 200 578
+20211012 16:21:48.547 - DEBUG - Response headers: {'x-amzn-RequestId': '0ab2fe86-04ce-422a-92d7-2b115223ab13', 'Content-Length': '578', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'Server': 'AmazonEC2', 'Cache-Control': 'no-cache, no-store', 'Date': 'Tue, 12 Oct 2021 16:21:48 GMT', 'Content-Type': 'text/xml;charset=UTF-8'}
+20211012 16:21:48.547 - DEBUG - Response body:
+<?xml version="1.0" encoding="UTF-8"?>
+<StopInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>0ab2fe86-04ce-422a-92d7-2b115223ab13</requestId>
+    <instancesSet>
+        <item>
+            <instanceId>i-041dfaf3611490347</instanceId>
+            <currentState>
+                <code>80</code>
+                <name>stopped</name>
+            </currentState>
+            <previousState>
+                <code>80</code>
+                <name>stopped</name>
+            </previousState>
+        </item>
+    </instancesSet>
+</StopInstancesResponse>
+20211012 16:21:48.548 - DEBUG - Event needs-retry.ec2.StopInstances: calling handler <botocore.retryhandler.RetryHandler object at 0x7fbc5125e2d0>
+20211012 16:21:48.548 - DEBUG - No retry needed.
+20211012 16:21:48.549 - INFO - ${status} = stopped
+20211012 16:21:48.549 - INFO - +---- END KEYWORD: scwxAWS_EC2.Manage Ec2 Instance (17333)
+20211012 16:21:48.549 - INFO - +---- START KEYWORD: BuiltIn.Log [ Stopping FMC EC2 instance... Status: ${status} ]
+20211012 16:21:48.550 - INFO - Stopping FMC EC2 instance... Status: stopped
+20211012 16:21:48.550 - INFO - +---- END KEYWORD: BuiltIn.Log (1)
+20211012 16:21:48.550 - INFO - +---- START KEYWORD: BuiltIn.Should Not Be Equal [ '${status}' | 'pending' ]
+20211012 16:21:48.550 - DEBUG - Argument types are:
+<type 'unicode'>
+<type 'unicode'>
+20211012 16:21:48.550 - INFO - +---- END KEYWORD: BuiltIn.Should Not Be Equal (0)
+20211012 16:21:48.551 - INFO - +---- START KEYWORD: BuiltIn.Should Not Be Equal [ '${status}' | 'initializing' ]
+20211012 16:21:48.551 - DEBUG - Argument types are:
+<type 'unicode'>
+<type 'unicode'>
+20211012 16:21:48.551 - INFO - +---- END KEYWORD: BuiltIn.Should Not Be Equal (0)
+20211012 16:21:48.551 - INFO - +---- START KEYWORD: BuiltIn.Should Not Be Equal [ '${status}' | 'running' ]
+20211012 16:21:48.551 - DEBUG - Argument types are:
+<type 'unicode'>
+<type 'unicode'>
+20211012 16:21:48.552 - INFO - +---- END KEYWORD: BuiltIn.Should Not Be Equal (1)
+20211012 16:21:48.552 - INFO - +---- START KEYWORD: BuiltIn.Should Not Be Equal [ '${status}' | 'None' ]
+20211012 16:21:48.552 - DEBUG - Argument types are:
+<type 'unicode'>
+<type 'unicode'>
+20211012 16:21:48.552 - INFO - +---- END KEYWORD: BuiltIn.Should Not Be Equal (0)
+20211012 16:21:48.552 - INFO - +---- START KEYWORD: BuiltIn.Wait Until Keyword Succeeds [ 180 seconds | 60 second | Check EC2 Status | ${ip_address} | stopped ]
+20211012 16:21:48.553 - INFO - +----- START KEYWORD: aws_ec2_instance.Check EC2 Status [ ${ip_address} | stopped ]
+20211012 16:21:48.553 - INFO - +------ START KEYWORD: scwxAWS_EC2.Get Ec2 Instance Status [ ${ip_address} ]
+20211012 16:21:48.555 - DEBUG - Starting new HTTPS connection (1): vault.aws.secureworks.com:443
+20211012 16:21:48.626 - DEBUG - https://vault.aws.secureworks.com:443 "POST /v1/auth/approle/login HTTP/1.1" 200 1032
+20211012 16:21:48.636 - DEBUG - https://vault.aws.secureworks.com:443 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 869
+20211012 16:21:48.645 - DEBUG - https://vault.aws.secureworks.com:443 "GET /v1/atf/data/vault HTTP/1.1" 200 386
+20211012 16:21:48.650 - DEBUG - https://vault.aws.secureworks.com:443 "GET /v1/atf/data/vault HTTP/1.1" 200 386
+20211012 16:22:04.547 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x7fbc521bce60>
+20211012 16:22:04.582 - DEBUG - Event creating-client-class.ec2: calling handler <function add_generate_presigned_url at 0x7fbc521cc320>
+20211012 16:22:04.592 - DEBUG - Setting ec2 timeout as (60, 60)
+20211012 16:22:04.593 - DEBUG - Registering retry handlers for service: ec2
+20211012 16:22:04.607 - DEBUG - Event before-parameter-build.ec2.DescribeInstances: calling handler <bound method ParameterAlias.alias_parameter_in_call of <botocore.handlers.ParameterAlias object at 0x7fbc51f3ba90>>
+20211012 16:22:04.608 - DEBUG - Event before-parameter-build.ec2.DescribeInstances: calling handler <function generate_idempotent_uuid at 0x7fbc51f431b8>
+20211012 16:22:04.608 - DEBUG - Event before-call.ec2.DescribeInstances: calling handler <function inject_api_version_header_if_needed at 0x7fbc51f44668>
+20211012 16:22:04.608 - DEBUG - Making request for OperationModel(name=DescribeInstances) with params: {'body': {'Action': u'DescribeInstances', u'Filter.1.Value.1': 'vpc-0d69173470c40a9cf', 'Version': u'2016-11-15', u'Filter.1.Name': 'vpc-id'}, 'url': u'https://ec2.us-east-1.amazonaws.com/', 'headers': {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', 'User-Agent': 'Boto3/1.18.57 Python/2.7.5 Linux/3.10.0-1160.42.2.el7.x86_64 Botocore/1.21.57'}, 'context': {'auth_type': None, 'client_region': 'us-east-1', 'has_streaming_input': False, 'client_config': <botocore.config.Config object at 0x7fbc510f2d50>}, 'query_string': '', 'url_path': '/', 'method': u'POST'}
+20211012 16:22:04.609 - DEBUG - Event request-created.ec2.DescribeInstances: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x7fbc510f2d10>>
+20211012 16:22:04.609 - DEBUG - Event choose-signer.ec2.DescribeInstances: calling handler <function set_operation_specific_signer at 0x7fbc51f430c8>
+20211012 16:22:04.609 - DEBUG - Calculating signature using v4 auth.
+20211012 16:22:04.610 - DEBUG - CanonicalRequest:
+POST
+/
+
+content-type:application/x-www-form-urlencoded; charset=utf-8
+host:ec2.us-east-1.amazonaws.com
+x-amz-date:20211012T162204Z
+
+content-type;host;x-amz-date
+fe96b874f59166087ed31db2c010e1bf90ca6b61001d3d9ff4153a94171794d3
+20211012 16:22:04.610 - DEBUG - StringToSign:
+AWS4-HMAC-SHA256
+20211012T162204Z
+20211012/us-east-1/ec2/aws4_request
+18b5b20bd5bc9a785348dbf4417f24d03b0cab3a5b69ec9cc5fccc0d3c3a681a
+20211012 16:22:04.610 - DEBUG - Signature:
+05791b68a8cebda2e7734b12771a268ded1ead552bf2380efd9ab8c07ee87f7a
+20211012 16:22:04.610 - DEBUG - Sending http request: <AWSPreparedRequest stream_output=False, method=POST, url=https://ec2.us-east-1.amazonaws.com/, headers={'Content-Length': '103', 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'AWS4-HMAC-SHA256 Credential=AKIA2K6L4ECJD4V3KEOA/20211012/us-east-1/ec2/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature=05791b68a8cebda2e7734b12771a268ded1ead552bf2380efd9ab8c07ee87f7a', 'X-Amz-Date': '20211012T162204Z', 'User-Agent': 'Boto3/1.18.57 Python/2.7.5 Linux/3.10.0-1160.42.2.el7.x86_64 Botocore/1.21.57'}>
+20211012 16:22:04.611 - DEBUG - Certificate path: /usr/lib/python2.7/site-packages/certifi/cacert.pem
+20211012 16:22:04.611 - DEBUG - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com:443
+20211012 16:22:05.731 - DEBUG - https://ec2.us-east-1.amazonaws.com:443 "POST / HTTP/1.1" 200 None
+20211012 16:22:05.734 - DEBUG - Response headers: {'x-amzn-RequestId': '7a02878f-e461-49d6-ac6f-dd10379f1ab0', 'Transfer-Encoding': 'chunked', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'vary': 'accept-encoding', 'Server': 'AmazonEC2', 'Cache-Control': 'no-cache, no-store', 'Date': 'Tue, 12 Oct 2021 16:22:04 GMT', 'Content-Type': 'text/xml;charset=UTF-8'}
+20211012 16:22:05.735 - DEBUG - Response body:
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>7a02878f-e461-49d6-ac6f-dd10379f1ab0</requestId>
+    <reservationSet>
+        <item>
+            <reservationId>r-0c952d2ba00033849</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-059c67428ae73f73c</instanceId>
+                    <imageId>ami-07d5f7168298e58a0</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-96.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated (2021-10-11 20:07:03 GMT)</reason>
+                    <keyName>terraform-20210209021555585400000001</keyName>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes>
+                        <item>
+                            <productCode>bhx85r4r91ls2uwl69ajm9v1b</productCode>
+                            <type>marketplace</type>
+                        </item>
+                    </productCodes>
+                    <instanceType>c4.4xlarge</instanceType>
+                    <launchTime>2021-10-11T18:55:12.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.96</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-03eaa1c7ca30710ed</groupId>
+                            <groupName>terraform-20210209021555589600000002</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.UserInitiatedShutdown</code>
+                        <message>Client.UserInitiatedShutdown: User initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/xvda</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/xvda</deviceName>
+                            <ebs>
+                                <volumeId>vol-0bbfd357f2e4ebf9d</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-02-09T02:19:29.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>AAF66F81-334B-4DD5-85C5-4F01FFBDD0D2</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>Cisco FMC</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>vFMC-6.4-prod</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>FMC</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-05551d6e2941c4617</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:5a:96:bc:71:8f</macAddress>
+                            <privateIpAddress>10.238.129.96</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-96.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-03eaa1c7ca30710ed</groupId>
+                                    <groupName>terraform-20210209021555589600000002</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0091b832e749e7cd8</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-02-09T02:19:28.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.96</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-96.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>false</enaSupport>
+                    <cpuOptions>
+                        <coreCount>8</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions/>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-0765b5f54599d25fa</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-0d1a1dfed42b76850</instanceId>
+                    <imageId>ami-020790e9a294ea856</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-105.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated (2021-10-12 14:27:19 GMT)</reason>
+                    <keyName>terraform-20210209022143549200000001</keyName>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes>
+                        <item>
+                            <productCode>bhx85r4r91ls2uwl69ajm9v1b</productCode>
+                            <type>marketplace</type>
+                        </item>
+                    </productCodes>
+                    <instanceType>c4.4xlarge</instanceType>
+                    <launchTime>2021-10-12T14:24:57.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.105</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-08b753ff190982b12</groupId>
+                            <groupName>terraform-20210209022143553300000002</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.UserInitiatedShutdown</code>
+                        <message>Client.UserInitiatedShutdown: User initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/xvda</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/xvda</deviceName>
+                            <ebs>
+                                <volumeId>vol-015923565fc5a9417</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-02-09T02:21:49.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>A360E904-0660-4293-BB9B-3802BE2D1F41</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>FMC</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>vFMC-6.6-prod</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>Cisco FMC</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-0151940580c069df3</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:fd:b2:33:1e:27</macAddress>
+                            <privateIpAddress>10.238.129.105</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-105.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-08b753ff190982b12</groupId>
+                                    <groupName>terraform-20210209022143553300000002</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0cdd36c7445e4810c</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-02-09T02:21:48.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.105</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-105.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>8</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions/>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-028e631a3a8fbf03e</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-041dfaf3611490347</instanceId>
+                    <imageId>ami-035c0e90bfb262a49</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-126.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated (2021-10-12 16:08:26 GMT)</reason>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes/>
+                    <instanceType>c5.2xlarge</instanceType>
+                    <launchTime>2021-08-18T12:21:59.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.126</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-084b42b521ed6702f</groupId>
+                            <groupName>terraform-20210818122154579900000001</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.UserInitiatedShutdown</code>
+                        <message>Client.UserInitiatedShutdown: User initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <volumeId>vol-05b227b2f0e424294</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-08-18T12:22:00.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>7898B2E7-3E4E-448C-BE52-03DC543E78C2</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>shutdown</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>AA_isensor_prod_A-00013_ATF_Don'tShut</value>
+                        </item>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-02f28bb6aeea59b1e</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:5d:b0:24:99:d9</macAddress>
+                            <privateIpAddress>10.238.129.106</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-106.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-084b42b521ed6702f</groupId>
+                                    <groupName>terraform-20210818122154579900000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-00488c0294b70033d</attachmentId>
+                                <deviceIndex>1</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-08-18T12:22:54.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.106</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-106.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-055c1bb74364ebfd6</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:2d:6f:0e:3f:71</macAddress>
+                            <privateIpAddress>10.238.129.93</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-93.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-084b42b521ed6702f</groupId>
+                                    <groupName>terraform-20210818122154579900000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0197a2d890f9b6a79</attachmentId>
+                                <deviceIndex>2</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-08-18T12:22:54.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.93</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-93.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-0c9eada673228bfe1</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:52:fa:34:a6:87</macAddress>
+                            <privateIpAddress>10.238.129.126</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-126.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-084b42b521ed6702f</groupId>
+                                    <groupName>terraform-20210818122154579900000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-002651466aa0822da</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-08-18T12:21:59.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.126</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-126.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>4</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions>
+                        <hostnameType>IP_NAME</hostnameType>
+                        <enableResourceNameDnsARecord>false</enableResourceNameDnsARecord>
+                        <enableResourceNameDnsAAAARecord>false</enableResourceNameDnsAAAARecord>
+                    </privateDnsNameOptions>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-0ac4b97ad2d1b6976</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-07439a9779bde7ed9</instanceId>
+                    <imageId>ami-035c0e90bfb262a49</imageId>
+                    <instanceState>
+                        <code>16</code>
+                        <name>running</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-110.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason/>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes/>
+                    <instanceType>c5.2xlarge</instanceType>
+                    <launchTime>2021-10-12T07:43:21.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.110</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-0a5ddb72464ae07db</groupId>
+                            <groupName>terraform-20210908183619411200000001</groupName>
+                        </item>
+                    </groupSet>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <volumeId>vol-0928a105e2921da77</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-09-08T18:36:27.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>A6B99869-CC7B-47DE-A064-A9507BB7ED74</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>AA_isensor_prod_A-00014</value>
+                        </item>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-091494b215dcc810b</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:9a:8f:85:9a:9b</macAddress>
+                            <privateIpAddress>10.238.129.82</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-82.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-0a5ddb72464ae07db</groupId>
+                                    <groupName>terraform-20210908183619411200000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0a6ea49366f54c70c</attachmentId>
+                                <deviceIndex>1</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-09-08T18:37:20.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.82</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-82.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-093e3b54942869ea0</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:a2:d0:db:7f:91</macAddress>
+                            <privateIpAddress>10.238.129.110</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-110.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-0a5ddb72464ae07db</groupId>
+                                    <groupName>terraform-20210908183619411200000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-046e44168cb2f8712</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-09-08T18:36:25.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.110</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-110.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-0e881c67b897c8a4f</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:e1:25:ac:10:59</macAddress>
+                            <privateIpAddress>10.238.129.124</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-124.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-0a5ddb72464ae07db</groupId>
+                                    <groupName>terraform-20210908183619411200000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-01798a41dafa83b57</attachmentId>
+                                <deviceIndex>2</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-09-08T18:37:19.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.124</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-124.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>4</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions>
+                        <hostnameType>IP_NAME</hostnameType>
+                        <enableResourceNameDnsARecord>false</enableResourceNameDnsARecord>
+                        <enableResourceNameDnsAAAARecord>false</enableResourceNameDnsAAAARecord>
+                    </privateDnsNameOptions>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-0780c72b1f73021bb</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-06785372560ff0556</instanceId>
+                    <imageId>ami-09e2b70dc22dd2989</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-76.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated</reason>
+                    <keyName>account-compromise-mongo-pilot</keyName>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes/>
+                    <instanceType>c5.2xlarge</instanceType>
+                    <launchTime>2021-09-30T20:24:12.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.76</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-056553b4d13e36ec9</groupId>
+                            <groupName>terraform-20210414160306107700000001</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.InstanceInitiatedShutdown</code>
+                        <message>Client.InstanceInitiatedShutdown: Instance initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <volumeId>vol-0f7bc05438b6e5d46</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-09-10T14:55:32.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken/>
+                    <tagSet>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>Name</key>
+                            <value>AA_isensor_prod_A-00009</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>client-billable</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-0bff3a845563368df</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description>Primary network interface</description>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:ee:37:ff:a1:35</macAddress>
+                            <privateIpAddress>10.238.129.76</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-76.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-056553b4d13e36ec9</groupId>
+                                    <groupName>terraform-20210414160306107700000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-067dbc6454f14beeb</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-09-10T14:55:31.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.76</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-76.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>true</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>4</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions>
+                        <hostnameType>IP_NAME</hostnameType>
+                        <enableResourceNameDnsARecord>false</enableResourceNameDnsARecord>
+                        <enableResourceNameDnsAAAARecord>false</enableResourceNameDnsAAAARecord>
+                    </privateDnsNameOptions>
+                </item>
+            </instancesSet>
+        </item>
+        <item>
+            <reservationId>r-02292c785f964c567</reservationId>
+            <ownerId>710707781778</ownerId>
+            <groupSet/>
+            <instancesSet>
+                <item>
+                    <instanceId>i-004bbc924c7608511</instanceId>
+                    <imageId>ami-00974421b6013adfc</imageId>
+                    <instanceState>
+                        <code>80</code>
+                        <name>stopped</name>
+                    </instanceState>
+                    <privateDnsName>ip-10-238-129-75.ec2.internal</privateDnsName>
+                    <dnsName/>
+                    <reason>User initiated</reason>
+                    <amiLaunchIndex>0</amiLaunchIndex>
+                    <productCodes/>
+                    <instanceType>c5.2xlarge</instanceType>
+                    <launchTime>2021-10-11T12:57:30.000Z</launchTime>
+                    <placement>
+                        <availabilityZone>us-east-1c</availabilityZone>
+                        <groupName/>
+                        <tenancy>default</tenancy>
+                    </placement>
+                    <monitoring>
+                        <state>disabled</state>
+                    </monitoring>
+                    <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                    <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                    <privateIpAddress>10.238.129.75</privateIpAddress>
+                    <sourceDestCheck>true</sourceDestCheck>
+                    <groupSet>
+                        <item>
+                            <groupId>sg-05d87baca93f9559f</groupId>
+                            <groupName>terraform-20211001155900876300000001</groupName>
+                        </item>
+                    </groupSet>
+                    <stateReason>
+                        <code>Client.InstanceInitiatedShutdown</code>
+                        <message>Client.InstanceInitiatedShutdown: Instance initiated shutdown</message>
+                    </stateReason>
+                    <architecture>x86_64</architecture>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <volumeId>vol-0aea2102ba062d0ab</volumeId>
+                                <status>attached</status>
+                                <attachTime>2021-10-01T15:59:08.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                    <clientToken>80439EE1-9EF5-41E8-A70E-5A2E7CCC806B</clientToken>
+                    <tagSet>
+                        <item>
+                            <key>Name</key>
+                            <value>AA_isensor_Prod_A-00015</value>
+                        </item>
+                        <item>
+                            <key>application-name</key>
+                            <value>iSensor</value>
+                        </item>
+                        <item>
+                            <key>Asset-Owner</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>technical-contact</key>
+                            <value>squad-isensor@secureworks.com</value>
+                        </item>
+                        <item>
+                            <key>map-migrated</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>production</key>
+                            <value>false</value>
+                        </item>
+                        <item>
+                            <key>application-group</key>
+                            <value>isensor-tools</value>
+                        </item>
+                        <item>
+                            <key>business-unit</key>
+                            <value>Engineering</value>
+                        </item>
+                        <item>
+                            <key>SCWXName</key>
+                            <value>iSensor</value>
+                        </item>
+                    </tagSet>
+                    <hypervisor>xen</hypervisor>
+                    <networkInterfaceSet>
+                        <item>
+                            <networkInterfaceId>eni-048ba398c69397dd1</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:f0:0a:cb:08:1b</macAddress>
+                            <privateIpAddress>10.238.129.77</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-77.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-05d87baca93f9559f</groupId>
+                                    <groupName>terraform-20211001155900876300000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0daa81bed0f3d7305</attachmentId>
+                                <deviceIndex>2</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-10-01T16:00:01.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.77</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-77.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-0e74423edd9990030</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:de:c2:64:12:bb</macAddress>
+                            <privateIpAddress>10.238.129.75</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-75.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-05d87baca93f9559f</groupId>
+                                    <groupName>terraform-20211001155900876300000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0948e8b20444ec4c0</attachmentId>
+                                <deviceIndex>0</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-10-01T15:59:06.000Z</attachTime>
+                                <deleteOnTermination>true</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.75</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-75.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                        <item>
+                            <networkInterfaceId>eni-0ae982b9c5b53d29f</networkInterfaceId>
+                            <subnetId>subnet-067fa80fdaa5b9d0a</subnetId>
+                            <vpcId>vpc-0d69173470c40a9cf</vpcId>
+                            <description/>
+                            <ownerId>710707781778</ownerId>
+                            <status>in-use</status>
+                            <macAddress>0e:1d:d5:ee:fd:43</macAddress>
+                            <privateIpAddress>10.238.129.83</privateIpAddress>
+                            <privateDnsName>ip-10-238-129-83.ec2.internal</privateDnsName>
+                            <sourceDestCheck>true</sourceDestCheck>
+                            <groupSet>
+                                <item>
+                                    <groupId>sg-05d87baca93f9559f</groupId>
+                                    <groupName>terraform-20211001155900876300000001</groupName>
+                                </item>
+                            </groupSet>
+                            <attachment>
+                                <attachmentId>eni-attach-0e7c999ca1111d57d</attachmentId>
+                                <deviceIndex>1</deviceIndex>
+                                <status>attached</status>
+                                <attachTime>2021-10-01T16:00:01.000Z</attachTime>
+                                <deleteOnTermination>false</deleteOnTermination>
+                                <networkCardIndex>0</networkCardIndex>
+                            </attachment>
+                            <privateIpAddressesSet>
+                                <item>
+                                    <privateIpAddress>10.238.129.83</privateIpAddress>
+                                    <privateDnsName>ip-10-238-129-83.ec2.internal</privateDnsName>
+                                    <primary>true</primary>
+                                </item>
+                            </privateIpAddressesSet>
+                            <ipv6AddressesSet/>
+                            <interfaceType>interface</interfaceType>
+                        </item>
+                    </networkInterfaceSet>
+                    <ebsOptimized>false</ebsOptimized>
+                    <enaSupport>true</enaSupport>
+                    <cpuOptions>
+                        <coreCount>4</coreCount>
+                        <threadsPerCore>2</threadsPerCore>
+                    </cpuOptions>
+                    <capacityReservationSpecification>
+                        <capacityReservationPreference>open</capacityReservationPreference>
+                    </capacityReservationSpecification>
+                    <hibernationOptions>
+                        <configured>false</configured>
+                    </hibernationOptions>
+                    <enclaveOptions>
+                        <enabled>false</enabled>
+                    </enclaveOptions>
+                    <metadataOptions>
+                        <state>applied</state>
+                        <httpTokens>optional</httpTokens>
+                        <httpPutResponseHopLimit>1</httpPutResponseHopLimit>
+                        <httpEndpoint>enabled</httpEndpoint>
+                        <httpProtocolIpv4>enabled</httpProtocolIpv4>
+                        <httpProtocolIpv6>disabled</httpProtocolIpv6>
+                    </metadataOptions>
+                    <privateDnsNameOptions>
+                        <hostnameType>IP_NAME</hostnameType>
+                        <enableResourceNameDnsARecord>false</enableResourceNameDnsARecord>
+                        <enableResourceNameDnsAAAARecord>false</enableResourceNameDnsAAAARecord>
+                    </privateDnsNameOptions>
+                </item>
+            </instancesSet>
+        </item>
+    </reservationSet>
+</DescribeInstancesResponse>
+20211012 16:22:05.768 - DEBUG - Event needs-retry.ec2.DescribeInstances: calling handler <botocore.retryhandler.RetryHandler object at 0x7fbc5111fcd0>
+20211012 16:22:05.768 - DEBUG - No retry needed.
+20211012 16:22:05.769 - INFO - ${state} = stopped
+20211012 16:22:05.769 - INFO - +------ END KEYWORD: scwxAWS_EC2.Get Ec2 Instance Status (17216)
+20211012 16:22:05.770 - INFO - +------ START KEYWORD: BuiltIn.Log [ ${state} ]
+20211012 16:22:05.770 - INFO - stopped
+20211012 16:22:05.770 - INFO - +------ END KEYWORD: BuiltIn.Log (0)
+20211012 16:22:05.771 - INFO - +------ START KEYWORD: BuiltIn.Should Be Equal [ '${expected_state}' | '${state}' ]
+20211012 16:22:05.771 - DEBUG - Argument types are:
+<type 'unicode'>
+<type 'unicode'>
+20211012 16:22:05.771 - INFO - +------ END KEYWORD: BuiltIn.Should Be Equal (0)
+20211012 16:22:05.772 - INFO - +----- END KEYWORD: aws_ec2_instance.Check EC2 Status (17219)
+20211012 16:22:05.773 - INFO - +---- END KEYWORD: BuiltIn.Wait Until Keyword Succeeds (17220)
+20211012 16:22:05.773 - INFO - +--- END KEYWORD: aws_ec2_instance.Stop EC2 Instance (34558)
+20211012 16:22:05.774 - INFO - +-- END KEYWORD: Stop iSensor EC2 Instance (34559)
+20211012 16:22:05.774 - INFO - +-- START KEYWORD: SSHLibrary.Close All Connections [ ]
+20211012 16:22:05.774 - INFO - +-- END KEYWORD: SSHLibrary.Close All Connections (0)
+20211012 16:22:05.774 - INFO - +-- START KEYWORD: BuiltIn.Run Keyword If All Tests Passed [ Email Test Has Passed ]
+20211012 16:22:05.775 - INFO - +-- END KEYWORD: BuiltIn.Run Keyword If All Tests Passed (1)
+20211012 16:22:05.775 - INFO - +-- START KEYWORD: BuiltIn.Run Keyword If Any Tests Failed [ Email Test Has Failed ]
+20211012 16:22:05.775 - INFO - +--- START KEYWORD: Email Test Has Failed [ ]
+20211012 16:22:05.776 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Set Mail Subject [ Post package deployment test has FAILED | catenate=True ]
+20211012 16:22:06.612 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Set Mail Subject (836)
+20211012 16:22:06.613 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Append Config [ iSensor Model: Dell ${ISENSOR_MODEL} ]
+20211012 16:22:06.613 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Append Config (0)
+20211012 16:22:06.613 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Log To Mail [ Test Report: | reportfile ]
+20211012 16:22:06.614 - DEBUG - content: Test Report:
+link:reportfile
+options:{}
+20211012 16:22:06.614 - DEBUG - LINKER: "https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20211012_161701.aawoke.Post_Package_Deployment_Verification.html"
+20211012 16:22:06.614 - DEBUG - content w/link = Test Report:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20211012_161701.aawoke.Post_Package_Deployment_Verification.html
+20211012 16:22:06.614 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Log To Mail (1)
+20211012 16:22:06.614 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Log To Mail [ Test Log: | logfile ]
+20211012 16:22:06.614 - DEBUG - content: Test Log:
+link:logfile
+options:{}
+20211012 16:22:06.615 - DEBUG - LINKER: "https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20211012_161701.aawoke.Post_Package_Deployment_Verification.html"
+20211012 16:22:06.615 - DEBUG - content w/link = Test Log:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20211012_161701.aawoke.Post_Package_Deployment_Verification.html
+20211012 16:22:06.615 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Log To Mail (1)
+20211012 16:22:06.615 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Mail Report [ attach=reportfile,logfile ]
+20211012 16:22:06.616 - DEBUG - email distro is ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'gowen@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+20211012 16:22:06.616 - DEBUG - Processing Mail Report keyword...
+	Distribution:['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'gowen@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	subject: Test ID (Production): 20211012.162206 - Post package deployment test has FAILED
+	To: ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'gowen@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	Body:Test Report:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20211012_161701.aawoke.Post_Package_Deployment_Verification.html
+Test Log:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20211012_161701.aawoke.Post_Package_Deployment_Verification.html
+20211012 16:22:07.304 - INFO - Successfully sent mail with subject "Test ID (Production): 20211012.162206 - Post package deployment test has FAILED" to hlouissaint@secureworks.com;pmankoo@secureworks.com;gowen@secureworks.com;msuwoto@secureworks.com;ibilyy@secureworks.com;tbernhard@secureworks.com;igayashan@secureworks.com;hrashmi@secureworks.com;mnanayakkara@secureworks.com;aawoke@secureworks.com;
+20211012 16:22:07.305 - INFO - ${resp} = Message "Test ID (Production): 20211012.162206 - Post package deployment test has FAILED" Sent
+20211012 16:22:07.305 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Mail Report (690)
+20211012 16:22:07.306 - INFO - +---- START KEYWORD: BuiltIn.Log [ ${resp} ]
+20211012 16:22:07.306 - INFO - Message "Test ID (Production): 20211012.162206 - Post package deployment test has FAILED" Sent
+20211012 16:22:07.306 - INFO - +---- END KEYWORD: BuiltIn.Log (0)
+20211012 16:22:07.307 - INFO - +--- END KEYWORD: Email Test Has Failed (1531)
+20211012 16:22:07.307 - INFO - +-- END KEYWORD: BuiltIn.Run Keyword If Any Tests Failed (1532)
+20211012 16:22:07.307 - INFO - +- END TEARDOWN: Close Connections and Report Results (36093)
+==============================================================================
+20211012 16:22:07.308 - INFO - + END SUITE: Post Package Deployment Verification (302875)
+==============================================================================

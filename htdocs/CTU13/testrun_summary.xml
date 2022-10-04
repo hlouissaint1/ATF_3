@@ -1,0 +1,8 @@
+<testrun-summary>
+  <testrun total-failed="0" start-time="1664379188.07" total-blocked="0" total-tests="1" total-aborted="0" id="20220928_153305.CTU13" total-passed="1">
+    <test status="Completed" suite="Ruleset_Performance" group="Ruleset_Performance" result="Passed" name="ASA" run-time="1921.89670992" heartbeat="1664381110.01">
+      <reportlink>https://r-atf.atf-prod.aws.secureworks.net/Ruleset_Performance/Ruleset_Performance/reports/ASA/Production/20220928_153305.CTU13.ASA.html</reportlink>
+      <loglink>https://r-atf.atf-prod.aws.secureworks.net/Ruleset_Performance/Ruleset_Performance/logs/ASA/Production/20220928_153305.CTU13.ASA.html</loglink>
+    </test>
+  </testrun>
+</testrun-summary>

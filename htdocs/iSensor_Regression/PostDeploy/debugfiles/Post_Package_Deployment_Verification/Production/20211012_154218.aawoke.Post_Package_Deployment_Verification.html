@@ -1,0 +1,1598 @@
+==============================================================================
+20211012 15:42:47.336 - INFO - + START SUITE: Post Package Deployment Verification [ ]
+==============================================================================
+20211012 15:42:47.336 - INFO - +- START SETUP: iSensorConfiguration.Open SSH Connection [ ]
+20211012 15:42:47.337 - INFO - +-- START KEYWORD: iSensorConfiguration.iSensor Get Login and Password [ ]
+20211012 15:42:47.337 - INFO - +--- START KEYWORD: BuiltIn.Set Suite Variable [ ${USERNAMEi} | %{isensor_User} ]
+20211012 15:42:47.340 - INFO - ${USERNAMEi} = root
+20211012 15:42:47.341 - INFO - +--- END KEYWORD: BuiltIn.Set Suite Variable (4)
+20211012 15:42:47.341 - INFO - +--- START KEYWORD: BuiltIn.Set Suite Variable [ ${PASSWORDi} | %{isensor_Password} ]
+20211012 15:42:47.344 - INFO - ${PASSWORDi} = tester
+20211012 15:42:47.345 - INFO - +--- END KEYWORD: BuiltIn.Set Suite Variable (4)
+20211012 15:42:47.345 - INFO - +-- END KEYWORD: iSensorConfiguration.iSensor Get Login and Password (8)
+20211012 15:42:47.345 - INFO - +-- START KEYWORD: SSHLibrary.Open Connection [ ${HOSTIP} | alias=${HOSTIP} ]
+20211012 15:42:47.346 - INFO - +-- END KEYWORD: SSHLibrary.Open Connection (1)
+20211012 15:42:47.346 - INFO - +-- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Login Using Password ]
+20211012 15:42:47.347 - INFO - +--- START KEYWORD: iSensorConfiguration.Login Using Password [ ]
+20211012 15:42:47.347 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Log In To iSensor ]
+20211012 15:42:47.347 - INFO - +----- START KEYWORD: iSensorConfiguration.Log In To iSensor [ ]
+20211012 15:42:47.348 - INFO - +------ START KEYWORD: SSHLibrary.Login [ ${USERNAMEi} | ${PASSWORDi} ]
+20211012 15:42:47.348 - INFO - Logging into '10.238.129.126:22' as 'root'.
+20211012 15:42:47.420 - DEBUG - Adding ssh-rsa host key for 10.238.129.126: 5854e0595f3d65b2808fafde51983844
+20211012 15:42:51.631 - FAIL - Authentication failed for user 'root'.
+20211012 15:42:51.631 - DEBUG - Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/library.py", line 1009, in login
+    jumphost_connection, keep_alive_interval)
+  File "/usr/lib/python2.7/site-packages/SSHLibrary/library.py", line 1093, in _login
+    raise RuntimeError(e)
+20211012 15:42:51.632 - INFO - +------ END KEYWORD: SSHLibrary.Login (4283)
+20211012 15:42:51.635 - INFO - +----- END KEYWORD: iSensorConfiguration.Log In To iSensor (4287)
+20211012 15:42:51.635 - INFO - ${logged_in_successfully} = False
+20211012 15:42:51.635 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword And Return Status (4288)
+20211012 15:42:51.635 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword Unless [ ${logged_in_successfully} | Log In To iSensor Using Shared Key ]
+20211012 15:42:51.636 - INFO - +----- START KEYWORD: iSensorConfiguration.Log In To iSensor Using Shared Key [ ]
+20211012 15:42:51.636 - INFO - +------ START KEYWORD: BuiltIn.Run Keyword And Return Status [ Login With Public Key | root | /root/.ssh/id_rsa ]
+20211012 15:42:51.637 - INFO - +------- START KEYWORD: SSHLibrary.Login With Public Key [ root | /root/.ssh/id_rsa ]
+20211012 15:42:51.637 - INFO - Logging into '10.238.129.126:22' as 'root'.
+20211012 15:42:51.742 - DEBUG - Trying key d9a68b0bf7c65d3ffd6651e41df197f0 from /root/.ssh/id_rsa
+20211012 15:42:51.774 - DEBUG - [chan 0] Max packet in: 32768 bytes
+20211012 15:42:52.843 - INFO - Read output: [H[J
+20211012 15:42:52.844 - INFO - +------- END KEYWORD: SSHLibrary.Login With Public Key (1207)
+20211012 15:42:52.844 - INFO - ${logged_in_successfully} = True
+20211012 15:42:52.844 - INFO - +------ END KEYWORD: BuiltIn.Run Keyword And Return Status (1208)
+20211012 15:42:52.844 - INFO - +------ START KEYWORD: BuiltIn.Run Keyword Unless [ ${logged_in_successfully} | Fail | Failed to login to the iSensor ]
+20211012 15:42:52.845 - INFO - +------ END KEYWORD: BuiltIn.Run Keyword Unless (1)
+20211012 15:42:52.845 - INFO - +----- END KEYWORD: iSensorConfiguration.Log In To iSensor Using Shared Key (1209)
+20211012 15:42:52.845 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword Unless (1210)
+20211012 15:42:52.845 - INFO - +--- END KEYWORD: iSensorConfiguration.Login Using Password (5498)
+20211012 15:42:52.845 - INFO - ${logged_in_successfully} = True
+20211012 15:42:52.846 - INFO - +-- END KEYWORD: BuiltIn.Run Keyword And Return Status (5499)
+20211012 15:42:52.846 - INFO - +-- START KEYWORD: BuiltIn.Run Keyword Unless [ ${logged_in_successfully} | Fail | Failed to login to the iSensor ]
+20211012 15:42:52.846 - INFO - +-- END KEYWORD: BuiltIn.Run Keyword Unless (0)
+20211012 15:42:52.847 - INFO - +-- START KEYWORD: BuiltIn.Set Suite Variable [ ${QUICKSTART} | False ]
+20211012 15:42:52.851 - INFO - ${QUICKSTART} = False
+20211012 15:42:52.852 - INFO - +-- END KEYWORD: BuiltIn.Set Suite Variable (5)
+20211012 15:42:52.852 - INFO - +-- START KEYWORD: iSensorConfiguration.Get UIN [ ]
+20211012 15:42:52.852 - INFO - +--- START KEYWORD: SSHLibrary.Switch Connection [ ${HOSTIP} ]
+20211012 15:42:52.853 - INFO - +--- END KEYWORD: SSHLibrary.Switch Connection (1)
+20211012 15:42:52.853 - INFO - +--- START KEYWORD: SSHLibrary.Execute Command [ cat /var/iSensor/uin ]
+20211012 15:42:52.853 - INFO - Executing command 'cat /var/iSensor/uin'.
+20211012 15:42:52.853 - DEBUG - [chan 1] Max packet in: 32768 bytes
+20211012 15:42:52.879 - INFO - Command exited with return code 0.
+20211012 15:42:52.880 - INFO - ${uin} = A-00013
+20211012 15:42:52.880 - INFO - +--- END KEYWORD: SSHLibrary.Execute Command (27)
+20211012 15:42:52.880 - INFO - +--- START KEYWORD: BuiltIn.Set Suite Variable [ ${UIN} | ${uin} ]
+20211012 15:42:52.881 - INFO - ${UIN} = A-00013
+20211012 15:42:52.881 - INFO - +--- END KEYWORD: BuiltIn.Set Suite Variable (1)
+20211012 15:42:52.881 - INFO - +--- START KEYWORD: SSHLibrary.Execute Command [ /secureworks/bin/sw-info.sh ]
+20211012 15:42:52.882 - INFO - Executing command '/secureworks/bin/sw-info.sh'.
+20211012 15:42:52.882 - DEBUG - [chan 2] Max packet in: 32768 bytes
+20211012 15:42:59.344 - INFO - Command exited with return code 1.
+20211012 15:42:59.344 - INFO - ${swinfo} = Access to this private computer system is for authorized users only.
+Unauthorized and/or inappropriate use, including exceeding authorization, is
+strictly prohibited and may subject said user(s) to ci...
+20211012 15:42:59.344 - INFO - +--- END KEYWORD: SSHLibrary.Execute Command (6463)
+20211012 15:42:59.345 - INFO - +--- START KEYWORD: BuiltIn.Log [ ${swinfo} ]
+20211012 15:42:59.345 - INFO - Access to this private computer system is for authorized users only.
+Unauthorized and/or inappropriate use, including exceeding authorization, is
+strictly prohibited and may subject said user(s) to civil and criminal
+penalties. Employees may also be subject to disciplinary action, including
+termination. System use may be monitored and recorded. Use of this system
+constitutes consent to any such monitoring.
+#######################################################################
+#                  SYSTEM INFORMATION                                 #
+#######################################################################
+
+iSensor Version  : 8.8.3.7
+Snort Version    : 2.9.14.1
+IDN              : cd00fxpvsd00007
+UIN              : A-00013 
+Image Version    : 8.8.2.1
+Max. Version     : N/A
+Kernel           : 3.10.0-1127.19.1.el7.x86_64
+Packet Framework : IPQ3
+Uptime           : 15:42:13 up 55 days,  2:49,  1 user,  load average: 0.00, 0.01, 0.05
+
+Policies
+  1: ips 
+       Ruleset   : balanced.2.9.14.1.1790
+       HOME_NET  : [10.1.1.1]
+
+all interfaces   : Onboard [ooo], Monitoring [oo]
+mgmt interface   : ens5
+     address     : 10.238.129.126 (DHCP)
+     netmask     : 255.255.255.192
+     gateway     : 10.238.129.65
+
+ips has been up for 11 Hours 28 Minutes 58 Seconds
+ips has no cores
+20211012 15:42:59.345 - INFO - +--- END KEYWORD: BuiltIn.Log (0)
+20211012 15:42:59.345 - INFO - +-- END KEYWORD: iSensorConfiguration.Get UIN (6493)
+20211012 15:42:59.346 - INFO - +-- START KEYWORD: iSensorConfiguration.Get Management Interface [ ]
+20211012 15:42:59.346 - INFO - +--- START KEYWORD: SSHLibrary.Switch Connection [ ${HOSTIP} ]
+20211012 15:42:59.346 - INFO - +--- END KEYWORD: SSHLibrary.Switch Connection (0)
+20211012 15:42:59.346 - INFO - +--- START KEYWORD: SSHLibrary.Execute Command [ /secureworks/bin/get_management_interface ]
+20211012 15:42:59.347 - INFO - Executing command '/secureworks/bin/get_management_interface'.
+20211012 15:42:59.347 - DEBUG - [chan 3] Max packet in: 32768 bytes
+20211012 15:42:59.464 - INFO - Command exited with return code 0.
+20211012 15:42:59.464 - INFO - ${mgmtif} = ens5
+20211012 15:42:59.464 - INFO - +--- END KEYWORD: SSHLibrary.Execute Command (118)
+20211012 15:42:59.464 - INFO - +--- START KEYWORD: BuiltIn.Set Suite Variable [ ${MGMT_INTERFACE} | ${mgmtif} ]
+20211012 15:42:59.468 - INFO - ${MGMT_INTERFACE} = ens5
+20211012 15:42:59.468 - INFO - +--- END KEYWORD: BuiltIn.Set Suite Variable (4)
+20211012 15:42:59.468 - INFO - +--- START KEYWORD: iSensorConfiguration.Get Versions [ ]
+20211012 15:42:59.469 - INFO - +---- START KEYWORD: SSHLibrary.Switch Connection [ ${HOSTIP} ]
+20211012 15:42:59.469 - INFO - +---- END KEYWORD: SSHLibrary.Switch Connection (0)
+20211012 15:42:59.469 - INFO - +---- START KEYWORD: iSensorConfiguration.Get iSensor Version [ iVersion ]
+20211012 15:42:59.470 - INFO - +----- START KEYWORD: SSHLibrary.Execute Command [ cat /var/iSensor/${vtoken} ]
+20211012 15:42:59.470 - INFO - Executing command 'cat /var/iSensor/iVersion'.
+20211012 15:42:59.471 - DEBUG - [chan 4] Max packet in: 32768 bytes
+20211012 15:42:59.515 - INFO - Command exited with return code 0.
+20211012 15:42:59.515 - INFO - ${version} = 8.8.3.7
+20211012 15:42:59.515 - INFO - +----- END KEYWORD: SSHLibrary.Execute Command (45)
+20211012 15:42:59.516 - INFO - ${iVersion} = 8.8.3.7
+20211012 15:42:59.516 - INFO - +---- END KEYWORD: iSensorConfiguration.Get iSensor Version (47)
+20211012 15:42:59.516 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${iSensorVERSION} | ${iVersion} ]
+20211012 15:42:59.520 - INFO - ${iSensorVERSION} = 8.8.3.7
+20211012 15:42:59.520 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (4)
+20211012 15:42:59.520 - INFO - +---- START KEYWORD: String.Split String [ ${iVersion} | . ]
+20211012 15:42:59.521 - INFO - @{vsplit} = [ 8 | 8 | 3 | 7 ]
+20211012 15:42:59.521 - INFO - +---- END KEYWORD: String.Split String (1)
+20211012 15:42:59.521 - INFO - +---- START KEYWORD: BuiltIn.Convert To Integer [ ${vsplit}[0] ]
+20211012 15:42:59.521 - DEBUG - Argument types are:
+<type 'unicode'>
+20211012 15:42:59.522 - INFO - ${major} = 8
+20211012 15:42:59.522 - INFO - +---- END KEYWORD: BuiltIn.Convert To Integer (1)
+20211012 15:42:59.522 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${MAJOR_IVERSION} | ${major} ]
+20211012 15:42:59.525 - INFO - ${MAJOR_IVERSION} = 8
+20211012 15:42:59.525 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (3)
+20211012 15:42:59.526 - INFO - +---- START KEYWORD: BuiltIn.Convert To Integer [ ${vsplit}[1] ]
+20211012 15:42:59.526 - DEBUG - Argument types are:
+<type 'unicode'>
+20211012 15:42:59.526 - INFO - ${iminor} = 8
+20211012 15:42:59.526 - INFO - +---- END KEYWORD: BuiltIn.Convert To Integer (0)
+20211012 15:42:59.526 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${MINOR_IVERSION} | ${iminor} ]
+20211012 15:42:59.534 - INFO - ${MINOR_IVERSION} = 8
+20211012 15:42:59.535 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (9)
+20211012 15:42:59.535 - INFO - +---- START KEYWORD: iSensorConfiguration.Verify Rulesets Installed [ ]
+20211012 15:42:59.536 - INFO - +----- START KEYWORD: iSensorConfiguration.Get iSensor Version [ rVersion ]
+20211012 15:42:59.536 - INFO - +------ START KEYWORD: SSHLibrary.Execute Command [ cat /var/iSensor/${vtoken} ]
+20211012 15:42:59.537 - INFO - Executing command 'cat /var/iSensor/rVersion'.
+20211012 15:42:59.538 - DEBUG - [chan 5] Max packet in: 32768 bytes
+20211012 15:42:59.582 - DEBUG - [chan 5] EOF sent (5)
+20211012 15:42:59.583 - INFO - Command exited with return code 0.
+20211012 15:42:59.583 - INFO - ${version} = 2.9.14.1
+20211012 15:42:59.583 - INFO - +------ END KEYWORD: SSHLibrary.Execute Command (47)
+20211012 15:42:59.584 - INFO - ${rVersion} = 2.9.14.1
+20211012 15:42:59.584 - INFO - +----- END KEYWORD: iSensorConfiguration.Get iSensor Version (48)
+20211012 15:42:59.584 - INFO - +----- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Should Not Contain | ${rVersion} | No such file or directory ]
+20211012 15:42:59.584 - INFO - +------ START KEYWORD: BuiltIn.Should Not Contain [ ${rVersion} | No such file or directory ]
+20211012 15:42:59.585 - INFO - +------ END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:42:59.585 - INFO - ${installed} = True
+20211012 15:42:59.585 - INFO - +----- END KEYWORD: BuiltIn.Run Keyword And Return Status (1)
+20211012 15:42:59.585 - INFO - +----- START KEYWORD: BuiltIn.Run Keyword Unless [ ${installed} | Set Homenet ]
+20211012 15:42:59.585 - INFO - +----- END KEYWORD: BuiltIn.Run Keyword Unless (0)
+20211012 15:42:59.586 - INFO - +----- START KEYWORD: BuiltIn.Run Keyword Unless [ ${installed} | Install Latest Ruleset ]
+20211012 15:42:59.586 - INFO - +----- END KEYWORD: BuiltIn.Run Keyword Unless (0)
+20211012 15:42:59.586 - INFO - +---- END KEYWORD: iSensorConfiguration.Verify Rulesets Installed (51)
+20211012 15:42:59.586 - INFO - +---- START KEYWORD: iSensorConfiguration.Get iSensor Version [ rVersion ]
+20211012 15:42:59.587 - INFO - +----- START KEYWORD: SSHLibrary.Execute Command [ cat /var/iSensor/${vtoken} ]
+20211012 15:42:59.587 - INFO - Executing command 'cat /var/iSensor/rVersion'.
+20211012 15:42:59.588 - DEBUG - [chan 6] Max packet in: 32768 bytes
+20211012 15:42:59.675 - INFO - Command exited with return code 0.
+20211012 15:42:59.675 - INFO - ${version} = 2.9.14.1
+20211012 15:42:59.676 - INFO - +----- END KEYWORD: SSHLibrary.Execute Command (89)
+20211012 15:42:59.676 - INFO - ${rVersion} = 2.9.14.1
+20211012 15:42:59.677 - INFO - +---- END KEYWORD: iSensorConfiguration.Get iSensor Version (90)
+20211012 15:42:59.677 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Should Not Contain | ${rVersion} | No such file or directory ]
+20211012 15:42:59.677 - INFO - +----- START KEYWORD: BuiltIn.Should Not Contain [ ${rVersion} | No such file or directory ]
+20211012 15:42:59.678 - INFO - +----- END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:42:59.678 - INFO - ${installed} = True
+20211012 15:42:59.678 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword And Return Status (1)
+20211012 15:42:59.678 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword Unless [ ${installed} | Fatal Error ]
+20211012 15:42:59.678 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword Unless (0)
+20211012 15:42:59.678 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${RULESETVERSION} | ${rVersion} ]
+20211012 15:42:59.682 - INFO - ${RULESETVERSION} = 2.9.14.1
+20211012 15:42:59.682 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (4)
+20211012 15:42:59.682 - INFO - +---- START KEYWORD: iSensorConfiguration.Get RS Minor Version [ ]
+20211012 15:42:59.682 - INFO - +----- START KEYWORD: SSHLibrary.Execute Command [ ${SWINFO} |grep -A 3 Policies |grep Ruleset |pcregrep -o "(\\d+\\.){4}\\d+" |tr -d '\\n' ]
+20211012 15:42:59.683 - INFO - Executing command '/secureworks/bin/sw-info.sh |grep -A 3 Policies |grep Ruleset |pcregrep -o "(\d+\.){4}\d+" |tr -d '\n''.
+20211012 15:42:59.683 - DEBUG - [chan 7] Max packet in: 32768 bytes
+20211012 15:43:06.099 - INFO - Command exited with return code 0.
+20211012 15:43:06.099 - INFO - ${rmversion} = 2.9.14.1.1790
+20211012 15:43:06.100 - INFO - +----- END KEYWORD: SSHLibrary.Execute Command (6417)
+20211012 15:43:06.100 - INFO - ${rmversion} = 2.9.14.1.1790
+20211012 15:43:06.100 - INFO - +---- END KEYWORD: iSensorConfiguration.Get RS Minor Version (6418)
+20211012 15:43:06.100 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${RSMINORVERSION} | ${rmversion} ]
+20211012 15:43:06.106 - INFO - ${RSMINORVERSION} = 2.9.14.1.1790
+20211012 15:43:06.106 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (6)
+20211012 15:43:06.107 - INFO - +---- START KEYWORD: String.Split String [ ${RSMINORVERSION} | . ]
+20211012 15:43:06.108 - INFO - @{vsplit} = [ 2 | 9 | 14 | 1 | 1790 ]
+20211012 15:43:06.108 - INFO - +---- END KEYWORD: String.Split String (1)
+20211012 15:43:06.108 - INFO - +---- START KEYWORD: BuiltIn.Convert To Integer [ ${vsplit}[4] ]
+20211012 15:43:06.109 - DEBUG - Argument types are:
+<type 'unicode'>
+20211012 15:43:06.109 - INFO - ${minor} = 1790
+20211012 15:43:06.109 - INFO - +---- END KEYWORD: BuiltIn.Convert To Integer (1)
+20211012 15:43:06.110 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${MINORV} | ${minor} ]
+20211012 15:43:06.116 - INFO - ${MINORV} = 1790
+20211012 15:43:06.116 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (6)
+20211012 15:43:06.116 - INFO - +---- START KEYWORD: iSensorConfiguration.Get iSensor Version [ sVersion ]
+20211012 15:43:06.117 - INFO - +----- START KEYWORD: SSHLibrary.Execute Command [ cat /var/iSensor/${vtoken} ]
+20211012 15:43:06.119 - INFO - Executing command 'cat /var/iSensor/sVersion'.
+20211012 15:43:06.119 - DEBUG - [chan 8] Max packet in: 32768 bytes
+20211012 15:43:06.168 - DEBUG - [chan 8] EOF sent (8)
+20211012 15:43:06.168 - INFO - Command exited with return code 0.
+20211012 15:43:06.168 - INFO - ${version} = 2.9.14.1
+20211012 15:43:06.169 - INFO - +----- END KEYWORD: SSHLibrary.Execute Command (51)
+20211012 15:43:06.169 - INFO - ${sVersion} = 2.9.14.1
+20211012 15:43:06.169 - INFO - +---- END KEYWORD: iSensorConfiguration.Get iSensor Version (53)
+20211012 15:43:06.169 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${SNORTVERSION} | ${sVersion} ]
+20211012 15:43:06.174 - INFO - ${SNORTVERSION} = 2.9.14.1
+20211012 15:43:06.174 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (5)
+20211012 15:43:06.174 - INFO - +---- START KEYWORD: SSHLibrary.Execute Command [ cat /secureworks/config7/policies/1/VERSION |pcregrep -o "(security|balanced|connectivity)" ]
+20211012 15:43:06.174 - INFO - Executing command 'cat /secureworks/config7/policies/1/VERSION |pcregrep -o "(security|balanced|connectivity)"'.
+20211012 15:43:06.175 - DEBUG - [chan 9] Max packet in: 32768 bytes
+20211012 15:43:06.264 - INFO - Command exited with return code 0.
+20211012 15:43:06.264 - INFO - ${category} = balanced
+20211012 15:43:06.265 - INFO - +---- END KEYWORD: SSHLibrary.Execute Command (90)
+20211012 15:43:06.265 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${RULESETCATEGORY} | ${category} ]
+20211012 15:43:06.271 - INFO - ${RULESETCATEGORY} = balanced
+20211012 15:43:06.272 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (7)
+20211012 15:43:06.273 - INFO - +---- START KEYWORD: BuiltIn.Log [ iSensorVERSION=${iSensorVERSION}, MAJOR_IVERSION=${MAJOR_IVERSION}, ]
+20211012 15:43:06.275 - INFO - iSensorVERSION=8.8.3.7, MAJOR_IVERSION=8,
+20211012 15:43:06.276 - INFO - +---- END KEYWORD: BuiltIn.Log (3)
+20211012 15:43:06.276 - INFO - +---- START KEYWORD: BuiltIn.Log [ MINOR_IVERSION=${MINOR_IVERSION}, SNORTVERSION=${SNORTVERSION} ]
+20211012 15:43:06.277 - INFO - MINOR_IVERSION=8, SNORTVERSION=2.9.14.1
+20211012 15:43:06.278 - INFO - +---- END KEYWORD: BuiltIn.Log (2)
+20211012 15:43:06.278 - INFO - +--- END KEYWORD: iSensorConfiguration.Get Versions (6810)
+20211012 15:43:06.279 - INFO - +--- START KEYWORD: BuiltIn.Run Keyword If [ ${MAJOR_IVERSION}>=8 | Set Suite Variable | ${MGMT_STRING} | mgmt interface ]
+20211012 15:43:06.281 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${MGMT_STRING} | mgmt interface ]
+20211012 15:43:06.289 - INFO - ${MGMT_STRING} = mgmt interface
+20211012 15:43:06.289 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (8)
+20211012 15:43:06.290 - INFO - +--- END KEYWORD: BuiltIn.Run Keyword If (11)
+20211012 15:43:06.291 - INFO - +--- START KEYWORD: BuiltIn.Run Keyword Unless [ ${MAJOR_IVERSION}>=8 | Set Suite Variable | ${MGMT_STRING} | mgmt0 address ]
+20211012 15:43:06.291 - INFO - +--- END KEYWORD: BuiltIn.Run Keyword Unless (0)
+20211012 15:43:06.292 - INFO - +-- END KEYWORD: iSensorConfiguration.Get Management Interface (6947)
+20211012 15:43:06.293 - INFO - +-- START KEYWORD: SSHLibrary.Set Client Configuration [ timeout=3 seconds | prompt=${UIN} ]
+20211012 15:43:06.295 - INFO - +-- END KEYWORD: SSHLibrary.Set Client Configuration (2)
+20211012 15:43:06.295 - INFO - +-- START KEYWORD: SSHLibrary.Execute Command [ export TERM=xterm ]
+20211012 15:43:06.296 - INFO - Executing command 'export TERM=xterm'.
+20211012 15:43:06.297 - DEBUG - [chan 10] Max packet in: 32768 bytes
+20211012 15:43:06.323 - INFO - Command exited with return code 0.
+20211012 15:43:06.323 - INFO - ${resp} =
+20211012 15:43:06.323 - INFO - +-- END KEYWORD: SSHLibrary.Execute Command (28)
+20211012 15:43:06.324 - INFO - +-- START KEYWORD: SSHLibrary.Execute Command [ export PATH=${ISENSOR_PATH} ]
+20211012 15:43:06.324 - INFO - Executing command 'export PATH=/secureworks/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/dell/srvadmin/bin:/opt/dell/srvadmin/sbin:/root/bin'.
+20211012 15:43:06.325 - DEBUG - [chan 11] Max packet in: 32768 bytes
+20211012 15:43:06.379 - INFO - Command exited with return code 0.
+20211012 15:43:06.379 - INFO - ${resp} =
+20211012 15:43:06.379 - INFO - +-- END KEYWORD: SSHLibrary.Execute Command (55)
+20211012 15:43:06.379 - INFO - +-- START KEYWORD: SSHLibrary.Execute Command [ unalias grep 2>/dev/null ]
+20211012 15:43:06.380 - INFO - Executing command 'unalias grep 2>/dev/null'.
+20211012 15:43:06.380 - DEBUG - [chan 12] Max packet in: 32768 bytes
+20211012 15:43:06.425 - DEBUG - [chan 12] EOF sent (12)
+20211012 15:43:06.426 - INFO - Command exited with return code 0.
+20211012 15:43:06.426 - INFO - ${resp} =
+20211012 15:43:06.426 - INFO - +-- END KEYWORD: SSHLibrary.Execute Command (47)
+20211012 15:43:06.427 - INFO - +-- START KEYWORD: SSHLibrary.Execute Command [ unalias egrep 2>/dev/null ]
+20211012 15:43:06.427 - INFO - Executing command 'unalias egrep 2>/dev/null'.
+20211012 15:43:06.427 - DEBUG - [chan 13] Max packet in: 32768 bytes
+20211012 15:43:06.514 - INFO - Command exited with return code 0.
+20211012 15:43:06.514 - INFO - ${resp} =
+20211012 15:43:06.515 - INFO - +-- END KEYWORD: SSHLibrary.Execute Command (87)
+20211012 15:43:06.515 - INFO - +- END SETUP: iSensorConfiguration.Open SSH Connection (19179)
+------------------------------------------------------------------------------
+20211012 15:43:06.515 - INFO - +- START TEST: Start iSensor EC2 Instance [ ]
+------------------------------------------------------------------------------
+20211012 15:43:06.527 - INFO - +-- START KEYWORD: Start EC2 Instance [ ${ISENSOR_IP} ]
+20211012 15:43:06.527 - FAIL - No keyword with name 'Start EC2 Instance' found.
+20211012 15:43:06.527 - INFO - +-- END KEYWORD: Start EC2 Instance (0)
+------------------------------------------------------------------------------
+20211012 15:43:06.528 - INFO - +- END TEST: Start iSensor EC2 Instance (13)
+------------------------------------------------------------------------------
+20211012 15:43:06.529 - INFO - +- START TEST: Notify Start Of Test via Email [ ]
+------------------------------------------------------------------------------
+20211012 15:43:06.529 - INFO - +-- START KEYWORD: scwxCorelib.Mail.Set Mail Subject [ Starting Post Deployment Verification ]
+20211012 15:43:07.482 - INFO - +-- END KEYWORD: scwxCorelib.Mail.Set Mail Subject (952)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211012 15:43:07.482 - INFO - +-- START KEYWORD: SSHLibrary.Execute Command [ cat /HWTYPE |pcregrep -o 'R\\d{3}' ]
+20211012 15:43:07.482 - INFO - Executing command 'cat /HWTYPE |pcregrep -o 'R\d{3}''.
+20211012 15:43:07.483 - DEBUG - [chan 14] Max packet in: 32768 bytes
+20211012 15:43:07.508 - INFO - Command exited with return code 1.
+20211012 15:43:07.509 - INFO - ${iSensor_Model} =
+20211012 15:43:07.509 - INFO - +-- END KEYWORD: SSHLibrary.Execute Command (27)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211012 15:43:07.509 - INFO - +-- START KEYWORD: scwxCorelib.Mail.Append Config [ iSensor Model: Dell ${iSensor_Model} ]
+20211012 15:43:07.510 - INFO - +-- END KEYWORD: scwxCorelib.Mail.Append Config (1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211012 15:43:07.510 - INFO - +-- START KEYWORD: BuiltIn.Set Suite Variable [ ${ISENSOR_MODEL} | ${iSensor_Model} ]
+20211012 15:43:07.511 - INFO - ${ISENSOR_MODEL} =
+20211012 15:43:07.511 - INFO - +-- END KEYWORD: BuiltIn.Set Suite Variable (1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211012 15:43:07.511 - INFO - +-- START KEYWORD: scwxCorelib.Mail.Mail Report [ ]
+20211012 15:43:07.512 - DEBUG - email distro is ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'gowen@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+20211012 15:43:07.513 - DEBUG - Processing Mail Report keyword...
+	Distribution:['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'gowen@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	subject: Test ID (Production): 20211012.154307 - Starting Post Deployment Verification
+	To: ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'gowen@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	Body:
+20211012 15:43:08.178 - INFO - Successfully sent mail with subject "Test ID (Production): 20211012.154307 - Starting Post Deployment Verification" to hlouissaint@secureworks.com;pmankoo@secureworks.com;gowen@secureworks.com;msuwoto@secureworks.com;ibilyy@secureworks.com;tbernhard@secureworks.com;igayashan@secureworks.com;hrashmi@secureworks.com;mnanayakkara@secureworks.com;aawoke@secureworks.com;
+20211012 15:43:08.178 - INFO - ${resp} = Message "Test ID (Production): 20211012.154307 - Starting Post Deployment Verification" Sent
+20211012 15:43:08.179 - INFO - +-- END KEYWORD: scwxCorelib.Mail.Mail Report (667)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211012 15:43:08.179 - INFO - +-- START KEYWORD: BuiltIn.Log [ ${resp} ]
+20211012 15:43:08.179 - INFO - Message "Test ID (Production): 20211012.154307 - Starting Post Deployment Verification" Sent
+20211012 15:43:08.180 - INFO - +-- END KEYWORD: BuiltIn.Log (1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211012 15:43:08.180 - INFO - +-- START KEYWORD: BuiltIn.Set Test Message [ ${resp} ]
+20211012 15:43:08.180 - INFO - Set test message to:
+Message "Test ID (Production): 20211012.154307 - Starting Post Deployment Verification" Sent
+20211012 15:43:08.180 - INFO - +-- END KEYWORD: BuiltIn.Set Test Message (0)
+------------------------------------------------------------------------------
+20211012 15:43:08.181 - INFO - +- END TEST: Notify Start Of Test via Email (1652)
+------------------------------------------------------------------------------
+20211012 15:43:08.182 - INFO - +- START TEST: Verify Current State of Target iSensor [ ]
+------------------------------------------------------------------------------
+20211012 15:43:08.184 - INFO - +-- START KEYWORD: BuiltIn.Log [ Test is running in ${TestEnvironment} ]
+20211012 15:43:08.184 - INFO - Test is running in Production
+20211012 15:43:08.185 - INFO - +-- END KEYWORD: BuiltIn.Log (1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211012 15:43:08.186 - INFO - +-- START KEYWORD: iSensorConfiguration.Validate and Log iSensor Configuration [ ]
+20211012 15:43:08.186 - INFO - +--- START KEYWORD: iSensorConfiguration.Get Versions [ ]
+20211012 15:43:08.188 - INFO - +---- START KEYWORD: SSHLibrary.Switch Connection [ ${HOSTIP} ]
+20211012 15:43:08.189 - INFO - +---- END KEYWORD: SSHLibrary.Switch Connection (1)
+20211012 15:43:08.190 - INFO - +---- START KEYWORD: iSensorConfiguration.Get iSensor Version [ iVersion ]
+20211012 15:43:08.191 - INFO - +----- START KEYWORD: SSHLibrary.Execute Command [ cat /var/iSensor/${vtoken} ]
+20211012 15:43:08.192 - INFO - Executing command 'cat /var/iSensor/iVersion'.
+20211012 15:43:08.192 - DEBUG - [chan 15] Max packet in: 32768 bytes
+20211012 15:43:08.220 - INFO - Command exited with return code 0.
+20211012 15:43:08.220 - INFO - ${version} = 8.8.3.7
+20211012 15:43:08.220 - INFO - +----- END KEYWORD: SSHLibrary.Execute Command (29)
+20211012 15:43:08.221 - INFO - ${iVersion} = 8.8.3.7
+20211012 15:43:08.221 - INFO - +---- END KEYWORD: iSensorConfiguration.Get iSensor Version (31)
+20211012 15:43:08.222 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${iSensorVERSION} | ${iVersion} ]
+20211012 15:43:08.222 - INFO - ${iSensorVERSION} = 8.8.3.7
+20211012 15:43:08.223 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (1)
+20211012 15:43:08.223 - INFO - +---- START KEYWORD: String.Split String [ ${iVersion} | . ]
+20211012 15:43:08.223 - INFO - @{vsplit} = [ 8 | 8 | 3 | 7 ]
+20211012 15:43:08.223 - INFO - +---- END KEYWORD: String.Split String (0)
+20211012 15:43:08.224 - INFO - +---- START KEYWORD: BuiltIn.Convert To Integer [ ${vsplit}[0] ]
+20211012 15:43:08.224 - DEBUG - Argument types are:
+<type 'unicode'>
+20211012 15:43:08.224 - INFO - ${major} = 8
+20211012 15:43:08.224 - INFO - +---- END KEYWORD: BuiltIn.Convert To Integer (0)
+20211012 15:43:08.225 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${MAJOR_IVERSION} | ${major} ]
+20211012 15:43:08.225 - INFO - ${MAJOR_IVERSION} = 8
+20211012 15:43:08.225 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (0)
+20211012 15:43:08.226 - INFO - +---- START KEYWORD: BuiltIn.Convert To Integer [ ${vsplit}[1] ]
+20211012 15:43:08.226 - DEBUG - Argument types are:
+<type 'unicode'>
+20211012 15:43:08.226 - INFO - ${iminor} = 8
+20211012 15:43:08.226 - INFO - +---- END KEYWORD: BuiltIn.Convert To Integer (0)
+20211012 15:43:08.226 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${MINOR_IVERSION} | ${iminor} ]
+20211012 15:43:08.227 - INFO - ${MINOR_IVERSION} = 8
+20211012 15:43:08.227 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (1)
+20211012 15:43:08.227 - INFO - +---- START KEYWORD: iSensorConfiguration.Verify Rulesets Installed [ ]
+20211012 15:43:08.228 - INFO - +----- START KEYWORD: iSensorConfiguration.Get iSensor Version [ rVersion ]
+20211012 15:43:08.229 - INFO - +------ START KEYWORD: SSHLibrary.Execute Command [ cat /var/iSensor/${vtoken} ]
+20211012 15:43:08.229 - INFO - Executing command 'cat /var/iSensor/rVersion'.
+20211012 15:43:08.230 - DEBUG - [chan 16] Max packet in: 32768 bytes
+20211012 15:43:08.284 - INFO - Command exited with return code 0.
+20211012 15:43:08.284 - INFO - ${version} = 2.9.14.1
+20211012 15:43:08.284 - INFO - +------ END KEYWORD: SSHLibrary.Execute Command (55)
+20211012 15:43:08.285 - INFO - ${rVersion} = 2.9.14.1
+20211012 15:43:08.285 - INFO - +----- END KEYWORD: iSensorConfiguration.Get iSensor Version (57)
+20211012 15:43:08.285 - INFO - +----- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Should Not Contain | ${rVersion} | No such file or directory ]
+20211012 15:43:08.286 - INFO - +------ START KEYWORD: BuiltIn.Should Not Contain [ ${rVersion} | No such file or directory ]
+20211012 15:43:08.287 - INFO - +------ END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:43:08.288 - INFO - ${installed} = True
+20211012 15:43:08.288 - INFO - +----- END KEYWORD: BuiltIn.Run Keyword And Return Status (3)
+20211012 15:43:08.288 - INFO - +----- START KEYWORD: BuiltIn.Run Keyword Unless [ ${installed} | Set Homenet ]
+20211012 15:43:08.288 - INFO - +----- END KEYWORD: BuiltIn.Run Keyword Unless (0)
+20211012 15:43:08.289 - INFO - +----- START KEYWORD: BuiltIn.Run Keyword Unless [ ${installed} | Install Latest Ruleset ]
+20211012 15:43:08.289 - INFO - +----- END KEYWORD: BuiltIn.Run Keyword Unless (0)
+20211012 15:43:08.289 - INFO - +---- END KEYWORD: iSensorConfiguration.Verify Rulesets Installed (62)
+20211012 15:43:08.290 - INFO - +---- START KEYWORD: iSensorConfiguration.Get iSensor Version [ rVersion ]
+20211012 15:43:08.290 - INFO - +----- START KEYWORD: SSHLibrary.Execute Command [ cat /var/iSensor/${vtoken} ]
+20211012 15:43:08.291 - INFO - Executing command 'cat /var/iSensor/rVersion'.
+20211012 15:43:08.291 - DEBUG - [chan 17] Max packet in: 32768 bytes
+20211012 15:43:08.348 - INFO - Command exited with return code 0.
+20211012 15:43:08.348 - INFO - ${version} = 2.9.14.1
+20211012 15:43:08.349 - INFO - +----- END KEYWORD: SSHLibrary.Execute Command (59)
+20211012 15:43:08.349 - INFO - ${rVersion} = 2.9.14.1
+20211012 15:43:08.349 - INFO - +---- END KEYWORD: iSensorConfiguration.Get iSensor Version (59)
+20211012 15:43:08.349 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Should Not Contain | ${rVersion} | No such file or directory ]
+20211012 15:43:08.350 - INFO - +----- START KEYWORD: BuiltIn.Should Not Contain [ ${rVersion} | No such file or directory ]
+20211012 15:43:08.350 - INFO - +----- END KEYWORD: BuiltIn.Should Not Contain (0)
+20211012 15:43:08.350 - INFO - ${installed} = True
+20211012 15:43:08.350 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword And Return Status (1)
+20211012 15:43:08.350 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword Unless [ ${installed} | Fatal Error ]
+20211012 15:43:08.351 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword Unless (1)
+20211012 15:43:08.352 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${RULESETVERSION} | ${rVersion} ]
+20211012 15:43:08.354 - INFO - ${RULESETVERSION} = 2.9.14.1
+20211012 15:43:08.354 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (2)
+20211012 15:43:08.355 - INFO - +---- START KEYWORD: iSensorConfiguration.Get RS Minor Version [ ]
+20211012 15:43:08.356 - INFO - +----- START KEYWORD: SSHLibrary.Execute Command [ ${SWINFO} |grep -A 3 Policies |grep Ruleset |pcregrep -o "(\\d+\\.){4}\\d+" |tr -d '\\n' ]
+20211012 15:43:08.357 - INFO - Executing command '/secureworks/bin/sw-info.sh |grep -A 3 Policies |grep Ruleset |pcregrep -o "(\d+\.){4}\d+" |tr -d '\n''.
+20211012 15:43:08.358 - DEBUG - [chan 18] Max packet in: 32768 bytes
+20211012 15:43:14.774 - INFO - Command exited with return code 0.
+20211012 15:43:14.775 - INFO - ${rmversion} = 2.9.14.1.1790
+20211012 15:43:14.775 - INFO - +----- END KEYWORD: SSHLibrary.Execute Command (6419)
+20211012 15:43:14.775 - INFO - ${rmversion} = 2.9.14.1.1790
+20211012 15:43:14.775 - INFO - +---- END KEYWORD: iSensorConfiguration.Get RS Minor Version (6420)
+20211012 15:43:14.776 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${RSMINORVERSION} | ${rmversion} ]
+20211012 15:43:14.776 - INFO - ${RSMINORVERSION} = 2.9.14.1.1790
+20211012 15:43:14.776 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (0)
+20211012 15:43:14.776 - INFO - +---- START KEYWORD: String.Split String [ ${RSMINORVERSION} | . ]
+20211012 15:43:14.777 - INFO - @{vsplit} = [ 2 | 9 | 14 | 1 | 1790 ]
+20211012 15:43:14.777 - INFO - +---- END KEYWORD: String.Split String (1)
+20211012 15:43:14.777 - INFO - +---- START KEYWORD: BuiltIn.Convert To Integer [ ${vsplit}[4] ]
+20211012 15:43:14.777 - DEBUG - Argument types are:
+<type 'unicode'>
+20211012 15:43:14.778 - INFO - ${minor} = 1790
+20211012 15:43:14.778 - INFO - +---- END KEYWORD: BuiltIn.Convert To Integer (1)
+20211012 15:43:14.778 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${MINORV} | ${minor} ]
+20211012 15:43:14.778 - INFO - ${MINORV} = 1790
+20211012 15:43:14.778 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (0)
+20211012 15:43:14.779 - INFO - +---- START KEYWORD: iSensorConfiguration.Get iSensor Version [ sVersion ]
+20211012 15:43:14.779 - INFO - +----- START KEYWORD: SSHLibrary.Execute Command [ cat /var/iSensor/${vtoken} ]
+20211012 15:43:14.779 - INFO - Executing command 'cat /var/iSensor/sVersion'.
+20211012 15:43:14.780 - DEBUG - [chan 19] Max packet in: 32768 bytes
+20211012 15:43:14.860 - INFO - Command exited with return code 0.
+20211012 15:43:14.860 - INFO - ${version} = 2.9.14.1
+20211012 15:43:14.860 - INFO - +----- END KEYWORD: SSHLibrary.Execute Command (81)
+20211012 15:43:14.861 - INFO - ${sVersion} = 2.9.14.1
+20211012 15:43:14.861 - INFO - +---- END KEYWORD: iSensorConfiguration.Get iSensor Version (82)
+20211012 15:43:14.861 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${SNORTVERSION} | ${sVersion} ]
+20211012 15:43:14.862 - INFO - ${SNORTVERSION} = 2.9.14.1
+20211012 15:43:14.862 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (1)
+20211012 15:43:14.862 - INFO - +---- START KEYWORD: SSHLibrary.Execute Command [ cat /secureworks/config7/policies/1/VERSION |pcregrep -o "(security|balanced|connectivity)" ]
+20211012 15:43:14.862 - INFO - Executing command 'cat /secureworks/config7/policies/1/VERSION |pcregrep -o "(security|balanced|connectivity)"'.
+20211012 15:43:14.863 - DEBUG - [chan 20] Max packet in: 32768 bytes
+20211012 15:43:14.950 - INFO - Command exited with return code 0.
+20211012 15:43:14.950 - INFO - ${category} = balanced
+20211012 15:43:14.950 - INFO - +---- END KEYWORD: SSHLibrary.Execute Command (88)
+20211012 15:43:14.951 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${RULESETCATEGORY} | ${category} ]
+20211012 15:43:14.952 - INFO - ${RULESETCATEGORY} = balanced
+20211012 15:43:14.952 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (1)
+20211012 15:43:14.952 - INFO - +---- START KEYWORD: BuiltIn.Log [ iSensorVERSION=${iSensorVERSION}, MAJOR_IVERSION=${MAJOR_IVERSION}, ]
+20211012 15:43:14.952 - INFO - iSensorVERSION=8.8.3.7, MAJOR_IVERSION=8,
+20211012 15:43:14.953 - INFO - +---- END KEYWORD: BuiltIn.Log (1)
+20211012 15:43:14.953 - INFO - +---- START KEYWORD: BuiltIn.Log [ MINOR_IVERSION=${MINOR_IVERSION}, SNORTVERSION=${SNORTVERSION} ]
+20211012 15:43:14.953 - INFO - MINOR_IVERSION=8, SNORTVERSION=2.9.14.1
+20211012 15:43:14.953 - INFO - +---- END KEYWORD: BuiltIn.Log (0)
+20211012 15:43:14.954 - INFO - +--- END KEYWORD: iSensorConfiguration.Get Versions (6768)
+20211012 15:43:14.954 - INFO - +--- START KEYWORD: BuiltIn.Log [ Policy ${POLICY} ]
+20211012 15:43:14.954 - INFO - Policy 1
+20211012 15:43:14.955 - INFO - +--- END KEYWORD: BuiltIn.Log (1)
+20211012 15:43:14.955 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ Policy ${POLICY} ]
+20211012 15:43:14.955 - INFO - Set test message to:
+Policy 1
+20211012 15:43:14.955 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (0)
+20211012 15:43:14.956 - INFO - +--- START KEYWORD: BuiltIn.Log [ This is a version ${MAJOR_IVERSION} iSensor ]
+20211012 15:43:14.956 - INFO - This is a version 8 iSensor
+20211012 15:43:14.956 - INFO - +--- END KEYWORD: BuiltIn.Log (1)
+20211012 15:43:14.956 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ This is a version ${MAJOR_IVERSION} iSensor | append=True ]
+20211012 15:43:14.957 - INFO - Set test message to:
+Policy 1 This is a version 8 iSensor
+20211012 15:43:14.957 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (1)
+20211012 15:43:14.957 - INFO - +--- START KEYWORD: BuiltIn.Log [ Current ruleset version is ${RULESETVERSION} ]
+20211012 15:43:14.957 - INFO - Current ruleset version is 2.9.14.1
+20211012 15:43:14.958 - INFO - +--- END KEYWORD: BuiltIn.Log (0)
+20211012 15:43:14.958 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ Current ruleset version is ${RULESETVERSION} | append=True ]
+20211012 15:43:14.958 - INFO - Set test message to:
+Policy 1 This is a version 8 iSensor Current ruleset version is 2.9.14.1
+20211012 15:43:14.958 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (0)
+20211012 15:43:14.958 - INFO - +--- START KEYWORD: BuiltIn.Log [ Ruleset category is ${RULESETCATEGORY} ]
+20211012 15:43:14.959 - INFO - Ruleset category is balanced
+20211012 15:43:14.960 - INFO - +--- END KEYWORD: BuiltIn.Log (2)
+20211012 15:43:14.960 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ Ruleset category is ${RULESETCATEGORY} | append=True ]
+20211012 15:43:14.961 - INFO - Set test message to:
+Policy 1 This is a version 8 iSensor Current ruleset version is 2.9.14.1 Ruleset category is balanced
+20211012 15:43:14.961 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (1)
+20211012 15:43:14.961 - INFO - +--- START KEYWORD: BuiltIn.Log [ Full version is ${RSMINORVERSION} ]
+20211012 15:43:14.961 - INFO - Full version is 2.9.14.1.1790
+20211012 15:43:14.961 - INFO - +--- END KEYWORD: BuiltIn.Log (0)
+20211012 15:43:14.962 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ Full version is ${RSMINORVERSION} | append=True ]
+20211012 15:43:14.962 - INFO - Set test message to:
+Policy 1 This is a version 8 iSensor Current ruleset version is 2.9.14.1 Ruleset category is balanced Full version is 2.9.14.1.1790
+20211012 15:43:14.962 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (0)
+20211012 15:43:14.964 - INFO - +--- START KEYWORD: BuiltIn.Log [ Minor version is ${MINORV} ]
+20211012 15:43:14.965 - INFO - Minor version is 1790
+20211012 15:43:14.965 - INFO - +--- END KEYWORD: BuiltIn.Log (1)
+20211012 15:43:14.965 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ Minor version is ${MINORV} | append=True ]
+20211012 15:43:14.965 - INFO - Set test message to:
+Policy 1 This is a version 8 iSensor Current ruleset version is 2.9.14.1 Ruleset category is balanced Full version is 2.9.14.1.1790 Minor version is 1790
+20211012 15:43:14.966 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (1)
+20211012 15:43:14.966 - INFO - +--- START KEYWORD: BuiltIn.Log [ Current Snort version is ${SNORTVERSION} ]
+20211012 15:43:14.966 - INFO - Current Snort version is 2.9.14.1
+20211012 15:43:14.967 - INFO - +--- END KEYWORD: BuiltIn.Log (1)
+20211012 15:43:14.967 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ Current Snort version is ${SNORTVERSION} | append=True ]
+20211012 15:43:14.967 - INFO - Set test message to:
+Policy 1 This is a version 8 iSensor Current ruleset version is 2.9.14.1 Ruleset category is balanced Full version is 2.9.14.1.1790 Minor version is 1790 Current Snort version is 2.9.14.1
+20211012 15:43:14.967 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (0)
+20211012 15:43:14.967 - INFO - +--- START KEYWORD: iSensorConfiguration.Verify HomeNet [ ]
+20211012 15:43:14.968 - INFO - +---- START KEYWORD: SSHLibrary.Execute Command [ /secureworks/bin/sw-info.sh |grep HOME_NET |pcregrep -o ': .*' |tr -d ': ' ]
+20211012 15:43:14.968 - INFO - Executing command '/secureworks/bin/sw-info.sh |grep HOME_NET |pcregrep -o ': .*' |tr -d ': ''.
+20211012 15:43:14.969 - DEBUG - [chan 21] Max packet in: 32768 bytes
+20211012 15:43:21.386 - INFO - Command exited with return code 0.
+20211012 15:43:21.386 - INFO - ${homenet} = [10.1.1.1]
+20211012 15:43:21.386 - INFO - +---- END KEYWORD: SSHLibrary.Execute Command (6418)
+20211012 15:43:21.387 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Should Not Be Empty | ${homenet} ]
+20211012 15:43:21.387 - INFO - +----- START KEYWORD: BuiltIn.Should Not Be Empty [ ${homenet} ]
+20211012 15:43:21.387 - INFO - Length is 10
+20211012 15:43:21.388 - INFO - +----- END KEYWORD: BuiltIn.Should Not Be Empty (1)
+20211012 15:43:21.388 - INFO - ${is_set} = True
+20211012 15:43:21.388 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword And Return Status (1)
+20211012 15:43:21.388 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword Unless [ ${is_set} | Set iSensor HOME_NET | ${HOME_NET_VALUE} ]
+20211012 15:43:21.388 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword Unless (0)
+20211012 15:43:21.389 - INFO - +---- START KEYWORD: SSHLibrary.Execute Command [ /secureworks/bin/get_home_net |head -1 ]
+20211012 15:43:21.389 - INFO - Executing command '/secureworks/bin/get_home_net |head -1'.
+20211012 15:43:21.391 - DEBUG - [chan 22] Max packet in: 32768 bytes
+20211012 15:43:21.445 - INFO - Command exited with return code 0.
+20211012 15:43:21.446 - INFO - ${homenet} = 10.1.1.1
+20211012 15:43:21.447 - INFO - +---- END KEYWORD: SSHLibrary.Execute Command (57)
+20211012 15:43:21.447 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Should Be Equal | ${homenet} | ${HOME_NET_VALUE} ]
+20211012 15:43:21.447 - INFO - +----- START KEYWORD: BuiltIn.Should Be Equal [ ${homenet} | ${HOME_NET_VALUE} ]
+20211012 15:43:21.448 - DEBUG - Argument types are:
+<type 'unicode'>
+<type 'unicode'>
+20211012 15:43:21.448 - FAIL - 10.1.1.1 != 172.16.0.0/16,10.0.0.0/8,192.168.110.0/24,192.168.114.0/24,192.168.115.0/24
+20211012 15:43:21.449 - DEBUG - Traceback (most recent call last):
+  None
+20211012 15:43:21.449 - INFO - +----- END KEYWORD: BuiltIn.Should Be Equal (2)
+20211012 15:43:21.449 - INFO - ${is_correct} = False
+20211012 15:43:21.450 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword And Return Status (3)
+20211012 15:43:21.450 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword Unless [ ${is_correct} | Set iSensor HOME_NET | ${HOME_NET_VALUE} ]
+20211012 15:43:21.450 - INFO - +----- START KEYWORD: iSensorConfiguration.Set iSensor HOME_NET [ ${HOME_NET_VALUE} ]
+20211012 15:43:21.454 - INFO - +------ START KEYWORD: SSHLibrary.Execute Command [ /secureworks/bin/get_home_net |head -1 ]
+20211012 15:43:21.455 - INFO - Executing command '/secureworks/bin/get_home_net |head -1'.
+20211012 15:43:21.455 - DEBUG - [chan 23] Max packet in: 32768 bytes
+20211012 15:43:21.509 - INFO - Command exited with return code 0.
+20211012 15:43:21.510 - INFO - ${current_homenet} = 10.1.1.1
+20211012 15:43:21.510 - INFO - +------ END KEYWORD: SSHLibrary.Execute Command (56)
+20211012 15:43:21.510 - INFO - +------ START KEYWORD: BuiltIn.Return From Keyword If [ "${current_homenet}"=="${homenet}" ]
+20211012 15:43:21.511 - INFO - +------ END KEYWORD: BuiltIn.Return From Keyword If (1)
+20211012 15:43:21.511 - INFO - +------ START KEYWORD: BuiltIn.Return From Keyword [ Cert Failure to CTP Backend ]
+20211012 15:43:21.512 - INFO - Returning from the enclosing user keyword.
+20211012 15:43:21.514 - INFO - +------ END KEYWORD: BuiltIn.Return From Keyword (3)
+20211012 15:43:21.515 - INFO - +----- END KEYWORD: iSensorConfiguration.Set iSensor HOME_NET (65)
+20211012 15:43:21.515 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword Unless (65)
+20211012 15:43:21.515 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${HOMENET} | [${homenet}] ]
+20211012 15:43:21.515 - INFO - ${HOMENET} = [10.1.1.1]
+20211012 15:43:21.516 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (1)
+20211012 15:43:21.516 - INFO - +--- END KEYWORD: iSensorConfiguration.Verify HomeNet (6549)
+20211012 15:43:21.516 - INFO - +--- START KEYWORD: BuiltIn.Log [ Current HOMENET setting is ${HOME_NET} ]
+20211012 15:43:21.516 - INFO - Current HOMENET setting is [10.1.1.1]
+20211012 15:43:21.516 - INFO - +--- END KEYWORD: BuiltIn.Log (0)
+20211012 15:43:21.517 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ Current HOMENET setting is ${HOME_NET} | append=True ]
+20211012 15:43:21.517 - INFO - Set test message to:
+Policy 1 This is a version 8 iSensor Current ruleset version is 2.9.14.1 Ruleset category is balanced Full version is 2.9.14.1.1790 Minor version is 1790 Current Snort version is 2.9.14.1 Current HOMENET setting is [10.1.1.1]
+20211012 15:43:21.517 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (0)
+20211012 15:43:21.517 - INFO - +--- START KEYWORD: SSHLibrary.Execute Command [ cat /HWTYPE |pcregrep -o 'R\\d{3}' ]
+20211012 15:43:21.518 - INFO - Executing command 'cat /HWTYPE |pcregrep -o 'R\d{3}''.
+20211012 15:43:21.518 - DEBUG - [chan 24] Max packet in: 32768 bytes
+20211012 15:43:21.577 - INFO - Command exited with return code 1.
+20211012 15:43:21.577 - INFO - ${model} =
+20211012 15:43:21.577 - INFO - +--- END KEYWORD: SSHLibrary.Execute Command (60)
+20211012 15:43:21.578 - INFO - +--- START KEYWORD: BuiltIn.Set Suite Variable [ ${ISENSOR_MODEL} | ${model} ]
+20211012 15:43:21.578 - INFO - ${ISENSOR_MODEL} =
+20211012 15:43:21.578 - INFO - +--- END KEYWORD: BuiltIn.Set Suite Variable (0)
+20211012 15:43:21.579 - INFO - +--- START KEYWORD: BuiltIn.Log [ iSensor Platform Model is ${ISENSOR_MODEL} ]
+20211012 15:43:21.579 - INFO - iSensor Platform Model is
+20211012 15:43:21.579 - INFO - +--- END KEYWORD: BuiltIn.Log (0)
+20211012 15:43:21.580 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ iSensor Platform Model is ${ISENSOR_MODEL} | append=True ]
+20211012 15:43:21.580 - INFO - Set test message to:
+Policy 1 This is a version 8 iSensor Current ruleset version is 2.9.14.1 Ruleset category is balanced Full version is 2.9.14.1.1790 Minor version is 1790 Current Snort version is 2.9.14.1 Current HOMENET setting is [10.1.1.1] iSensor Platform Model is
+20211012 15:43:21.580 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (0)
+20211012 15:43:21.580 - INFO - +--- START KEYWORD: BuiltIn.Log [ Management IP Address is ${HOSTIP} ]
+20211012 15:43:21.581 - INFO - Management IP Address is 10.238.129.126
+20211012 15:43:21.581 - INFO - +--- END KEYWORD: BuiltIn.Log (1)
+20211012 15:43:21.581 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ Management IP Address is ${HOSTIP} | append=True ]
+20211012 15:43:21.581 - INFO - Set test message to:
+Policy 1 This is a version 8 iSensor Current ruleset version is 2.9.14.1 Ruleset category is balanced Full version is 2.9.14.1.1790 Minor version is 1790 Current Snort version is 2.9.14.1 Current HOMENET setting is [10.1.1.1] iSensor Platform Model is  Management IP Address is 10.238.129.126
+20211012 15:43:21.581 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (0)
+20211012 15:43:21.582 - INFO - +--- START KEYWORD: BuiltIn.Run Keyword If [ "${MAJOR_IVERSION}"=="7" | Set Suite Variable | ${SVSTAT_PATH} | /sbin/svstat ]
+20211012 15:43:21.583 - INFO - +--- END KEYWORD: BuiltIn.Run Keyword If (1)
+20211012 15:43:21.583 - INFO - +--- START KEYWORD: BuiltIn.Run Keyword If [ "${MAJOR_IVERSION}"=="8" | Set Suite Variable | ${SVSTAT_PATH} | /usr/sbin/svstat ]
+20211012 15:43:21.584 - INFO - +---- START KEYWORD: BuiltIn.Set Suite Variable [ ${SVSTAT_PATH} | /usr/sbin/svstat ]
+20211012 15:43:21.587 - INFO - ${SVSTAT_PATH} = /usr/sbin/svstat
+20211012 15:43:21.588 - INFO - +---- END KEYWORD: BuiltIn.Set Suite Variable (4)
+20211012 15:43:21.588 - INFO - +--- END KEYWORD: BuiltIn.Run Keyword If (5)
+20211012 15:43:21.588 - INFO - +-- END KEYWORD: iSensorConfiguration.Validate and Log iSensor Configuration (13402)
+------------------------------------------------------------------------------
+20211012 15:43:21.588 - INFO - +- END TEST: Verify Current State of Target iSensor (13406)
+------------------------------------------------------------------------------
+20211012 15:43:21.589 - INFO - +- START TEST: Verify Rulesets Can Be Pushed To iSensor [ ]
+------------------------------------------------------------------------------
+20211012 15:43:21.589 - INFO - +-- START KEYWORD: post_deployment_keywords.Push Rulesets To iSensor [ ]
+20211012 15:43:21.590 - INFO - +--- START KEYWORD: ctpapi2.PCSMS.Get Previous Ruleset Subscription [ ${UIN} | csv=True ]
+20211012 15:43:45.029 - DEBUG - {u'csv': u'True'}
+20211012 15:43:45.030 - DEBUG - requesting session token from auth server:
+sudo curl -v --key /etc/pki/tls/private/r_ctp_backend.key --cacert /etc/pki/tls/certs/ca.crt --cert /etc/pki/tls/certs/r_ctp_backend.crt -d "" -H "Authorization: CT-Certificate true" "https://auth.core.ctp.secureworks.net/auth/sessions?zone=CT"
+20211012 15:43:45.496 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JspYfew3jc1FdqUQWEvbXeFny00D1XUgXfENDsgnftk"  "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset-subscriptions/A-00013"
+20211012 15:43:45.496 - DEBUG - attempting service call to PCS services
+20211012 15:43:45.884 - DEBUG - validating response received from service
+20211012 15:43:45.885 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:43:45.885 - DEBUG - response validation completed without exception or incident
+20211012 15:43:45.885 - DEBUG - response (stdout):
+ ...(truncated the remaining 994 characters)
+20211012 15:43:45.886 - INFO - ${ruleset} = 2.9.14.1.1789
+20211012 15:43:45.886 - INFO - ${category} = balanced
+20211012 15:43:45.886 - INFO - +--- END KEYWORD: ctpapi2.PCSMS.Get Previous Ruleset Subscription (24296)
+20211012 15:43:45.887 - INFO - +--- START KEYWORD: ctpapi2.PCSMS.Get Current Ruleset Subscription [ ${UIN} | csv=True ]
+20211012 15:43:45.889 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JspYfew3jc1FdqUQWEvbXeFny00D1XUgXfENDsgnftk"  "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset-subscriptions/A-00013"
+20211012 15:43:45.889 - DEBUG - attempting service call to PCS services
+20211012 15:43:46.193 - DEBUG - validating response received from service
+20211012 15:43:46.193 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:43:46.194 - DEBUG - response validation completed without exception or incident
+20211012 15:43:46.194 - DEBUG - response (stdout):
+ ...(truncated the remaining 994 characters)
+20211012 15:43:46.195 - INFO - ${new_ruleset} = 2.9.14.1.1790
+20211012 15:43:46.195 - INFO - ${new_category} = balanced
+20211012 15:43:46.195 - INFO - +--- END KEYWORD: ctpapi2.PCSMS.Get Current Ruleset Subscription (308)
+20211012 15:43:46.196 - INFO - +--- START KEYWORD: BuiltIn.Run Keyword If [ "${ruleset}"=="${new_ruleset}" | Fatal Error | Ruleset Subscription Error ]
+20211012 15:43:46.197 - INFO - +--- END KEYWORD: BuiltIn.Run Keyword If (1)
+20211012 15:43:46.197 - INFO - +--- START KEYWORD: ctpapi2.PCSMS.Deploy Ruleset [ ${category} | ${ruleset} | ${UIN} | ${POLICY} ]
+20211012 15:43:46.200 - DEBUG - Post data in @/tmp/atf.rsqueryqOSzLe.xml:
+<ruleset-query>
+  <predicates>
+    <predicate field-name="ruleset-category">
+      <one-of>
+        <value>balanced</value>
+      </one-of>
+    </predicate>
+    <predicate field-name="version">
+      <one-of>
+        <value>2.9.14.1.1789</value>
+      </one-of>
+    </predicate>
+  </predicates>
+  <include-in-response>
+    <tag>id</tag>
+    <tag>ruleset-category</tag>
+    <tag>status</tag>
+    <tag>import-date</tag>
+    <tag>version</tag>
+    <tag>snort-version</tag>
+    <tag>new-rules</tag>
+    <tag>modified-rules</tag>
+    <tag>removed-rules</tag>
+  </include-in-response>
+  <sort-ordering>
+    <sort-order field-name="import-date" order="DESC"/>
+  </sort-ordering>
+  <limit>1</limit>
+</ruleset-query>
+20211012 15:43:46.201 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JspYfew3jc1FdqUQWEvbXeFny00D1XUgXfENDsgnftk"  -X POST -d "@/tmp/atf.rsqueryqOSzLe.xml" "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset/ruleset-query"
+20211012 15:43:46.201 - DEBUG - attempting service call to PCS services
+20211012 15:43:46.441 - DEBUG - validating response received from service
+20211012 15:43:46.441 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:43:46.442 - DEBUG - response validation completed without exception or incident
+20211012 15:43:46.442 - DEBUG - response (stdout):
+s...(truncated the remaining 174 characters)
+20211012 15:43:46.442 - INFO - Deploying ruleset "balanced.2.9.14.1.1789" (policy 1) to UIN A-00013
+20211012 15:43:46.443 - DEBUG - Post data:
+20211012 15:43:46.443 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JspYfew3jc1FdqUQWEvbXeFny00D1XUgXfENDsgnftk"  -X POST -d "" "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset/deploy/balanced/2.9.14.1.1789/A-00013/1"
+20211012 15:43:46.443 - DEBUG - attempting service call to PCS services
+20211012 15:43:56.288 - DEBUG - validating response received from service
+20211012 15:43:56.288 - DEBUG - HTTP Response: 202 The request has been accepted for processing, but the processing has not been completed
+20211012 15:43:56.289 - DEBUG - response validation completed without exception or incident
+20211012 15:43:56.289 - DEBUG - response (stdout):
+20211012 15:43:56.289 - DEBUG - Valid XML for JobID:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* About to connect() to pcsms.core.ctp.secureworks.net port 443 (#0)
+*   Trying 10.234.250.145...
+* Connected to pcsms.core.ctp.secureworks.net (10.234.250.145) port 443 (#0)
+* Initializing NSS with certpath: sql:/etc/pki/nssdb
+* skipping SSL peer certificate verification
+* NSS: client certificate not found (nickname not specified)
+* SSL connection using TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+* Server certificate:
+* 	subject: C=US,ST=Georgia,L=Atlanta,O="SecureWorks, Inc.",CN=pcsms.core.ctp.secureworks.net
+* 	start date: Sep 01 12:03:55 2021 GMT
+* 	expire date: Sep 01 12:03:55 2023 GMT
+* 	common name: pcsms.core.ctp.secureworks.net
+* 	issuer: E=caadmin@secureworks.com,O="SecureWorks, Inc.",L=Atlanta,ST=Georgia,C=US,CN=CTP Services Back Office CA
+> POST /pcsms/ruleset/deploy/balanced/2.9.14.1.1789/A-00013/1 HTTP/1.1
+> User-Agent: curl/7.29.0
+> Host: pcsms.core.ctp.secureworks.net
+> Accept: */*
+> Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JspYfew3jc1FdqUQWEvbXeFny00D1XUgXfENDsgnftk
+> Content-Length: 0
+> Content-Type: application/x-www-form-urlencoded
+> 
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0< HTTP/1.1 202 The request has been accepted for processing, but the processing has not been completed
+< Date: Tue, 12 Oct 2021 15:43:56 GMT
+< X-CT-TransId: no-trans-id
+< Content-Length: 0
+< Server: CounterThreat
+< Location: https://pcsms.core.ctp.secureworks.net/pcsms/job/17059896
+< X-CT-ServerAddress: 10.15.26.67
+< Accept-Ranges: bytes
+< 
+  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0
+* Connection #0 to host pcsms.core.ctp.secureworks.net left intact
+20211012 15:43:56.290 - DEBUG - Using default waittime
+20211012 15:43:56.290 - DEBUG - waiting 1200.0 for deployment result
+20211012 15:43:56.295 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JspYfew3jc1FdqUQWEvbXeFny00D1XUgXfENDsgnftk"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059896"
+20211012 15:43:56.295 - DEBUG - attempting service call to PCS services
+20211012 15:44:08.136 - DEBUG - validating response received from service
+20211012 15:44:08.137 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:44:08.137 - DEBUG - response validation completed without exception or incident
+20211012 15:44:08.138 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:44:08.138 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059896</job-id>
+    <status-text>RUNNING</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:43:56.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:43:56.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:44:13.144 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JspYfew3jc1FdqUQWEvbXeFny00D1XUgXfENDsgnftk"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059896"
+20211012 15:44:13.144 - DEBUG - attempting service call to PCS services
+20211012 15:44:24.955 - DEBUG - validating response received from service
+20211012 15:44:24.956 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:44:24.956 - DEBUG - response validation completed without exception or incident
+20211012 15:44:24.956 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:44:24.957 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059896</job-id>
+    <status-text>RUNNING</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:43:56.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:43:56.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:44:29.962 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JspYfew3jc1FdqUQWEvbXeFny00D1XUgXfENDsgnftk"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059896"
+20211012 15:44:29.963 - DEBUG - attempting service call to PCS services
+20211012 15:44:41.290 - DEBUG - validating response received from service
+20211012 15:44:41.294 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:44:41.294 - DEBUG - response validation completed without exception or incident
+20211012 15:44:41.295 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:44:41.297 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059896</job-id>
+    <status-text>RUNNING</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:43:56.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:43:56.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:44:46.303 - DEBUG - requesting session token from auth server:
+sudo curl -v --key /etc/pki/tls/private/r_ctp_backend.key --cacert /etc/pki/tls/certs/ca.crt --cert /etc/pki/tls/certs/r_ctp_backend.crt -d "" -H "Authorization: CT-Certificate true" "https://auth.core.ctp.secureworks.net/auth/sessions?zone=CT"
+20211012 15:44:46.691 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JKA0OUAnumVj0TKNOBzViYGJ9MzRRFSOcAxjcPq94vQ"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059896"
+20211012 15:44:46.691 - DEBUG - attempting service call to PCS services
+20211012 15:44:59.060 - DEBUG - validating response received from service
+20211012 15:44:59.061 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:44:59.061 - DEBUG - response validation completed without exception or incident
+20211012 15:44:59.061 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:44:59.061 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059896</job-id>
+    <status-text>RUNNING</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:43:56.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:43:56.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:45:04.067 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JKA0OUAnumVj0TKNOBzViYGJ9MzRRFSOcAxjcPq94vQ"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059896"
+20211012 15:45:04.067 - DEBUG - attempting service call to PCS services
+20211012 15:45:15.289 - DEBUG - validating response received from service
+20211012 15:45:15.289 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:45:15.290 - DEBUG - response validation completed without exception or incident
+20211012 15:45:15.290 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:45:15.290 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059896</job-id>
+    <status-text>SUCCESS</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:43:56.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:44:48.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:45:15.291 - INFO - Deployment of ruleset "balanced.2.9.14.1.1789" (policy 1) to UIN A-00013 succeeded
+20211012 15:45:15.291 - INFO - ${result} = 17059896:Deployment of ruleset "balanced.2.9.14.1.1789" (policy 1) to UIN A-00013 succeeded
+20211012 15:45:15.292 - INFO - +--- END KEYWORD: ctpapi2.PCSMS.Deploy Ruleset (89094)
+20211012 15:45:15.292 - INFO - +--- START KEYWORD: BuiltIn.Should Not Contain [ ${result} | ERROR ]
+20211012 15:45:15.293 - INFO - +--- END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:45:15.293 - INFO - +--- START KEYWORD: ctpapi2.PCSMS.Get Current Ruleset Subscription [ ${UIN} | csv=True ]
+20211012 15:45:15.294 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JKA0OUAnumVj0TKNOBzViYGJ9MzRRFSOcAxjcPq94vQ"  "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset-subscriptions/A-00013"
+20211012 15:45:15.294 - DEBUG - attempting service call to PCS services
+20211012 15:45:15.634 - DEBUG - validating response received from service
+20211012 15:45:15.634 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:45:15.635 - DEBUG - response validation completed without exception or incident
+20211012 15:45:15.635 - DEBUG - response (stdout):
+ ...(truncated the remaining 994 characters)
+20211012 15:45:15.636 - INFO - ${new_ruleset} = 2.9.14.1.1789
+20211012 15:45:15.636 - INFO - ${new_category} = balanced
+20211012 15:45:15.636 - INFO - +--- END KEYWORD: ctpapi2.PCSMS.Get Current Ruleset Subscription (343)
+20211012 15:45:15.637 - INFO - +--- START KEYWORD: BuiltIn.Run Keyword If [ "${ruleset}"!="${new_ruleset}" | Fatal Error | Ruleset Failed To Deploy ]
+20211012 15:45:15.638 - INFO - +--- END KEYWORD: BuiltIn.Run Keyword If (1)
+20211012 15:45:15.638 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ Successfully deployed ruleset ${ruleset} ]
+20211012 15:45:15.639 - INFO - Set test message to:
+Successfully deployed ruleset 2.9.14.1.1789
+20211012 15:45:15.639 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (1)
+20211012 15:45:15.639 - INFO - +--- START KEYWORD: post_deployment_keywords.Deploy Latest [ ${new_category} ]
+20211012 15:45:15.641 - INFO - +---- START KEYWORD: ctpapi2.PCSMS.Get Current Ruleset Subscription [ ${UIN} | csv=True ]
+20211012 15:45:15.642 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JKA0OUAnumVj0TKNOBzViYGJ9MzRRFSOcAxjcPq94vQ"  "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset-subscriptions/A-00013"
+20211012 15:45:15.642 - DEBUG - attempting service call to PCS services
+20211012 15:45:15.905 - DEBUG - validating response received from service
+20211012 15:45:15.906 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:45:15.906 - DEBUG - response validation completed without exception or incident
+20211012 15:45:15.906 - DEBUG - response (stdout):
+ ...(truncated the remaining 994 characters)
+20211012 15:45:15.909 - INFO - ${current} = 2.9.14.1.1789
+20211012 15:45:15.909 - INFO - ${category} = balanced
+20211012 15:45:15.909 - INFO - +---- END KEYWORD: ctpapi2.PCSMS.Get Current Ruleset Subscription (269)
+20211012 15:45:15.909 - INFO - +---- START KEYWORD: ctpapi2.PCSMS.Get Latest Ruleset Version [ ${category} | AVAILABLE | ${SNORTVERSION} ]
+20211012 15:45:15.910 - DEBUG - ctpapi.py:class PCSMS:Get_Latest_Ruleset_Version - called with category=balanced, status=AVAILABLE, snort=2.9.14.1, opts={}
+20211012 15:45:15.920 - DEBUG - Post data in @/tmp/atf.rsqueryAMVQn4.xml:
+<ruleset-query>
+  <predicates>
+    <predicate field-name="snort-version">
+      <one-of>
+        <value>2.9.14.1</value>
+      </one-of>
+    </predicate>
+    <predicate field-name="ruleset-category">
+      <one-of>
+        <value>balanced</value>
+      </one-of>
+    </predicate>
+    <predicate field-name="status">
+      <one-of>
+        <value>AVAILABLE</value>
+      </one-of>
+    </predicate>
+  </predicates>
+  <include-in-response>
+    <tag>id</tag>
+    <tag>ruleset-category</tag>
+    <tag>status</tag>
+    <tag>import-date</tag>
+    <tag>version</tag>
+    <tag>snort-version</tag>
+    <tag>new-rules</tag>
+    <tag>modified-rules</tag>
+    <tag>removed-rules</tag>
+  </include-in-response>
+  <sort-ordering>
+    <sort-order field-name="import-date" order="DESC"/>
+  </sort-ordering>
+  <limit>1</limit>
+</ruleset-query>
+20211012 15:45:15.921 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JKA0OUAnumVj0TKNOBzViYGJ9MzRRFSOcAxjcPq94vQ"  -X POST -d "@/tmp/atf.rsqueryAMVQn4.xml" "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset/ruleset-query"
+20211012 15:45:15.921 - DEBUG - attempting service call to PCS services
+20211012 15:45:16.199 - DEBUG - validating response received from service
+20211012 15:45:16.200 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:45:16.200 - DEBUG - response validation completed without exception or incident
+20211012 15:45:16.200 - DEBUG - response (stdout):
+s...(truncated the remaining 174 characters)
+20211012 15:45:16.201 - INFO - ${latest} = 2.9.14.1.1790
+20211012 15:45:16.201 - INFO - +---- END KEYWORD: ctpapi2.PCSMS.Get Latest Ruleset Version (292)
+20211012 15:45:16.201 - INFO - +---- START KEYWORD: BuiltIn.Pass Execution If [ "${current}"=="${latest}" | iSensor is running on the latest ruleset version ]
+20211012 15:45:16.202 - INFO - +---- END KEYWORD: BuiltIn.Pass Execution If (1)
+20211012 15:45:16.202 - INFO - +---- START KEYWORD: ctpapi2.PCSMS.Deploy Ruleset [ ${category} | ${latest} | ${UIN} | ${POLICY} ]
+20211012 15:45:16.204 - DEBUG - Post data in @/tmp/atf.rsquerygr5rcJ.xml:
+<ruleset-query>
+  <predicates>
+    <predicate field-name="ruleset-category">
+      <one-of>
+        <value>balanced</value>
+      </one-of>
+    </predicate>
+    <predicate field-name="version">
+      <one-of>
+        <value>2.9.14.1.1790</value>
+      </one-of>
+    </predicate>
+  </predicates>
+  <include-in-response>
+    <tag>id</tag>
+    <tag>ruleset-category</tag>
+    <tag>status</tag>
+    <tag>import-date</tag>
+    <tag>version</tag>
+    <tag>snort-version</tag>
+    <tag>new-rules</tag>
+    <tag>modified-rules</tag>
+    <tag>removed-rules</tag>
+  </include-in-response>
+  <sort-ordering>
+    <sort-order field-name="import-date" order="DESC"/>
+  </sort-ordering>
+  <limit>1</limit>
+</ruleset-query>
+20211012 15:45:16.204 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JKA0OUAnumVj0TKNOBzViYGJ9MzRRFSOcAxjcPq94vQ"  -X POST -d "@/tmp/atf.rsquerygr5rcJ.xml" "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset/ruleset-query"
+20211012 15:45:16.204 - DEBUG - attempting service call to PCS services
+20211012 15:45:16.418 - DEBUG - validating response received from service
+20211012 15:45:16.418 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:45:16.419 - DEBUG - response validation completed without exception or incident
+20211012 15:45:16.419 - DEBUG - response (stdout):
+s...(truncated the remaining 174 characters)
+20211012 15:45:16.419 - INFO - Deploying ruleset "balanced.2.9.14.1.1790" (policy 1) to UIN A-00013
+20211012 15:45:16.420 - DEBUG - Post data:
+20211012 15:45:16.420 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JKA0OUAnumVj0TKNOBzViYGJ9MzRRFSOcAxjcPq94vQ"  -X POST -d "" "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset/deploy/balanced/2.9.14.1.1790/A-00013/1"
+20211012 15:45:16.420 - DEBUG - attempting service call to PCS services
+20211012 15:45:27.119 - DEBUG - validating response received from service
+20211012 15:45:27.121 - DEBUG - HTTP Response: 202 The request has been accepted for processing, but the processing has not been completed
+20211012 15:45:27.122 - DEBUG - response validation completed without exception or incident
+20211012 15:45:27.123 - DEBUG - response (stdout):
+20211012 15:45:27.124 - DEBUG - Valid XML for JobID:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* About to connect() to pcsms.core.ctp.secureworks.net port 443 (#0)
+*   Trying 10.234.244.99...
+* Connected to pcsms.core.ctp.secureworks.net (10.234.244.99) port 443 (#0)
+* Initializing NSS with certpath: sql:/etc/pki/nssdb
+* skipping SSL peer certificate verification
+* NSS: client certificate not found (nickname not specified)
+* SSL connection using TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+* Server certificate:
+* 	subject: C=US,ST=Georgia,L=Atlanta,O="SecureWorks, Inc.",CN=pcsms.core.ctp.secureworks.net
+* 	start date: Sep 01 12:03:55 2021 GMT
+* 	expire date: Sep 01 12:03:55 2023 GMT
+* 	common name: pcsms.core.ctp.secureworks.net
+* 	issuer: E=caadmin@secureworks.com,O="SecureWorks, Inc.",L=Atlanta,ST=Georgia,C=US,CN=CTP Services Back Office CA
+> POST /pcsms/ruleset/deploy/balanced/2.9.14.1.1790/A-00013/1 HTTP/1.1
+> User-Agent: curl/7.29.0
+> Host: pcsms.core.ctp.secureworks.net
+> Accept: */*
+> Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JKA0OUAnumVj0TKNOBzViYGJ9MzRRFSOcAxjcPq94vQ
+> Content-Length: 0
+> Content-Type: application/x-www-form-urlencoded
+> 
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0< HTTP/1.1 202 The request has been accepted for processing, but the processing has not been completed
+< Date: Tue, 12 Oct 2021 15:45:27 GMT
+< X-CT-TransId: no-trans-id
+< Content-Length: 0
+< Server: CounterThreat
+< Location: https://pcsms.core.ctp.secureworks.net/pcsms/job/17059897
+< X-CT-ServerAddress: 10.15.52.217
+< Accept-Ranges: bytes
+< 
+  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+* Connection #0 to host pcsms.core.ctp.secureworks.net left intact
+20211012 15:45:27.124 - DEBUG - Using default waittime
+20211012 15:45:27.124 - DEBUG - waiting 1200.0 for deployment result
+20211012 15:45:27.127 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/JKA0OUAnumVj0TKNOBzViYGJ9MzRRFSOcAxjcPq94vQ"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059897"
+20211012 15:45:27.128 - DEBUG - attempting service call to PCS services
+20211012 15:45:38.341 - DEBUG - validating response received from service
+20211012 15:45:38.343 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:45:38.343 - DEBUG - response validation completed without exception or incident
+20211012 15:45:38.343 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:45:38.344 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059897</job-id>
+    <status-text>RUNNING</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:45:27.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:45:27.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:45:43.349 - DEBUG - requesting session token from auth server:
+sudo curl -v --key /etc/pki/tls/private/r_ctp_backend.key --cacert /etc/pki/tls/certs/ca.crt --cert /etc/pki/tls/certs/r_ctp_backend.crt -d "" -H "Authorization: CT-Certificate true" "https://auth.core.ctp.secureworks.net/auth/sessions?zone=CT"
+20211012 15:45:43.757 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/fKljlvTJRD97Oke3z9q5Cu-fErLoeTeq71sG9iys620"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059897"
+20211012 15:45:43.757 - DEBUG - attempting service call to PCS services
+20211012 15:45:55.131 - DEBUG - validating response received from service
+20211012 15:45:55.132 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:45:55.132 - DEBUG - response validation completed without exception or incident
+20211012 15:45:55.133 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:45:55.133 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059897</job-id>
+    <status-text>RUNNING</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:45:27.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:45:27.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:46:00.139 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/fKljlvTJRD97Oke3z9q5Cu-fErLoeTeq71sG9iys620"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059897"
+20211012 15:46:00.139 - DEBUG - attempting service call to PCS services
+20211012 15:46:11.551 - DEBUG - validating response received from service
+20211012 15:46:11.553 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:46:11.553 - DEBUG - response validation completed without exception or incident
+20211012 15:46:11.553 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:46:11.554 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059897</job-id>
+    <status-text>RUNNING</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:45:27.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:45:27.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:46:16.561 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/fKljlvTJRD97Oke3z9q5Cu-fErLoeTeq71sG9iys620"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059897"
+20211012 15:46:16.561 - DEBUG - attempting service call to PCS services
+20211012 15:46:28.172 - DEBUG - validating response received from service
+20211012 15:46:28.173 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:46:28.179 - DEBUG - response validation completed without exception or incident
+20211012 15:46:28.179 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:46:28.180 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059897</job-id>
+    <status-text>RUNNING</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:45:27.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:45:27.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:46:33.186 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/fKljlvTJRD97Oke3z9q5Cu-fErLoeTeq71sG9iys620"  "https://pcsms.core.ctp.secureworks.net/pcsms/job/summary/17059897"
+20211012 15:46:33.186 - DEBUG - attempting service call to PCS services
+20211012 15:46:44.367 - DEBUG - validating response received from service
+20211012 15:46:44.368 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:46:44.369 - DEBUG - response validation completed without exception or incident
+20211012 15:46:44.369 - DEBUG - response (stdout):
+a...(truncated the remaining 836 characters)
+20211012 15:46:44.369 - DEBUG - status response:
+<pcsms-job-summary>
+    <job-id>17059897</job-id>
+    <status-text>SUCCESS</status-text>
+    <job-type>deploy-ruleset</job-type>
+    <created-timestamp>2021-10-12 15:45:27.0</created-timestamp>
+    <modified-timestamp>2021-10-12 15:46:18.0</modified-timestamp>
+    <child-jobs>
+        <child-job-status>
+            <status>FAILED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SUCCESS</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>RUNNING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>SCHEDULED</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PENDING</status>
+            <job-count>0</job-count>
+        </child-job-status>
+        <child-job-status>
+            <status>PARTIAL</status>
+            <job-count>0</job-count>
+        </child-job-status>
+    </child-jobs>
+</pcsms-job-summary>
+20211012 15:46:44.369 - INFO - Deployment of ruleset "balanced.2.9.14.1.1790" (policy 1) to UIN A-00013 succeeded
+20211012 15:46:44.370 - INFO - ${result} = 17059897:Deployment of ruleset "balanced.2.9.14.1.1790" (policy 1) to UIN A-00013 succeeded
+20211012 15:46:44.370 - INFO - +---- END KEYWORD: ctpapi2.PCSMS.Deploy Ruleset (88168)
+20211012 15:46:44.371 - INFO - +---- START KEYWORD: BuiltIn.Should Not Contain [ ${result} | ERROR ]
+20211012 15:46:44.372 - INFO - +---- END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:46:44.372 - INFO - +---- START KEYWORD: ctpapi2.PCSMS.Get Current Ruleset Subscription [ ${UIN} | csv=True ]
+20211012 15:46:44.374 - DEBUG - requesting session token from auth server:
+sudo curl -v --key /etc/pki/tls/private/r_ctp_backend.key --cacert /etc/pki/tls/certs/ca.crt --cert /etc/pki/tls/certs/r_ctp_backend.crt -d "" -H "Authorization: CT-Certificate true" "https://auth.core.ctp.secureworks.net/auth/sessions?zone=CT"
+20211012 15:46:44.766 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/b4HV6yFOfUoP0277ikz-i0ca0aQ7k2bRbbGpGwHAkIs"  "https://pcsms.core.ctp.secureworks.net/pcsms/ruleset-subscriptions/A-00013"
+20211012 15:46:44.766 - DEBUG - attempting service call to PCS services
+20211012 15:46:45.157 - DEBUG - validating response received from service
+20211012 15:46:45.157 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:46:45.158 - DEBUG - response validation completed without exception or incident
+20211012 15:46:45.158 - DEBUG - response (stdout):
+ ...(truncated the remaining 994 characters)
+20211012 15:46:45.163 - INFO - ${new_version} = 2.9.14.1.1790
+20211012 15:46:45.163 - INFO - ${new_category} = balanced
+20211012 15:46:45.165 - INFO - +---- END KEYWORD: ctpapi2.PCSMS.Get Current Ruleset Subscription (791)
+20211012 15:46:45.166 - INFO - +---- START KEYWORD: BuiltIn.Run Keyword If [ "${new_version}"!="${latest}" | Fatal Error | Ruleset failed to deploy ]
+20211012 15:46:45.167 - INFO - +---- END KEYWORD: BuiltIn.Run Keyword If (1)
+20211012 15:46:45.167 - INFO - +--- END KEYWORD: post_deployment_keywords.Deploy Latest (89528)
+20211012 15:46:45.171 - INFO - +-- END KEYWORD: post_deployment_keywords.Push Rulesets To iSensor (203581)
+------------------------------------------------------------------------------
+20211012 15:46:45.171 - INFO - +- END TEST: Verify Rulesets Can Be Pushed To iSensor (203582)
+------------------------------------------------------------------------------
+20211012 15:46:45.188 - INFO - +- START TEST: Verify RCMSMQTransmit [ ]
+------------------------------------------------------------------------------
+20211012 15:46:45.189 - INFO - +-- START KEYWORD: post_deployment_keywords.Execute an RCMSMQTransmit Command [ ]
+20211012 15:46:45.189 - INFO - +--- START KEYWORD: scwxIMSClib.RCMS.RCMSMQ Transmit [ uptime ]
+20211012 15:46:46.545 - DEBUG - creating transport session for 10.238.129.126
+20211012 15:46:46.547 - DEBUG - starting transport client for 10.238.129.126
+20211012 15:46:46.628 - DEBUG - attempting to add new nost keys from 10.238.129.126 to local known hosts at /root/.ssh/known_hosts
+20211012 15:46:46.630 - DEBUG - attempting connection to 10.238.129.126 using shared key @/root/.ssh/id_rsa
+20211012 15:46:46.713 - DEBUG - Trying SSH key d9a68b0bf7c65d3ffd6651e41df197f0
+20211012 15:46:46.777 - DEBUG - Connection established isensor (10.238.129.126) for user root using shared key
+20211012 15:46:46.777 - DEBUG - Sent command 'cat /var/iSensor/uin' to isensor (10.238.129.126)
+20211012 15:46:46.777 - DEBUG - [chan 0] Max packet in: 32768 bytes
+20211012 15:46:46.856 - DEBUG - Rcvd response 'A-00013
+' from device isensor (10.238.129.126)
+20211012 15:46:46.893 - DEBUG - Adding ssh-rsa host key for 10.238.153.55: 4e97765c0b35c4774ad864e664035639
+20211012 15:46:46.894 - DEBUG - Trying discovered key d9a68b0bf7c65d3ffd6651e41df197f0 in /root/.ssh/id_rsa
+20211012 15:46:46.958 - DEBUG - [chan 0] Max packet in: 32768 bytes
+20211012 15:46:47.629 - INFO - ${resp} = A-00013 15:46:01 up 55 days, 2:52, 1 user, load average: 0.20, 0.13, 0.08
+20211012 15:46:47.629 - INFO - +--- END KEYWORD: scwxIMSClib.RCMS.RCMSMQ Transmit (2440)
+20211012 15:46:47.630 - INFO - +--- START KEYWORD: BuiltIn.Run Keyword And Return Status [ Should Contain | ${resp} | Network is unreachable ]
+20211012 15:46:47.630 - INFO - +---- START KEYWORD: BuiltIn.Should Contain [ ${resp} | Network is unreachable ]
+20211012 15:46:47.631 - FAIL - 'A-00013 15:46:01 up 55 days, 2:52, 1 user, load average: 0.20, 0.13, 0.08' does not contain 'Network is unreachable'
+20211012 15:46:47.631 - DEBUG - Traceback (most recent call last):
+  None
+20211012 15:46:47.631 - INFO - +---- END KEYWORD: BuiltIn.Should Contain (1)
+20211012 15:46:47.632 - INFO - ${ignore} = False
+20211012 15:46:47.632 - INFO - +--- END KEYWORD: BuiltIn.Run Keyword And Return Status (2)
+20211012 15:46:47.632 - INFO - +--- START KEYWORD: BuiltIn.Run Keyword If [ ${ignore} | Pass Execution If | ${ignore} | Benign error for now ]
+20211012 15:46:47.632 - INFO - +--- END KEYWORD: BuiltIn.Run Keyword If (0)
+20211012 15:46:47.632 - INFO - +--- START KEYWORD: BuiltIn.Should Not Contain [ ${resp} | ERROR ]
+20211012 15:46:47.633 - INFO - +--- END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:46:47.633 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ ${resp} ]
+20211012 15:46:47.633 - INFO - Set test message to:
+A-00013 15:46:01 up 55 days, 2:52, 1 user, load average: 0.20, 0.13, 0.08
+20211012 15:46:47.633 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (0)
+20211012 15:46:47.634 - INFO - +-- END KEYWORD: post_deployment_keywords.Execute an RCMSMQTransmit Command (2445)
+------------------------------------------------------------------------------
+20211012 15:46:47.634 - INFO - +- END TEST: Verify RCMSMQTransmit (2447)
+------------------------------------------------------------------------------
+20211012 15:46:47.781 - INFO - +- START TEST: Verify Shuns Can Be Added [ ]
+------------------------------------------------------------------------------
+20211012 15:46:47.781 - INFO - +-- START KEYWORD: post_deployment_keywords.Add Shuns to iSensor [ ]
+20211012 15:46:47.782 - INFO - +--- START KEYWORD: ctpapi2.PCSMS.Get Shuns [ search_for=${SHUN} ]
+20211012 15:47:10.496 - DEBUG - requesting session token from auth server:
+sudo curl -v --key /etc/pki/tls/private/r_ctp_backend.key --cacert /etc/pki/tls/certs/ca.crt --cert /etc/pki/tls/certs/r_ctp_backend.crt -d "" -H "Authorization: CT-Certificate true" "https://auth.core.ctp.secureworks.net/auth/sessions?zone=CT"
+20211012 15:47:10.836 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/N3BmAIqK3I5CngSWBGaUf2VIzDBAFOkl2cfLEZyIF1Y"  "https://pcsms.core.ctp.secureworks.net/pcsms/policies/shun-addresses/cd00fxpvsd00007"
+20211012 15:47:10.837 - DEBUG - attempting service call to PCS services
+20211012 15:47:11.254 - DEBUG - validating response received from service
+20211012 15:47:11.255 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:47:11.256 - DEBUG - response validation completed without exception or incident
+20211012 15:47:11.256 - DEBUG - response (stdout):
+ ...(truncated the remaining 637 characters)
+20211012 15:47:11.256 - INFO - ${existing_shun} = 242.225.242.225
+20211012 15:47:11.257 - INFO - +--- END KEYWORD: ctpapi2.PCSMS.Get Shuns (23475)
+20211012 15:47:11.257 - INFO - +--- START KEYWORD: BuiltIn.Log [ ${existing_shun} ]
+20211012 15:47:11.258 - INFO - 242.225.242.225
+20211012 15:47:11.258 - INFO - +--- END KEYWORD: BuiltIn.Log (1)
+20211012 15:47:11.258 - INFO - +--- START KEYWORD: BuiltIn.Should Not Contain [ ${existing_shun} | ERROR ]
+20211012 15:47:11.259 - INFO - +--- END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:47:11.259 - INFO - +--- START KEYWORD: BuiltIn.Run Keyword If [ "${existing_shun}" != "" | Clear Shun | ${existing_shun} ]
+20211012 15:47:11.259 - INFO - +---- START KEYWORD: post_deployment_keywords.Clear Shun [ ${existing_shun} ]
+20211012 15:47:11.260 - INFO - +----- START KEYWORD: ctpapi2.PCSMS.Remove Shun [ ${UIN} | ${address} | protocol=tcp ]
+20211012 15:47:11.261 - DEBUG - <firewall-modification>
+  <force>0</force>
+  <uin>A-00013</uin>
+  <blocks>
+    <shun-entry>
+      <address>242.225.242.225</address>
+      <protocol>tcp</protocol>
+      <type>remove</type>
+    </shun-entry>
+  </blocks>
+  <monitor-logging>1</monitor-logging>
+</firewall-modification>
+20211012 15:47:11.262 - DEBUG - Post data:
+"@/tmp/atf.ctpapityX3Y2out"
+20211012 15:47:11.262 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/N3BmAIqK3I5CngSWBGaUf2VIzDBAFOkl2cfLEZyIF1Y"  -X POST -d ""@/tmp/atf.ctpapityX3Y2out"" "https://pcsms.core.ctp.secureworks.net/pcsms/policy/firewall/unshun"
+20211012 15:47:11.262 - DEBUG - attempting service call to PCS services
+20211012 15:47:11.595 - DEBUG - validating response received from service
+20211012 15:47:11.596 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:47:11.596 - DEBUG - response validation completed without exception or incident
+20211012 15:47:11.597 - DEBUG - response (stdout):
+20211012 15:47:11.597 - INFO - ${resp} = Successfully removed shun for address(es) 242.225.242.225 on A-00013 (/tmp/atf.ctpapityX3Y2out)
+20211012 15:47:11.598 - INFO - +----- END KEYWORD: ctpapi2.PCSMS.Remove Shun (338)
+20211012 15:47:11.598 - INFO - +----- START KEYWORD: BuiltIn.Should Not Contain [ ${resp} | ERROR ]
+20211012 15:47:11.599 - INFO - +----- END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:47:11.599 - INFO - +----- START KEYWORD: BuiltIn.Sleep [ 60s ]
+20211012 15:48:11.600 - INFO - Slept 1 minute
+20211012 15:48:11.600 - INFO - +----- END KEYWORD: BuiltIn.Sleep (60001)
+20211012 15:48:11.600 - INFO - +----- START KEYWORD: BuiltIn.Wait Until Keyword Succeeds [ 360 sec | 120 sec | Verify Shun is Removed On iSensor | ${address} ]
+20211012 15:48:11.601 - INFO - +------ START KEYWORD: post_deployment_keywords.Verify Shun is Removed On iSensor [ ${address} ]
+20211012 15:48:11.602 - INFO - +------- START KEYWORD: ctpapi2.PCSMS.Get Shuns [ search_for=${address} ]
+20211012 15:48:11.603 - DEBUG - requesting session token from auth server:
+sudo curl -v --key /etc/pki/tls/private/r_ctp_backend.key --cacert /etc/pki/tls/certs/ca.crt --cert /etc/pki/tls/certs/r_ctp_backend.crt -d "" -H "Authorization: CT-Certificate true" "https://auth.core.ctp.secureworks.net/auth/sessions?zone=CT"
+20211012 15:48:11.945 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/bciJc1LoSiCRN6V2iyTxNi7wrlDiM2_1gCydb99kKIg"  "https://pcsms.core.ctp.secureworks.net/pcsms/policies/shun-addresses/cd00fxpvsd00007"
+20211012 15:48:11.945 - DEBUG - attempting service call to PCS services
+20211012 15:48:12.397 - DEBUG - validating response received from service
+20211012 15:48:12.397 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:48:12.398 - DEBUG - response validation completed without exception or incident
+20211012 15:48:12.398 - DEBUG - response (stdout):
+ ...(truncated the remaining 399 characters)
+20211012 15:48:12.398 - INFO - ${existing_shun} =
+20211012 15:48:12.399 - INFO - +------- END KEYWORD: ctpapi2.PCSMS.Get Shuns (797)
+20211012 15:48:12.399 - INFO - +------- START KEYWORD: BuiltIn.Should Not Contain [ ${existing_shun} | ${address} ]
+20211012 15:48:12.400 - INFO - +------- END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:48:12.401 - INFO - +------ END KEYWORD: post_deployment_keywords.Verify Shun is Removed On iSensor (799)
+20211012 15:48:12.401 - INFO - +----- END KEYWORD: BuiltIn.Wait Until Keyword Succeeds (801)
+20211012 15:48:12.401 - INFO - +----- START KEYWORD: BuiltIn.Sleep [ 60s ]
+20211012 15:49:12.401 - INFO - Slept 1 minute
+20211012 15:49:12.402 - INFO - +----- END KEYWORD: BuiltIn.Sleep (60001)
+20211012 15:49:12.402 - INFO - +----- START KEYWORD: BuiltIn.Wait Until Keyword Succeeds [ 360 sec | 120 sec | Verify Shun Policy is Not On iSensor | ${address} ]
+20211012 15:49:12.403 - INFO - +------ START KEYWORD: post_deployment_keywords.Verify Shun Policy is Not On iSensor [ ${address} ]
+20211012 15:49:12.403 - INFO - +------- START KEYWORD: post_deployment_keywords.Get iSensor Shun Policy [ ${address} ]
+20211012 15:49:12.404 - INFO - +-------- START KEYWORD: SSHLibrary.Switch Connection [ ${HOSTIP} ]
+20211012 15:49:12.405 - INFO - +-------- END KEYWORD: SSHLibrary.Switch Connection (1)
+20211012 15:49:12.405 - INFO - +-------- START KEYWORD: BuiltIn.Set Variable [ "^shun_address=.*${address}.*tcp" ]
+20211012 15:49:12.405 - INFO - ${filter} = "^shun_address=.*242.225.242.225.*tcp"
+20211012 15:49:12.406 - INFO - +-------- END KEYWORD: BuiltIn.Set Variable (1)
+20211012 15:49:12.406 - INFO - +-------- START KEYWORD: SSHLibrary.Execute Command [ cat /secureworks/cm/isensor/firewall/shuns/swconfig/config |pcregrep ${filter} ]
+20211012 15:49:12.406 - INFO - Executing command 'cat /secureworks/cm/isensor/firewall/shuns/swconfig/config |pcregrep "^shun_address=.*242.225.242.225.*tcp"'.
+20211012 15:49:12.407 - DEBUG - [chan 25] Max packet in: 32768 bytes
+20211012 15:49:12.433 - INFO - Command exited with return code 1.
+20211012 15:49:12.433 - INFO - ${box_shuns} =
+20211012 15:49:12.433 - INFO - +-------- END KEYWORD: SSHLibrary.Execute Command (27)
+20211012 15:49:12.434 - INFO - +-------- START KEYWORD: BuiltIn.Log [ ${box_shuns} ]
+20211012 15:49:12.434 - INFO -
+20211012 15:49:12.434 - INFO - +-------- END KEYWORD: BuiltIn.Log (0)
+20211012 15:49:12.434 - INFO - ${shun_on_box} =
+20211012 15:49:12.435 - INFO - +------- END KEYWORD: post_deployment_keywords.Get iSensor Shun Policy (32)
+20211012 15:49:12.435 - INFO - +------- START KEYWORD: BuiltIn.Should Not Contain [ ${shun_on_box} | ${address} ]
+20211012 15:49:12.436 - INFO - +------- END KEYWORD: BuiltIn.Should Not Contain (0)
+20211012 15:49:12.436 - INFO - +------ END KEYWORD: post_deployment_keywords.Verify Shun Policy is Not On iSensor (33)
+20211012 15:49:12.436 - INFO - +----- END KEYWORD: BuiltIn.Wait Until Keyword Succeeds (34)
+20211012 15:49:12.436 - INFO - +---- END KEYWORD: post_deployment_keywords.Clear Shun (121177)
+20211012 15:49:12.436 - INFO - +--- END KEYWORD: BuiltIn.Run Keyword If (121177)
+20211012 15:49:12.436 - INFO - +--- START KEYWORD: ctpapi2.PCSMS.Add Shun [ ${UIN} | ${SHUN} | protocol=tcp ]
+20211012 15:49:12.437 - DEBUG - <firewall-modification>
+  <force>0</force>
+  <uin>A-00013</uin>
+  <blocks>
+    <shun-entry>
+      <address>242.225.242.225</address>
+      <protocol>tcp</protocol>
+      <type>add</type>
+    </shun-entry>
+  </blocks>
+  <monitor-logging>1</monitor-logging>
+</firewall-modification>
+20211012 15:49:12.438 - DEBUG - requesting session token from auth server:
+sudo curl -v --key /etc/pki/tls/private/r_ctp_backend.key --cacert /etc/pki/tls/certs/ca.crt --cert /etc/pki/tls/certs/r_ctp_backend.crt -d "" -H "Authorization: CT-Certificate true" "https://auth.core.ctp.secureworks.net/auth/sessions?zone=CT"
+20211012 15:49:12.825 - DEBUG - Post data:
+"@/tmp/atf.ctpapitPFOMeout"
+20211012 15:49:12.825 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/TdoYDtVatyyLW2WVWQEcl5QB9bZ2XzsyH6D7WLD7cbY"  -X POST -d ""@/tmp/atf.ctpapitPFOMeout"" "https://pcsms.core.ctp.secureworks.net/pcsms/policy/firewall/shun"
+20211012 15:49:12.826 - DEBUG - attempting service call to PCS services
+20211012 15:49:13.318 - DEBUG - validating response received from service
+20211012 15:49:13.318 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:49:13.319 - DEBUG - response validation completed without exception or incident
+20211012 15:49:13.319 - DEBUG - response (stdout):
+20211012 15:49:13.319 - INFO - ${resp} = Successfully added shun for address(es) 242.225.242.225 on A-00013 (/tmp/atf.ctpapitPFOMeout)
+20211012 15:49:13.320 - INFO - +--- END KEYWORD: ctpapi2.PCSMS.Add Shun (883)
+20211012 15:49:13.320 - INFO - +--- START KEYWORD: BuiltIn.Set Test Message [ ${resp} ]
+20211012 15:49:13.320 - INFO - Set test message to:
+Successfully added shun for address(es) 242.225.242.225 on A-00013 (/tmp/atf.ctpapitPFOMeout)
+20211012 15:49:13.321 - INFO - +--- END KEYWORD: BuiltIn.Set Test Message (1)
+20211012 15:49:13.321 - INFO - +--- START KEYWORD: BuiltIn.Should Not Contain [ ${resp} | ERROR ]
+20211012 15:49:13.321 - INFO - +--- END KEYWORD: BuiltIn.Should Not Contain (0)
+20211012 15:49:13.321 - INFO - +--- START KEYWORD: BuiltIn.Sleep [ 60s ]
+20211012 15:50:13.322 - INFO - Slept 1 minute
+20211012 15:50:13.322 - INFO - +--- END KEYWORD: BuiltIn.Sleep (60001)
+20211012 15:50:13.323 - INFO - +--- START KEYWORD: BuiltIn.Wait Until Keyword Succeeds [ 360 sec | 120 sec | Verify We Can Get The Existing Shun Policy ]
+20211012 15:50:13.323 - INFO - +---- START KEYWORD: post_deployment_keywords.Verify We Can Get The Existing Shun Policy [ ]
+20211012 15:50:13.325 - INFO - +----- START KEYWORD: ctpapi2.PCSMS.Get Shuns [ search_for=${SHUN} ]
+20211012 15:50:13.327 - DEBUG - requesting session token from auth server:
+sudo curl -v --key /etc/pki/tls/private/r_ctp_backend.key --cacert /etc/pki/tls/certs/ca.crt --cert /etc/pki/tls/certs/r_ctp_backend.crt -d "" -H "Authorization: CT-Certificate true" "https://auth.core.ctp.secureworks.net/auth/sessions?zone=CT"
+20211012 15:50:13.711 - DEBUG - api_call to "pcsms" service: sudo curl -v -k -H "Authorization: CT-Session https://auth.core.ctp.secureworks.net/auth/sessions/fL7ww0Qom9fcx_tV9_xPYESIwXEbfyr30aOe979iBiI"  "https://pcsms.core.ctp.secureworks.net/pcsms/policies/shun-addresses/cd00fxpvsd00007"
+20211012 15:50:13.712 - DEBUG - attempting service call to PCS services
+20211012 15:50:14.120 - DEBUG - validating response received from service
+20211012 15:50:14.121 - DEBUG - HTTP Response: 200 The request has succeeded
+20211012 15:50:14.122 - DEBUG - response validation completed without exception or incident
+20211012 15:50:14.124 - DEBUG - response (stdout):
+ ...(truncated the remaining 637 characters)
+20211012 15:50:14.125 - INFO - ${existing_shun} = 242.225.242.225
+20211012 15:50:14.126 - INFO - +----- END KEYWORD: ctpapi2.PCSMS.Get Shuns (801)
+20211012 15:50:14.126 - INFO - +----- START KEYWORD: BuiltIn.Log [ ${existing_shun} ]
+20211012 15:50:14.129 - INFO - 242.225.242.225
+20211012 15:50:14.129 - INFO - +----- END KEYWORD: BuiltIn.Log (3)
+20211012 15:50:14.131 - INFO - +----- START KEYWORD: BuiltIn.Should Not Contain [ ${existing_shun} | ERROR ]
+20211012 15:50:14.132 - INFO - +----- END KEYWORD: BuiltIn.Should Not Contain (1)
+20211012 15:50:14.132 - INFO - +----- START KEYWORD: BuiltIn.Should Contain [ ${existing_shun} | ${SHUN} ]
+20211012 15:50:14.133 - INFO - +----- END KEYWORD: BuiltIn.Should Contain (1)
+20211012 15:50:14.134 - INFO - +---- END KEYWORD: post_deployment_keywords.Verify We Can Get The Existing Shun Policy (811)
+20211012 15:50:14.134 - INFO - +--- END KEYWORD: BuiltIn.Wait Until Keyword Succeeds (811)
+20211012 15:50:14.134 - INFO - +--- START KEYWORD: BuiltIn.Sleep [ 60s ]
+20211012 15:51:14.136 - INFO - Slept 1 minute
+20211012 15:51:14.137 - INFO - +--- END KEYWORD: BuiltIn.Sleep (60003)
+20211012 15:51:14.137 - INFO - +--- START KEYWORD: BuiltIn.Wait Until Keyword Succeeds [ 360 sec | 120 sec | Verify Shun Policy is On the iSensor ]
+20211012 15:51:14.137 - INFO - +---- START KEYWORD: post_deployment_keywords.Verify Shun Policy is On the iSensor [ ]
+20211012 15:51:14.138 - INFO - +----- START KEYWORD: post_deployment_keywords.Get iSensor Shun Policy [ ${SHUN} ]
+20211012 15:51:14.139 - INFO - +------ START KEYWORD: SSHLibrary.Switch Connection [ ${HOSTIP} ]
+20211012 15:51:14.139 - INFO - +------ END KEYWORD: SSHLibrary.Switch Connection (0)
+20211012 15:51:14.140 - INFO - +------ START KEYWORD: BuiltIn.Set Variable [ "^shun_address=.*${address}.*tcp" ]
+20211012 15:51:14.140 - INFO - ${filter} = "^shun_address=.*242.225.242.225.*tcp"
+20211012 15:51:14.140 - INFO - +------ END KEYWORD: BuiltIn.Set Variable (1)
+20211012 15:51:14.140 - INFO - +------ START KEYWORD: SSHLibrary.Execute Command [ cat /secureworks/cm/isensor/firewall/shuns/swconfig/config |pcregrep ${filter} ]
+20211012 15:51:14.141 - INFO - Executing command 'cat /secureworks/cm/isensor/firewall/shuns/swconfig/config |pcregrep "^shun_address=.*242.225.242.225.*tcp"'.
+20211012 15:51:14.141 - DEBUG - [chan 26] Max packet in: 32768 bytes
+20211012 15:51:14.170 - INFO - Command exited with return code 0.
+20211012 15:51:14.170 - INFO - ${box_shuns} = shun_address="242.225.242.225||tcp|"
+20211012 15:51:14.170 - INFO - +------ END KEYWORD: SSHLibrary.Execute Command (30)
+20211012 15:51:14.171 - INFO - +------ START KEYWORD: BuiltIn.Log [ ${box_shuns} ]
+20211012 15:51:14.171 - INFO - shun_address="242.225.242.225||tcp|"
+20211012 15:51:14.171 - INFO - +------ END KEYWORD: BuiltIn.Log (0)
+20211012 15:51:14.171 - INFO - ${shun_on_box} = shun_address="242.225.242.225||tcp|"
+20211012 15:51:14.171 - INFO - +----- END KEYWORD: post_deployment_keywords.Get iSensor Shun Policy (33)
+20211012 15:51:14.172 - INFO - +----- START KEYWORD: BuiltIn.Should Contain [ ${shun_on_box} | ${SHUN} ]
+20211012 15:51:14.172 - INFO - +----- END KEYWORD: BuiltIn.Should Contain (0)
+20211012 15:51:14.172 - INFO - +---- END KEYWORD: post_deployment_keywords.Verify Shun Policy is On the iSensor (35)
+20211012 15:51:14.172 - INFO - +--- END KEYWORD: BuiltIn.Wait Until Keyword Succeeds (35)
+20211012 15:51:14.173 - INFO - +-- END KEYWORD: post_deployment_keywords.Add Shuns to iSensor (266392)
+------------------------------------------------------------------------------
+20211012 15:51:14.173 - INFO - +- END TEST: Verify Shuns Can Be Added (266393)
+------------------------------------------------------------------------------
+20211012 15:51:14.238 - INFO - +- START TEARDOWN: Close Connections and Report Results [ ]
+20211012 15:51:14.239 - INFO - +-- START KEYWORD: Stop iSensor EC2 Instance [ ]
+20211012 15:51:14.249 - INFO - +--- START KEYWORD: Stop EC2 Instance [ ${ISENSOR_IP} ]
+20211012 15:51:14.249 - FAIL - No keyword with name 'Stop EC2 Instance' found.
+20211012 15:51:14.249 - INFO - +--- END KEYWORD: Stop EC2 Instance (0)
+20211012 15:51:14.249 - INFO - +-- END KEYWORD: Stop iSensor EC2 Instance (10)
+20211012 15:51:14.250 - INFO - +-- START KEYWORD: SSHLibrary.Close All Connections [ ]
+20211012 15:51:14.250 - DEBUG - [chan 0] EOF sent (0)
+20211012 15:51:14.267 - INFO - +-- END KEYWORD: SSHLibrary.Close All Connections (16)
+20211012 15:51:14.267 - INFO - +-- START KEYWORD: BuiltIn.Run Keyword If All Tests Passed [ Email Test Has Passed ]
+20211012 15:51:14.268 - INFO - +-- END KEYWORD: BuiltIn.Run Keyword If All Tests Passed (0)
+20211012 15:51:14.268 - INFO - +-- START KEYWORD: BuiltIn.Run Keyword If Any Tests Failed [ Email Test Has Failed ]
+20211012 15:51:14.268 - INFO - +--- START KEYWORD: Email Test Has Failed [ ]
+20211012 15:51:14.269 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Set Mail Subject [ Post package deployment test has FAILED | catenate=True ]
+20211012 15:51:15.078 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Set Mail Subject (809)
+20211012 15:51:15.078 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Append Config [ iSensor Model: Dell ${ISENSOR_MODEL} ]
+20211012 15:51:15.080 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Append Config (2)
+20211012 15:51:15.081 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Log To Mail [ Test Report: | reportfile ]
+20211012 15:51:15.086 - DEBUG - content: Test Report:
+link:reportfile
+options:{}
+20211012 15:51:15.086 - DEBUG - LINKER: "https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20211012_154218.aawoke.Post_Package_Deployment_Verification.html"
+20211012 15:51:15.086 - DEBUG - content w/link = Test Report:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20211012_154218.aawoke.Post_Package_Deployment_Verification.html
+20211012 15:51:15.089 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Log To Mail (7)
+20211012 15:51:15.090 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Log To Mail [ Test Log: | logfile ]
+20211012 15:51:15.092 - DEBUG - content: Test Log:
+link:logfile
+options:{}
+20211012 15:51:15.092 - DEBUG - LINKER: "https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20211012_154218.aawoke.Post_Package_Deployment_Verification.html"
+20211012 15:51:15.095 - DEBUG - content w/link = Test Log:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20211012_154218.aawoke.Post_Package_Deployment_Verification.html
+20211012 15:51:15.095 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Log To Mail (5)
+20211012 15:51:15.095 - INFO - +---- START KEYWORD: scwxCorelib.Mail.Mail Report [ attach=reportfile,logfile ]
+20211012 15:51:15.096 - DEBUG - email distro is ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'gowen@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+20211012 15:51:15.096 - DEBUG - Processing Mail Report keyword...
+	Distribution:['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'gowen@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	subject: Test ID (Production): 20211012.155115 - Post package deployment test has FAILED
+	To: ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'gowen@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	Body:Test Report:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20211012_154218.aawoke.Post_Package_Deployment_Verification.html
+Test Log:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20211012_154218.aawoke.Post_Package_Deployment_Verification.html
+20211012 15:51:15.793 - INFO - Successfully sent mail with subject "Test ID (Production): 20211012.155115 - Post package deployment test has FAILED" to hlouissaint@secureworks.com;pmankoo@secureworks.com;gowen@secureworks.com;msuwoto@secureworks.com;ibilyy@secureworks.com;tbernhard@secureworks.com;igayashan@secureworks.com;hrashmi@secureworks.com;mnanayakkara@secureworks.com;aawoke@secureworks.com;
+20211012 15:51:15.793 - INFO - ${resp} = Message "Test ID (Production): 20211012.155115 - Post package deployment test has FAILED" Sent
+20211012 15:51:15.793 - INFO - +---- END KEYWORD: scwxCorelib.Mail.Mail Report (698)
+20211012 15:51:15.794 - INFO - +---- START KEYWORD: BuiltIn.Log [ ${resp} ]
+20211012 15:51:15.794 - INFO - Message "Test ID (Production): 20211012.155115 - Post package deployment test has FAILED" Sent
+20211012 15:51:15.794 - INFO - +---- END KEYWORD: BuiltIn.Log (1)
+20211012 15:51:15.795 - INFO - +--- END KEYWORD: Email Test Has Failed (1527)
+20211012 15:51:15.795 - INFO - +-- END KEYWORD: BuiltIn.Run Keyword If Any Tests Failed (1527)
+20211012 15:51:15.795 - INFO - +- END TEARDOWN: Close Connections and Report Results (1557)
+==============================================================================
+20211012 15:51:15.800 - INFO - + END SUITE: Post Package Deployment Verification (535634)
+==============================================================================

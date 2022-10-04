@@ -1,0 +1,8 @@
+<testrun-summary>
+  <testrun total-failed="0" start-time="1664461518.78" total-blocked="0" total-tests="1" total-aborted="0" id="20220929_142515.CTU1" total-passed="1">
+    <test status="Completed" suite="Ruleset_Performance" group="Ruleset_Performance" result="Passed" name="Balanced" run-time="735.774635792" heartbeat="1664462254.65">
+      <reportlink>https://r-atf.atf-prod.aws.secureworks.net/Ruleset_Performance/Ruleset_Performance/reports/Balanced/Production/20220929_142515.CTU1.Balanced.html</reportlink>
+      <loglink>https://r-atf.atf-prod.aws.secureworks.net/Ruleset_Performance/Ruleset_Performance/logs/Balanced/Production/20220929_142515.CTU1.Balanced.html</loglink>
+    </test>
+  </testrun>
+</testrun-summary>

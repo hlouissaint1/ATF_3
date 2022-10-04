@@ -1,0 +1,190 @@
+*** Settings ***
+Documentation		Reserves and Releases Resources Needed for Tests
+
+
+*** Settings ***
+Resource		iSensorConfiguration.txt
+Library                 OperatingSystem
+Library                 SSHLibrary
+Library			String
+Library                 scwxBPlib2.BreakingPoint	${TestEnvironment}      ${ATF_User}
+Library			scwxCorelib.iSensor		${TestEnvironment}      ${ATF_User}
+Library			scwxCorelib.ATF			${TestEnvironment}      ${ATF_User}
+Library			scwxDCIMlib.LabManager		${TestEnvironment}      ${ATF_User}
+Library			scwxDCIMlib.PathFinder		${TestEnvironment}      ${ATF_User}
+Library			scwxDCIMlib.Hybrid		${TestEnvironment}      ${ATF_User}
+
+
+*** Variables ***
+${TAF_URL}=     https://localhost:8080/
+${IPS_NET}              10.3.0.0/24
+${BPS_RSVPORT_V7P1}	'Not Allocated'
+${BPS_RSVPORT_V7P2}	'Not Allocated'
+${bpGroup}		'Not Allocated'
+${TOPOLOGY_NEEDED}	False
+${TOPOLOGY}             UNASSIGNED
+
+
+*** Keywords ***
+
+Set Topology Variable		
+			${is_set}		Run Keyword And Return Status	Environment Variable Should Be Set	TOPOLOGY
+			Run Keyword If		${is_set}			Set Suite Variable			${TOPOLOGY}	%{TOPOLOGY}
+			${var_exists}		Run Keyword And Return Status	Variable Should Exist			\${TOPOLOGY}
+
+
+Check Environment
+			${is_set}=		Run KeyWord And Return Status	Variable Should Exist			\${TAF_iSensorMgmtIp}
+			Run Keyword Unless	${is_set}			Set Environment Variable		TAF_iSensorMgmtIp	${isensor_IP}
+			Run Keyword If		${is_set}			Set Suite Variable			${iSensorMgmtIp}	%{TAF_iSensorMgmtIp}
+			Set Topology Variable			
+
+Reserve Resources	[Arguments]			${traffic}=None
+			Set Missing Variables
+			Check Environment
+			${traffic_generator}=		Decode Bytes To String				${traffic}	ASCII	errors=strict
+			Open SSH Connection
+			Run Keyword If			'${traffic_generator}'=='Breaking Point'	Reserve Breaking Point Resources
+			Run Keyword If			'${traffic_generator}'=='Breaking Point'	Set Suite Variable	${TOPOLOGY}	${bps_Topology}
+			Run Keyword If			'${traffic_generator}'=='ione'			Reserve Ione Resources
+			Run Keyword If			'${traffic_generator}'=='ione'			Set Suite Variable	${TOPOLOGY}	${ione_Topology}
+			Log				topology is ${TOPOLOGY}
+			Run Keyword If			${TOPOLOGY_NEEDED}				Reserve DCIM 
+			${iSensor_Model}=		Get iSensor Platform Model
+			Set Suite Variable		${ISENSOR_MODEL}				${iSensor_Model}
+			Run Keyword If			${ISENSOR_MODEL.startswith('3')}		Set Default BP Traffic File	Regression-i7-310-F
+			Run Keyword Unless		${ISENSOR_MODEL.startswith('3')}		Set Default BP Traffic File	Regression-i7-610
+			Get UIN
+        		${eth0}=        		Get ATF IP Address
+		        Set Suite Variable      	${ATF_Mgt_IP_Address}           		${eth0}
+			Get Versions
+			Verify HomeNet
+			#${agent_is_configured}=		Run Keyword and Return Status			Verify Agent Config
+			#Run Keyword Unless		${agent_is_configured}				Fatal Error		Inspector Agent is not configured
+		
+
+Set Default BP Traffic File				[Arguments]					${traffic_file}
+			Set Suite Variable		${DEFAULT_TRAFFIC_FILE}				${traffic_file}
+		
+
+Release Resources
+			${result}			${error}=			Run Keyword and Ignore Error	Restore Local Rules
+			${result}			${error}=			Run keyword And Ignore Error	Release LabManager	
+			Close All Connections	
+
+Reserve Breaking Point Resources
+			${is_set}               	Run Keyword And Return Status   Environment Variable Should Be Set      bps_Topology
+			Run Keyword If			${is_set}			Set Suite Variable			${BPtopo}	%{bps_Topology}
+			Run Keyword Unless              ${is_set}                       Set Suite Variable                      ${BPtopo}	${bps_Topology}
+			#Run Keyword Unless		${is_set}			Set Suite Variable 			${BPtopo}	UNASSIGNED
+			${is_assigned}=                 Run Keyword And Return Status   Should Not Contain                      ${BPtopo} 	UNASSIGNED
+			Run Keyword Unless		${is_assigned}			Set Suite Variable			${is_set}	False
+			Run Keyword If			${is_assigned}			Set Suite Variable			${TOPOLOGY}	${BPtopo}
+			Run Keyword Unless		${is_set}			Set Topology Variable
+			Set Suite Variable		${BPS_RSVPORT_V7P1}	    	${bps_Firstport}
+			Set Suite Variable		${BPS_RSVPORT_V7P2}	    	${bps_Secondport}
+			${bpgp}=			Get Breaking Point Group
+			Run Keyword If			"${bpgp}"=="UNASSIGNED"		Fatal Error			Breaking Point topology is undefined
+			Should Not Contain		${bpgp}				ERROR
+			Set Suite Variable              ${bpGroup}		  	${bpgp}
+			${p1}=				Get Port From Port String	${bps_Firstport}
+			${p2}=				Get Port From Port String       ${bps_Secondport}
+			Log To Console			Breaking Point Ports ${p1} and ${p2} reserved for group ${bpgp}
+			Set Suite Variable		${TOPOLOGY_NEEDED}		True
+
+Reserve Ione Resources
+			${is_set}=               	Run Keyword And Return Status   Environment Variable Should Be Set      ione_Topology
+			Run Keyword If                  ${is_set}                       Set Suite Variable                      ${IONEtopo}     %{ione_Topology}
+			Run Keyword Unless              ${is_set}                       Set Suite Variable                      ${IONEtopo}     UNASSIGNED
+			${is_assigned}=                 Run Keyword And Return Status   Should Not Contain                      ${IONEtopo}	UNASSIGNED
+			Run Keyword Unless              ${is_assigned}                  Set Suite Variable			${TOPOLOGY}	GeneralTest_ione_${iSensorMgmtIp}
+			Run Keyword If                  ${is_assigned}                  Set Suite Variable                      ${TOPOLOGY}     ${IONEtopo}
+			Set Suite Variable		${TOPOLOGY_NEEDED}		True
+
+
+Get Port From Port String	[Arguments]		${portstring}
+	@{ports_split}=		Split String		${portstring}	,	
+	${port}=		Convert To Integer	@{ports_split}[1]
+	${rport}=		Evaluate		${port}+1
+	[Return]		${rport}
+
+Revert Back And Close Connections
+        Back-up And Clear Log File
+        Remove Log File
+        Close All Connections
+
+Remove Log File
+        Write   rm -f ${SET_OUTPUT}
+        Sleep   10 seconds
+
+
+Reserve DCIM
+	Run Keyword If		"${TOPOLOGY}"=="UNASSIGNED"	Pass Execution		No topology assigned for this test
+	Run Keyword If		"${TOPOLOGY}"=="DirectConnect"	Pass Execution		Direct connections require no topology
+	Run Keyword If		"${dcim_Name}"=="LabManager"	Reserve LabManager
+	Run Keyword Unless	"${dcim_Name}"=="LabManager"	Reserve PathFinder
+
+Reserve PathFinder
+	${response}=            Reserve PathFinder Topology     ${TOPOLOGY}		force_connection=True
+	Should Not Contain      ${response}                     ERROR
+	Sleep                   10 sec
+
+Release PathFinder
+	${response}=            Release PathFinder Topology	
+	Log To Console          ${response}
+	Should Not Contain      ${response}                     ERROR
+
+
+Release DCIM
+	Run Keyword If		'${TOPOLOGY}'=='UNASSIGNED'	Pass Execution		No topology assigned for this test
+	Run Keyword If		"${TOPOLOGY}"=="DirectConnect"	Pass Execution		Direct connections require no topology
+	Run Keyword If          "${dcim_Name}"=="LabManager"    Release LabManager
+	Run Keyword Unless      "${dcim_Name}"=="LabManager"    Release PathFinder
+	
+
+Reserve LabManager
+	#${status}=		Run Keyword And Return Status	Release LabManager Topology
+	#Log			${status}
+	${response}=		Reserve LabManager Topology	${TOPOLOGY}
+	Log To Console		${response}
+	Should Not Contain	${response}			ERROR
+	Sleep			10 sec
+
+Release LabManager
+	${response}=            Release LabManager Topology
+	Log To Console		${response}
+	Should Not Contain	${response}			ERROR
+
+Set Missing Variables
+        ${is_set}               Run Keyword And Return Status   Environment Variable Should Be Set      isensor_IP
+	Run Keyword If          ${is_set}			Log To Console				Environment var:isensor_IP=%{isensor_IP}
+	Run Keyword Unless      ${is_set}			Log To Console				Environment var:isensor_IP is missing
+	Run Keyword If		${is_set}			Set Suite Variable			${isensor_IP}		%{isensor_IP}
+	Run Keyword If		${is_set}			Set Suite Variable			${TAF_iSensorMgmtIp}	%{isensor_IP}
+	Run Keyword If		${is_set}			Set Environment Variable		TAF_iSensorMgmtIp	%{isensor_IP}
+	Run Keyword If		${is_set}			Set Suite Variable			${TAF_iSensorDeviceIndentifier}		%{isensor_IP}
+	Run Keyword If		${is_set}			Set Environment Variable		TAF_iSensorDeviceIndentifier	%{isensor_IP}
+	
+	Run Keyword If		${is_set}			Set Suite Variable			${iSensorMgmtIp}	%{isensor_IP}
+	Run Keyword If		${is_set}			Set Environment Variable		iSensorMgmtIp		%{isensor_IP}
+	${is_set}		Run Keyword And Return Status	Environment Variable Should Be Set	TestEnv
+	Run Keyword If          ${is_set}                       Set Suite Variable			${TestEnvironment}	%{TestEnv}
+	Run Keyword If		${is_set}			Set Environment Variable		TestEnvironment		%{TestEnv}
+	${is_set}               Run Keyword And Return Status   Environment Variable Should Be Set      ATF_User
+	Run Keyword If          ${is_set}                       Set Suite Variable                      ${ATF_User}		%{ATF_User}
+	${is_set}		Run Keyword And Return Status	Environment Variable Should Be Set	dcim_Name
+	Run Keyword If          ${is_set}                       Set Suite Variable			${dcim_Name}		%{dcim_Name}
+	Run Keyword Unless	${is_set}			Set Suite Variable			${dcim_Name}		LabManager
+	${is_set}		Run Keyword And Return Status	Environment Variable Should Be Set	ione_Topology
+	Run Keyword If          ${is_set}                       Set Suite Variable			${ione_Topology}	%{ione_Topology}
+	Run Keyword Unless      ${is_set}			Set Suite Variable			${ione_Topology}	UNASSIGNED
+	${is_set}		Run Keyword And Return Status	Environment Variable Should Be Set	bps_Topology
+	Run Keyword If          ${is_set}                       Set Suite Variable			${bps_Topology}		%{bps_Topology}
+	Run Keyword Unless      ${is_set}			Set Suite Variable			${bps_Topology}		UNASSIGNED
+	
+		
+	
+			
+			
+
+	

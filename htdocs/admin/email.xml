@@ -1,0 +1,170 @@
+<email>
+        <mail-server url="localhost"/>
+        <mail-client url="r-atf.atf-prod.aws.secureworks.net"/>
+        <group name="QA-Talon" domain="secureworks.com" content-type="test-summary,reports,log-links">
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="hlouissaint"/>
+                <recipient name="aawoke"/>
+        </group>
+        <group name="CTU" domain="secureworks.com" content-type="details,test-summary,reports,log-links">
+                <recipient name="tbernhard"/>
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="hlouissaint"/>
+        </group>
+        <group name="Ruleset Group" domain="secureworks.com">
+                <recipient name="tbernhard"/>
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="hlouissaint"/>
+                <recipient name="aawoke"/>
+        </group>
+        <group name="Squad iSensor" domain="secureworks.com">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+                <recipient name="pmankoo" hourly-updates="yes"/>
+                <recipient name="msuwoto" hourly-updates="no"/>
+                <recipient name="ibilyy" hourly-updates="no"/>
+                <recipient name="tbernhard" hourly-updates="no"/>
+                <recipient name="ibilyy"/>
+        </group>
+        <group name="ATF-Administrator" domain="secureworks.com" content-type="details">
+                <recipient name="pmankoo"/>
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+        </group>
+        <group name="CTU1" domain="secureworks.com" content-type="details">
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+        </group>
+        <group name="CTU2" domain="secureworks.com" content-type="details">
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+        </group>
+        <group name="CTU3" domain="secureworks.com" content-type="details">
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+        </group>
+        <group name="CTU4" domain="secureworks.com" content-type="details">
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+        </group>
+        <group name="CTU5" domain="secureworks.com" content-type="details">
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+        </group>
+        <group name="CTU6" domain="secureworks.com" content-type="details">
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+        </group>
+        <group name="PAN Group" domain="secureworks.com" content-type="details">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+        </group>
+        <group name="CTU7" domain="secureworks.com" content-type="details">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+        </group>
+        <group name="CTU8" domain="secureworks.com" content-type="details">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+                <recipient name="pmankoo"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+        </group>
+        <group name="DPDK" domain="secureworks.com">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+                <recipient name="pmankoo"/>
+        </group>
+        <group name="AutoRegression" domain="secureworks.com">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+                <recipient name="aawoke"/>
+        </group>
+        <group name="Need To Know" domain="secureworks.com">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+                <recipient name="aawoke"/>
+                <recipient name="pmankoo"/>
+        </group>
+        <group name="FTD Group" domain="secureworks.com" content-type="details">
+                <recipient name="kbliss"/>
+                <recipient name="dkushner"/>
+                <recipient name="pmankoo"/>
+                <recipient name="hlouissaint"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+        </group>
+        <group name="CTU9" domain="secureworks.com" content-type="details">
+                <recipient name="kbliss"/>
+                <recipient name="dkushner"/>
+                <recipient name="pmankoo"/>
+                <recipient name="hlouissaint"/>
+                <recipient name="ibilyy"/>
+                <recipient name="msuwoto" />
+                <recipient name="tbernhard"/>
+        </group>
+        <group name="CTU10" domain="secureworks.com" content-type="details">
+                <recipient name="hlouissaint"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+        </group>
+        <group name="CTU11" domain="secureworks.com" content-type="details">
+                <recipient name="kbliss"/>
+                <recipient name="dkushner"/>
+                <recipient name="pmankoo"/>
+                <recipient name="hlouissaint"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+                <recipient name="msuwoto" />
+        </group>
+        <group name="CTU12" domain="secureworks.com" content-type="details">
+                <recipient name="kbliss"/>
+                <recipient name="dkushner"/>
+                <recipient name="pmankoo"/>
+                <recipient name="hlouissaint"/>
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+                <recipient name="msuwoto" />
+        </group>
+        <group name="CTU13" domain="secureworks.com" content-type="details">
+                <recipient name="kbliss"/>
+                <recipient name="dkushner"/>
+                <recipient name="pmankoo"/>
+                <recipient name="hlouissaint"/>
+                <recipient name="msuwoto" />
+                <recipient name="ibilyy"/>
+                <recipient name="tbernhard"/>
+        </group>
+       <group name="Deploy" domain="secureworks.com">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+                <recipient name="pmankoo" hourly-updates="yes"/>
+                <recipient name="msuwoto" hourly-updates="no"/>
+                <recipient name="ibilyy" hourly-updates="no"/>
+                <recipient name="sekim" hourly-updates="no"/>
+                <recipient name="tbernhard" hourly-updates="no"/>
+                <recipient name="ibilyy"/>
+                <recipient name="aawoke"/>
+        </group>
+       <group name="aawoke" domain="secureworks.com">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+                <recipient name="aawoke"/>
+        </group>
+       <group name="hlouissaint" domain="secureworks.com">
+                <recipient name="hlouissaint" hourly-updates="yes"/>
+        </group>
+
+</email>
+

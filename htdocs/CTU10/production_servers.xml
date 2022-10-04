@@ -1,0 +1,13 @@
+<remote-hosts>
+  <device type="ftd" console="fmc"/>
+  <dcim name="LabManager" path="//automation" address="172.16.250.200">
+    <bps name="1G-TalonQA" topo="BP78_172.16.64.139"/>
+    <ione topo="" name="iOne-A"/>
+  </dcim>
+  <bps id="1101" address="172.16.192.100" name="172.16.192.100" chassis="1" firstport="1,6,1,1" secondport="1,7,1,1" group="8"/>
+  <vlndb name="vulndb.secureworks.net/ctu_cms" address="vulndb.secureworks.net/ctu_cms" host="vulndb.secureworks.net/ctu_cms"/>
+  <ftd name="172.16.64.139" address="172.16.64.139" sshkey='/root/.ssh/id_rsa' device="ATFlab2110" inactive="no"/>
+  <ftd name="172.16.65.8" address="172.16.65.8" inactive="yes"/>
+  <fmc name="10.238.129.105" address="10.238.129.105"  sshkey='/root/.ssh/id_rsa' access_control_policy="ATF-Lab-2100_with_CTU_SCWX" inactive="no"/>
+  <ignite name="10.238.83.183" address="10.238.83.183"  sshkey='/root/.ssh/id_rsa' inactive="no"/>
+</remote-hosts>

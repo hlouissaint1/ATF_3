@@ -1,0 +1,8 @@
+<testrun-summary>
+  <testrun total-failed="0" start-time="1664461432.76" total-blocked="0" total-tests="1" total-aborted="0" id="20220929_142350.CTU6" total-passed="1">
+    <test status="Completed" suite="Ruleset_Performance" group="Ruleset_Performance" result="Passed" name="Connectivity" run-time="699.745551109" heartbeat="1664462132.58">
+      <reportlink>https://r-atf.atf-prod.aws.secureworks.net/Ruleset_Performance/Ruleset_Performance/reports/Connectivity/Production/20220929_142350.CTU6.Connectivity.html</reportlink>
+      <loglink>https://r-atf.atf-prod.aws.secureworks.net/Ruleset_Performance/Ruleset_Performance/logs/Connectivity/Production/20220929_142350.CTU6.Connectivity.html</loglink>
+    </test>
+  </testrun>
+</testrun-summary>

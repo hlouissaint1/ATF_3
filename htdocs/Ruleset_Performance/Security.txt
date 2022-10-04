@@ -1,0 +1,301 @@
+Documentation         # Test Case for Ruleset Performance Security Category
+
+*** Settings ***
+Resource                alert_handlers.txt
+Resource                resource_keywords_RS.txt
+Resource                iSensorConfiguration.txt
+Resource                ruleset_keywords_RS.txt
+Resource                VerifyTraffic_RS.txt
+Library                 SSHLibrary
+Library                 OperatingSystem
+Library                 BuiltIn
+Library                 String
+Library                 scwxCorelib.Mail
+Library                 Collections
+Library                 ctpapi2.PCSMS                   ${TestEnvironment}      ${ATF_User}
+Library                 ctpapi2.VulnDB                  ${TestEnvironment}      ${ATF_User}
+Library                 scwxBPlib2.BreakingPoint        ${TestEnvironment}      ${ATF_User}
+Suite Setup             Reserve Resources       Breaking Point
+Suite Teardown          Release Resource and Report Results
+
+*** Variables ***
+${XPD_HOST}                     208.89.41.232
+${XPD_LOG}                      /var/log/xpd/current
+${POLICY}                       1
+${category}                     security
+${FALSE_POSITIVE_RESULT}        ${category} test failed before the False Positive script could run
+${CHECK_SCRIPT_RESULT}          ${category} test failed before the Check.sh script could run
+${MIN_THROUGHPUT_6xx}           774.000
+${MIN_THROUGHPUT_3xx}           540.000
+${MAX_LATENCY_6xx}              4000.000
+${MAX_LATENCY_3xx}              4000.000
+${PERFORMANCE_RESULTS}          ${category} test failed before the performance could be measured
+${FP_FILTER}            gawk ' BEGIN{fpm=0} $2~/VID/{ if (($4+0)>=2)fpm=1; if (($4+0)>=0) print $0, (($4+0)>=2)?"<1>":"<0>"; } END {print "FalsePositive=",(fpm==0)?"passed":"failed"} '
+
+
+*** Test Case ***
+
+Notify Start Of Test via Email
+        Set Mail Subject        Starting ruleset test on ${category}.${targetRuleset}
+        ${iSensor_Model}=       Execute Command                                                         cat /HWTYPE |pcregrep -o 'R\\d{3}' |tr -d 'R'
+        Append Config           iSensor Model: Dell R${iSensor_Model},UIN: ${UIN},IDN: ${IDN}
+        Set Suite Variable      ${ISENSOR_MODEL}		                                        ${iSensor_Model}
+	Set Suite Variable	${MODEL_NUMBER}								${iSensor_Model}	
+        ${resp}=                Mail Report
+        Log                     ${resp}
+	Set Test Message	Advisory mail sent to ${ATF_User}
+
+
+Verify Current State of Target iSensor
+	Log			Test is running in ${TestEnvironment}
+	Open SSH Connection
+	Validate and Log iSensor Configuration
+	Run Keyword and Ignore Error									Disable Watch List Cron Job
+
+
+Import Ruleset
+	Import and Verify Target Ruleset
+
+
+Download VulnDb Ruleset Diffs To iSensor
+	Push Ruleset Diffs To iSensor
+
+	
+Change iSensor's Ruleset Category To Security
+	Change Ruleset Category
+	Sleep					5m
+
+
+Push Ruleset To iSensor
+	Push Ruleset
+
+
+Verify iSensor Is On New Version
+	Verify iSensor Version
+	Validate and Log iSensor Configuration
+
+
+Perform Tests With Group Customizations Disabled
+	Disable Ruleset Group Customizations
+
+
+Mark IPS Uptime For IPS_Up_Test With Groups Disabled
+	Mark Initial IPS Uptime
+
+
+Verify a SOC Test Alert Is Detected With Groups Disabled
+	${alerted}=							Run Keyword And Return Status		Verify a SOC Test Alert Is Detected
+	Run Keyword Unless						${alerted}				Fatal Error			SOC Test alert failed to trigger
+
+
+Run Traffic Thru iSensor and Verify Performance
+	${resp}=							Execute Command				rm /secureworks/msg/compound/alerts2.* 2>&1
+	Log								${MODEL_NUMBER}
+	Run Keyword If 							'${MODEL_NUMBER}'>'600'		Run R6xx Traffic
+	Run Keyword Unless						'${MODEL_NUMBER}'>'600'		Run R3xx Traffic
+
+
+Verify U2 files are created and read by xpd service
+        Variable Should Exist                                           ${XPD_HOST}                     The "\$\{XPD\}" service host is not defined
+        LOG                                                             ${XPD_HOST}
+        Verify XPD Service Configuration
+        Verify XPD Service is Running
+        Wait Until Keyword Succeeds                                     300                                     10                   Look For Compound Alert
+        ${respmsg}=                                                     Get Compound Alerts Using XPDFOO
+        Should Contain                                                  ${respmsg}                              AlertFiles:1
+        Wait Until Keyword Succeeds     120 sec                         3 sec                                   Verify XPD Parsing
+
+
+Run FalsePositive Test On iSensor
+	Run FalsePositive Test
+
+
+Get iSensor swInfo
+	Read iSensor swInfo
+
+	
+Run Check Script Test On iSensor With Groups Disabled
+        Run Check Script Test
+
+
+Test iSensor Uptime and sw-info With Groups Disabled
+	Verify iSensor Uptime and sw-info
+
+
+Perform Tests With Group Customizations Enabled
+	Enable Ruleset Group Customizations
+
+
+Mark IPS Uptime For IPS_Up_Test With Groups Enabled
+	Mark Initial IPS Uptime
+
+
+Verify a SOC Test Alert Is Detected With Groups Enabled
+	${alerted}=					Run Keyword And Return Status		Verify a SOC Test Alert Is Detected
+	Run Keyword Unless				${alerted}				Fatal Error				SOC Test alert failed to trigger
+
+
+Run Check Script Test On iSensor With Groups Enabled
+	Run Check Script Test
+
+
+Test iSensor Uptime and sw-info With Groups Enabled
+	Verify iSensor Uptime and sw-info
+
+
+Report Results
+	Set Test Message						${PERFORMANCE_RESULTS}
+	Log								${PERFORMANCE_RESULTS}
+
+
+# The below keyword is used solely to fail the test to prevent baselining while troubleshooting rulesets issues.
+#Force Failure so No Baseline
+#        Fatal Error                                                     Himmler Says Force Failure so No Baseline
+
+
+*** Keywords ***
+
+
+Run R3xx Traffic
+	Log To Console		Running traffic for platform model R${ISENSOR_MODEL} 
+	Get Initial IPQ3 Information
+	Log			${IPQ3_SNAPSHOT}
+	Set Suite Variable	${MIN_THROUGHPUT}			${MIN_THROUGHPUT_3xx}
+	Set Suite Variable	${MAX_LATENCY}				${MAX_LATENCY_3xx}
+	Set Test Message 	Expecting minimum thoughput: ${MIN_THROUGHPUT} and maximum latency: ${MAX_LATENCY}
+	Log To Console		Running BP profile Master-i7-310-F
+	${results}=		Run Breaking Point Traffic		Master-i7-310-F
+	Log 			${results}
+	Set Test Message        ${results}                              append=True
+	Should Not Contain	${results}				ERROR
+	Verify Results Are Within Acceptable Limits			${results}
+	Log To Console		Running BP profile Master-PCAP-Ruleset-Testing_rule-pcap
+	${results}=		Run Breaking Point Traffic		Master-PCAP-Ruleset-Testing_rule-pcap
+	Log 			${results}
+	Set Test Message        ${results}                              append=True
+	Should Not Contain	${results}				ERROR
+	Log To Console		Running BP profile Master-PCAP-Ruleset-testing_tuple
+	${results}=		Run Breaking Point Traffic		Master-PCAP-Ruleset-testing_tuple
+	Set Test Message        ${results}                              append=True
+	Log 			${results}
+	Should Not Contain	${results}				ERROR
+	Log To Console		Running BP profile Master-PCAP-Ruleset-testing-http-rerun
+	${results}=		Run Breaking Point Traffic		Master-PCASP-Ruleset-testing-http-rerun
+	Log 			${results}
+	Set Test Message        ${results}                              append=True
+	Should Not Contain	${results}				ERROR
+	Log To Console		Running BP profile Master-PCAP-Ruleset-Testing-http_t3
+	${results}=		Run Breaking Point Traffic		Master-PCAP-Ruleset-Testing_t3
+	Log 			${results}
+	Set Test Message        ${results}                              append=True
+	Should Not Contain	${results}				ERROR
+	Get Final IPQ3 Information
+	Log			${IPQ3_SNAPSHOT}
+	Verify Traffic Generated
+
+Run R6xx Traffic
+	Set Suite Variable	${MIN_THROUGHPUT}			${MIN_THROUGHPUT_6xx}
+	Set Suite Variable	${MAX_LATENCY}				${MAX_LATENCY_6xx}
+	Set Test Message 	Expecting minimum thoughput: ${MIN_THROUGHPUT} and maximum latency: ${MAX_LATENCY}
+	Log To Console		Running traffic for platform model R${ISENSOR_MODEL} 
+	Get Initial IPQ3 Information
+	Log			${IPQ3_SNAPSHOT}
+	Log To Console		Running BP profile Master-i7-610
+	${results}=		Run Breaking Point Traffic		Master-i7-610
+	Set Test Message        ${results}                              append=True
+	Log To Console		${results}
+	Log 			${results}
+	Should Not Contain	${results}				ERROR
+	Verify Results Are Within Acceptable Limits			${results}	
+	Log To Console		Running BP profile Master-PCAP-Ruleset-Testing_rule-pcap
+	${results}=		Run Breaking Point Traffic		Master-PCAP-Ruleset-Testing_rule-pcap
+	Log 			${results}
+	Set Test Message        ${results}                              append=True
+	Should Not Contain	${results}				ERROR
+	Log To Console		Running BP profile Master-PCAP-Ruleset-testing_tuple
+	${results}=		Run Breaking Point Traffic		Master-PCAP-Ruleset-testing_tuple
+	Log 			${results}
+	Set Test Message        ${results}                              append=True
+	Should Not Contain	${results}				ERROR
+	Log To Console		Running BP profile Master-PCAP-Ruleset-testing-http-rerun
+	${results}=		Run Breaking Point Traffic		Master-PCASP-Ruleset-testing-http-rerun
+	Log 			${results}
+	Set Test Message        ${results}                              append=True
+	Should Not Contain	${results}				ERROR
+	Log To Console		Running BP profile Master-PCAP-Ruleset-Testing-http_t3
+	${results}=		Run Breaking Point Traffic		Master-PCAP-Ruleset-Testing_t3
+	Log 			${results}
+	Set Test Message        ${results}                              append=True
+	Should Not Contain	${results}				ERROR
+	Get Final IPQ3 Information
+	Log			${IPQ3_SNAPSHOT}
+	Verify Traffic Generated
+
+Verify Results Are Within Acceptable Limits				[Arguments]			${results}
+	${avgTx_line}=		Get Lines Containing String		${results}			Average Tx Data Rate Mb/s,
+	${avg_Tx_data_rate}=	Replace String				${avgTx_line}			Average Tx Data Rate Mb/s,	${EMPTY}
+	${AVG_TX_DATA_RATE}=	Convert To Number			${avg_Tx_data_rate}
+	${avgRx_line}=		Get Lines Containing String		${results}			Average Rx Data Rate Mb/s,
+	${avg_Rx_data_rate}=	Replace String				${avgRx_line}			Average Rx Data Rate Mb/s,	${EMPTY}
+	${AVG_RX_DATA_RATE}=	Convert To Number			${avg_Rx_data_rate}
+	${avg_Lat_line}=	Get Lines Containing String		${results}			Average,
+	${avg_Lat_data_rate}=	Replace String				${avg_Lat_line}			Average,			${EMPTY}
+	${AVG_LATENCY}=		Convert To Number			${avg_Lat_data_rate.lstrip('~')}
+	${min_throughput}=	Convert To Number			${MIN_THROUGHPUT}
+	${max_latency}=		Convert To Number			${MAX_LATENCY}
+	Set Suite Variable	${PERFORMANCE_RESULTS}			${results}
+	Run Keyword If		${AVG_TX_DATA_RATE}<${min_throughput}	Fatal Error				Average Tx rate of ${AVG_TX_DATA_RATE} is too low
+	Run Keyword If		${AVG_RX_DATA_RATE}<${min_throughput}	Fatal Error				Average Rx rate of ${AVG_RX_DATA_RATE} is too low
+	Run Keyword If		${AVG_LATENCY}>${max_latency}		Fatal Error				Average Latency of ${AVG_LATENCY} is too high
+	Capture Metrics for Standard Deviation Samples			${AVG_TX_DATA_RATE}		${AVG_LATENCY}
+
+Release Resource and Report Results
+	Run Keyword and Ignore Error                                                            Enable Watch List Cron Job
+	Delete Diff File
+        Release Resources
+        Run Keyword If All Tests Passed        Email Test Has Passed
+        Run Keyword If Any Tests Failed        Email Test Has Failed
+
+
+Email Test Has Passed
+        Set Mail Subject        Ruleset test on ${category}.${targetRuleset} has PASSED         catenate=True
+        Append Config           iSensor Model: Dell ${ISENSOR_MODEL},UIN: ${UIN},IDN: ${IDN}
+        Log to Mail             ${RULESET_DIFFS}	                                        title=Ruleset Differences between ${FIRST} and ${SECOND}
+        Log to Mail             ${FALSE_POSITIVE_RESULT}                                        title=False Positive Test Result
+        Log to Mail             ${CHECK_SCRIPT_RESULT}                                          title=Check.sh test result
+	Log To Mail		Performance Results: ${PERFORMANCE_RESULTS}
+	${count}		${incidents}=		Get Incidents
+	Run Keyword If		${count}==0		Log To Mail				There were no incidents		title=Incidents during the test:
+	Run Keyword Unless	${count}==0		Log To Mail				${incidents}			title=Incidents during the test:
+        Log To Mail             Test Report:            reportfile
+        Log To Mail             Test Log:               logfile
+	${resp}=                Mail Report             attach=reportfile,logfile
+        Log                     ${resp}
+
+Insert Report Details
+	${defined}=             Run Keyword And Return Status                                   Check Teardown Variables
+	Run Keyword Unless      ${defined}                                                      Return From Keyword
+	Append Config           iSensor Model: Dell ${ISENSOR_MODEL},UIN: ${UIN},IDN: ${IDN}
+        Log to Mail             ${RULESET_DIFFS}                                                title=Ruleset Differences between ${FIRST} and ${SECOND}
+	Log to Mail             ${CHECK_SCRIPT_RESULT}                                          title=Check.sh test result
+
+
+Email Test Has Failed
+        Set Mail Subject        Ruleset test on ${category}.${targetRuleset} has FAILED         catenate=True
+	Insert Report Details
+	Log To Mail		Performance Results: ${PERFORMANCE_RESULTS}
+	${count}		${incidents}=		Get Incidents
+	Run Keyword If		${count}==0		Log To Mail				There were no incidents		title=Incidents during the test:
+	Run Keyword Unless	${count}==0		Log To Mail				${incidents}			title=Incidents during the test:
+        Log To Mail             Test Report:            reportfile
+        Log To Mail             Test Log:               logfile
+	${resp}=                Mail Report             attach=reportfile,logfile
+        Log                     ${resp}
+	
+Capture Metrics for Standard Deviation Samples					[Arguments]		${throughput}		${latency}	
+	${timestamp}=		Run						                        date "+%04Y.%02m.%02dT%02H:%02M:%02S"
+	${content}=		Set Variable					                        ${timestamp},${ISENSOR_MODEL},${VERSION},${throughput},${latency}\n
+	Append To File		/var/www/html/atfweb/performance_samples.csv	                        ${content}
+	Append To File		/var/www/html/htdocs/history/isensor_ruleset/performance_samples.csv	${content}
+	Run Keyword And Ignore Error						                        Publish Performance Results
+	

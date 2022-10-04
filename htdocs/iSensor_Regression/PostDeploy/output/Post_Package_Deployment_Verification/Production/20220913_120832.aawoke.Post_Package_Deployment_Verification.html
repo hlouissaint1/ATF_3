@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20220913 12:08:35.372" schemaversion="2" generator="Robot 4.1.2rc2.dev1 (Python 2.7.5 on linux2)">
+<suite source="/var/www/html/htdocs/iSensor_Regression/PostDeploy/Post_Package_Deployment_Verification.txt" id="s1" name="Post Package Deployment Verification">
+<kw type="SETUP" name="Setup iSensor Environment">
+<kw name="Start EC2 Instance">
+<arg>${ISENSOR_IP}</arg>
+<msg timestamp="20220913 12:09:01.805" level="FAIL">No keyword with name 'Start EC2 Instance' found.</msg>
+<status status="FAIL" endtime="20220913 12:09:01.805" starttime="20220913 12:09:01.804"/>
+</kw>
+<kw name="Open SSH Connection">
+<status status="NOT RUN" endtime="20220913 12:09:01.816" starttime="20220913 12:09:01.816"/>
+</kw>
+<status status="FAIL" endtime="20220913 12:09:01.817" starttime="20220913 12:09:01.791"/>
+</kw>
+<test id="s1-t1" name="Notify Start Of Test via Email">
+<status status="FAIL" endtime="20220913 12:09:01.818" starttime="20220913 12:09:01.817">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found.</status>
+</test>
+<test id="s1-t2" name="Verify Current State of Target iSensor">
+<status status="FAIL" endtime="20220913 12:09:01.819" starttime="20220913 12:09:01.818">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found.</status>
+</test>
+<test id="s1-t3" name="Verify Rulesets Can Be Pushed To iSensor">
+<status status="FAIL" endtime="20220913 12:09:01.828" starttime="20220913 12:09:01.828">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found.</status>
+</test>
+<test id="s1-t4" name="Verify RCMSMQTransmit">
+<status status="FAIL" endtime="20220913 12:09:01.829" starttime="20220913 12:09:01.829">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found.</status>
+</test>
+<test id="s1-t5" name="Verify Shuns Can Be Added">
+<status status="FAIL" endtime="20220913 12:09:01.834" starttime="20220913 12:09:01.830">Parent suite setup failed:
+No keyword with name 'Start EC2 Instance' found.</status>
+</test>
+<kw type="TEARDOWN" name="Close Connections and Report Results">
+<kw name="Close All Connections" library="SSHLibrary">
+<doc>Closes all open connections.</doc>
+<status status="PASS" endtime="20220913 12:09:01.835" starttime="20220913 12:09:01.835"/>
+</kw>
+<kw name="Run Keyword If All Tests Passed" library="BuiltIn">
+<arg>Email Test Has Passed</arg>
+<doc>Runs the given keyword with the given arguments, if all tests passed.</doc>
+<status status="PASS" endtime="20220913 12:09:01.838" starttime="20220913 12:09:01.835"/>
+</kw>
+<kw name="Run Keyword If Any Tests Failed" library="BuiltIn">
+<arg>Email Test Has Failed</arg>
+<doc>Runs the given keyword with the given arguments, if one or more tests failed.</doc>
+<kw name="Email Test Has Failed">
+<kw name="Set Mail Subject" library="scwxCorelib.Mail">
+<arg>Post package deployment test has FAILED</arg>
+<arg>catenate=True</arg>
+<status status="PASS" endtime="20220913 12:09:02.697" starttime="20220913 12:09:01.839"/>
+</kw>
+<kw name="Append Config" library="scwxCorelib.Mail">
+<arg>iSensor Model: Dell ${ISENSOR_MODEL}</arg>
+<msg timestamp="20220913 12:09:02.705" level="FAIL">Variable '${ISENSOR_MODEL}' not found.</msg>
+<status status="FAIL" endtime="20220913 12:09:02.705" starttime="20220913 12:09:02.698"/>
+</kw>
+<kw name="Log To Mail" library="scwxCorelib.Mail">
+<arg>Test Report:</arg>
+<arg>reportfile</arg>
+<msg timestamp="20220913 12:09:02.705" level="DEBUG">content: Test Report:
+link:reportfile
+options:{}</msg>
+<msg timestamp="20220913 12:09:02.705" level="DEBUG">LINKER: "https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20220913_120832.aawoke.Post_Package_Deployment_Verification.html"</msg>
+<msg timestamp="20220913 12:09:02.706" level="DEBUG">content w/link = Test Report:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20220913_120832.aawoke.Post_Package_Deployment_Verification.html
+</msg>
+<status status="PASS" endtime="20220913 12:09:02.706" starttime="20220913 12:09:02.705"/>
+</kw>
+<kw name="Log To Mail" library="scwxCorelib.Mail">
+<arg>Test Log:</arg>
+<arg>logfile</arg>
+<msg timestamp="20220913 12:09:02.714" level="DEBUG">content: Test Log:
+link:logfile
+options:{}</msg>
+<msg timestamp="20220913 12:09:02.714" level="DEBUG">LINKER: "https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20220913_120832.aawoke.Post_Package_Deployment_Verification.html"</msg>
+<msg timestamp="20220913 12:09:02.714" level="DEBUG">content w/link = Test Log:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20220913_120832.aawoke.Post_Package_Deployment_Verification.html
+</msg>
+<status status="PASS" endtime="20220913 12:09:02.715" starttime="20220913 12:09:02.706"/>
+</kw>
+<kw name="Mail Report" library="scwxCorelib.Mail">
+<var>${resp}</var>
+<arg>attach=reportfile,logfile</arg>
+<msg timestamp="20220913 12:09:02.723" level="DEBUG">email distro is ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']</msg>
+<msg timestamp="20220913 12:09:02.723" level="DEBUG">Processing Mail Report keyword...
+	Distribution:['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	subject: Test ID (Production): 20220913.120902 - Post package deployment test has FAILED
+	To: ['hlouissaint@secureworks.com', 'pmankoo@secureworks.com', 'msuwoto@secureworks.com', 'ibilyy@secureworks.com', 'tbernhard@secureworks.com', 'igayashan@secureworks.com', 'hrashmi@secureworks.com', 'mnanayakkara@secureworks.com', 'aawoke@secureworks.com']
+	Body:Test Report:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/reports/Post_Package_Deployment_Verification/Production/20220913_120832.aawoke.Post_Package_Deployment_Verification.html
+Test Log:
+	https://r-atf.atf-prod.aws.secureworks.net/iSensor_Regression/PostDeploy/logs/Post_Package_Deployment_Verification/Production/20220913_120832.aawoke.Post_Package_Deployment_Verification.html
+</msg>
+<msg timestamp="20220913 12:09:02.890" level="INFO">Successfully sent mail from localhost with subject "Test ID (Production): 20220913.120902 - Post package deployment test has FAILED" to hlouissaint@secureworks.com;pmankoo@secureworks.com;msuwoto@secureworks.com;ibilyy@secureworks.com;tbernhard@secureworks.com;igayashan@secureworks.com;hrashmi@secureworks.com;mnanayakkara@secureworks.com;aawoke@secureworks.com;</msg>
+<msg timestamp="20220913 12:09:02.893" level="INFO">${resp} = Message "Test ID (Production): 20220913.120902 - Post package deployment test has FAILED" Sent</msg>
+<status status="PASS" endtime="20220913 12:09:02.893" starttime="20220913 12:09:02.715"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20220913 12:09:02.897" level="INFO">Message "Test ID (Production): 20220913.120902 - Post package deployment test has FAILED" Sent</msg>
+<status status="PASS" endtime="20220913 12:09:02.897" starttime="20220913 12:09:02.893"/>
+</kw>
+<status status="FAIL" endtime="20220913 12:09:02.899" starttime="20220913 12:09:01.839"/>
+</kw>
+<status status="FAIL" endtime="20220913 12:09:02.900" starttime="20220913 12:09:01.838"/>
+</kw>
+<status status="FAIL" endtime="20220913 12:09:02.903" starttime="20220913 12:09:01.835">Variable '${ISENSOR_MODEL}' not found.</status>
+</kw>
+<status status="FAIL" endtime="20220913 12:09:02.903" starttime="20220913 12:08:35.429">Suite setup failed:
+No keyword with name 'Start EC2 Instance' found.
+
+Also suite teardown failed:
+Variable '${ISENSOR_MODEL}' not found.</status>
+</suite>
+<statistics>
+<total>
+<stat fail="5" skip="0" pass="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="5" skip="0" id="s1" name="Post Package Deployment Verification" pass="0">Post Package Deployment Verification</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20220913 12:08:35.471" level="ERROR">Error in file '/var/www/html/htdocs/iSensor_Regression/PostDeploy/Post_Package_Deployment_Verification.txt' on line 4: Resource file 'iSensorConfiguration.txt' does not exist.</msg>
+<msg timestamp="20220913 12:08:35.496" level="ERROR">Error in file '/var/www/html/htdocs/iSensor_Regression/PostDeploy/post_deployment_keywords.txt' on line 2: Resource file 'iSensorConfiguration.txt' does not exist.</msg>
+<msg timestamp="20220913 12:09:00.575" level="ERROR">failed authentication with shared key...attempting connection to 10.238.153.55 using password</msg>
+<msg timestamp="20220913 12:09:00.690" level="ERROR">Error in file '/var/www/html/htdocs/iSensor_Regression/PostDeploy/post_deployment_keywords.txt' on line 11: Initializing library 'scwxIMSClib.RCMS' with arguments [ Production | aawoke ] failed: UnboundLocalError: local variable 'error' referenced before assignment
+Traceback (most recent call last):
+  File "/var/www/cgi-bin/lib/atfvars.py", line 236, in var_import
+    pFunction(self, **self.evars)
+  File "/var/www/cgi-bin/lib/scwxIMSClib.py", line 254, in __init__
+    self.imsc = SSHKey_Connect('rcms', **evars)
+  File "/var/www/cgi-bin/lib/scwxIMSClib.py", line 96, in __init__
+    self.device, self.ip, user, str(error))</msg>
+<msg timestamp="20220913 12:09:00.700" level="ERROR">Error in file '/var/www/html/htdocs/iSensor_Regression/PostDeploy/Post_Package_Deployment_Verification.txt' on line 6: Resource file 'aws_ec2_instance.txt' does not exist.</msg>
+<msg timestamp="20220913 12:09:01.675" level="ERROR">failed authentication with shared key...attempting connection to 10.238.153.55 using password</msg>
+<msg timestamp="20220913 12:09:01.789" level="ERROR">Error in file '/var/www/html/htdocs/iSensor_Regression/PostDeploy/Post_Package_Deployment_Verification.txt' on line 15: Initializing library 'scwxIMSClib.RCMS' with arguments [ Production | aawoke ] failed: UnboundLocalError: local variable 'error' referenced before assignment
+Traceback (most recent call last):
+  File "/var/www/cgi-bin/lib/atfvars.py", line 236, in var_import
+    pFunction(self, **self.evars)
+  File "/var/www/cgi-bin/lib/scwxIMSClib.py", line 254, in __init__
+    self.imsc = SSHKey_Connect('rcms', **evars)
+  File "/var/www/cgi-bin/lib/scwxIMSClib.py", line 96, in __init__
+    self.device, self.ip, user, str(error))</msg>
+</errors>
+</robot>

@@ -1,0 +1,13 @@
+<remote-hosts>
+  <device type="isensor"/>
+  <dcim name="LabManager" path="//automation" address="172.16.250.200">
+    <bps name="1G-TalonQA" topo="DirectConnect"/>
+  </dcim>
+  <bps name="172.16.144.20" address="172.16.144.20" group="9"/>
+  <isensor name="172.16.192.14" address="172.16.192.14"/>
+  <isensor name="172.16.195.79" address="172.16.195.79"/>
+  <isensor name="172.16.195.65" address="172.16.195.65"/>
+  <isensor name="172.16.195.91" address="172.16.195.91"/>
+  <vlndb name="vulndb.secureworks.net/ctu_cms" address="vulndb.secureworks.net/ctu_cms" host="vulndb.secureworks.net/ctu_cms"/>
+  <auth name="auth.core.ctp.secureworks.net/auth/" address="auth.core.ctp.secureworks.net/auth/" host="auth.core.ctp.secureworks.net/auth/"/>
+</remote-hosts>

@@ -1,0 +1,392 @@
+Documentation		# Keywords used in Ruleset Performance testing
+
+*** Settings ***
+resource		iSensorConfiguration_RS.txt
+Library                 SSH Library
+Library                 OperatingSystem
+Library                 BuiltIn
+Library                 String
+Library                 Collections
+Library                 ctpapi2.PCSMS		${TestEnvironment}	${ATF_User}
+Library                 ctpapi2.VulnDB		${TestEnvironment}	${ATF_User}
+
+*** Variables ***
+${FP_FILTER}            gawk ' BEGIN{fpm=0} $2~/VID/{ if (($4+0)>=2)fpm=1; if (($4+0)>=0) print $0, (($4+0)>=2)?"<1>":"<0>"; } END {print "FalsePositive=",(fpm==0)?"passed":"failed"} '
+${CHK_FILTER}			gawk '/[+]/{printf("%s%c%c",$0,10,27);}END{printf("%c%c",27,27);}' -
+${COLOR_FILTER}			sed -r "s/\\x1B\\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g"
+${HOME_NET_VALUE}=		10.0.0.0/8,192.168.110.0/24,192.168.114.0/24,192.168.115.0/24
+${DEFER_DEPLOYMENT}=		False
+${DEPLOY}=			True
+${ENABLED_GROUPS_FILTER}=	pcregrep '^[^#]' |tr -d ' ' |pcregrep -o '\\$.*' |tr '\\n' ' '
+${DISABLED_GROUPS_FILTER}=	pcregrep '^# include' | tr -d ' '|pcregrep -o '\\$.*' |grep -v 'assurance.rules' |tr -d '\\n'
+${DIFF_FILE}=			${EMPTY}
+${RULESET_DIFFS}=		${EMPTY}
+${FIRST}=			${EMPTY}
+${SECOND}=			${EMPTY}
+
+*** Keywords ***
+
+Check Teardown Variables
+	Variable Should Exist	${FIRST}
+	Variable Should Exist	${SECOND}
+	Variable Should Exist	${RULESET_DIFFS}
+	Variable Should Exist	${DIFFS_FILE}
+	Variable Should Exist	${ISENSOR_MODEL}
+	Variable Should Exist	${CHECK_SCRIPT_RESULT}
+	
+
+Abort Test                      [Arguments]                             ${result}
+        ${resp}=                Execute Command                         pcregrep -A 10 '${category}.*${version}' /secureworks/log/sw-install_ruleset7.log |grep -B 3 ERROR |tail -4
+	Log			${resp}
+	${processes}=		Execute Command				ps ajx
+	Log			${processes}		
+        Fatal Error             TEST ABORTED: ${result} From iSensor Log: ${resp} 
+
+CTP Service Error		[Arguments]				${result}
+        Fatal Error             TEST ABORTED: ${result}
+
+Validation Error		[Arguments]				${result}
+        Fatal Error             TEST ABORTED: ${result}
+
+Read Alert
+	Set Tags		Benign
+        ${resp}=                Execute Command                         /secureworks/bin/readalert 2>&1
+	Log			${resp}
+        Should Contain          ${resp}                                 VID14123 SecureWorks SOC Test Alert
+        #Should Contain          ${resp}                                 tcp TTL:64 TOS:0x0
+	Remove Tags		Benign
+
+Set Status to QA Testing        [Arguments]                             ${category}                     ${version}
+        Log                     Setting Status
+        ${result}=              Set Ruleset Status                      ${category}                     ${version}      QA_TESTING
+        Log                     ${result}
+
+Verify Ruleset Status           [Arguments]                             ${category}                     ${version}
+        ${chk1}=                Run Keyword And Return Status           Get Ruleset Status              ${category}     ${version}
+        Run Keyword If          ${chk1}!=True			        Abort Test                      invalid ruleset status
+        ${status}=             	Get Ruleset Status                      ${category}                    	${version}
+        Log                     Status = ${status}
+        Run Keyword If          "${status}"!="QA_TESTING"	       Set Status to QA Testing        ${category}     ${version}
+
+Set Ruleset Diff One Back
+        ${first}=               Evaluate                                ${SECOND}-1
+        Set Suite Variable      ${FIRST}                                ${first}
+
+Set Ruleset Diff From Available
+        @{vsplit}=              Split String                            ${VERSION}      .
+        ${minor}=               Convert To Integer                      @{vsplit}[4]
+        Set Suite Variable      ${SECOND}                               ${minor}
+        ${available}=           Get Latest Ruleset Version              ${category}     AVAILABLE	${SNORTVERSION}
+        @{vsplit}=              Split String                            ${available}    .
+        ${first}=               Convert To Integer                      @{vsplit}[4]
+        Set Suite Variable      ${FIRST}                                ${first}
+
+Validate and Log iSensor Configuration
+	${ruleset_exists}	Run Keyword And Return Status		Ruleset Is Defined
+	Run Keyword If		${ruleset_exists}!=True			Validation Error		The target ruleset has not been defined	
+        Get Versions
+        Log                     Policy ${POLICY}
+	Set Test Message	Policy ${POLICY}
+        Log                     This is a version ${MAJOR_IVERSION} iSensor
+	Set Test Message	This is a version ${MAJOR_IVERSION} iSensor				append=True
+        Log                     Current ruleset version is ${RULESETVERSION}
+	Set Test Message	Current ruleset version is ${RULESETVERSION}				append=True
+        Log                     Ruleset category is ${RULESETCATEGORY}
+	Set Test Message	Ruleset category is ${RULESETCATEGORY}					append=True
+        Log                     Full version is ${RSMINORVERSION}
+	Set Test Message	Full version is ${RSMINORVERSION}					append=True
+        Log                     Minor version is ${MINORV}
+	Set Test Message	Minor version is ${MINORV}						append=True
+        Log                     Current Snort version is ${SNORTVERSION}
+	Set Test Message	Current Snort version is ${SNORTVERSION}				append=True
+        Verify HomeNet
+        Log                     Current HOMENET setting is ${HOMENET}
+	Set Test Message	Current HOMENET setting is ${HOMENET}					append=True
+        ${model}=               Execute Command								cat /HWTYPE |pcregrep -o 'R\\d{3}'
+        Set Suite Variable      ${ISENSOR_MODEL}                                ${model}
+        Log                     iSensor Platform Model is ${ISENSOR_MODEL}
+	Set Test Message	iSensor Platform Model is ${ISENSOR_MODEL}				append=True	
+        Log                     Management IP Address is ${HOSTIP}
+	Set Test Message	Management IP Address is ${HOSTIP}					append=True
+	Run Keyword If		"${MAJOR_IVERSION}"=="7"						Set Suite Variable	${SVSTAT_PATH}	/sbin/svstat
+	Run Keyword If		"${MAJOR_IVERSION}"=="8"						Set Suite Variable      ${SVSTAT_PATH}	/usr/sbin/svstat
+	
+
+Ruleset Is Defined
+        Set Suite Variable      ${VERSION}                              ${targetRuleset}
+	${ruleset}=		Set Variable				${targetRuleset}
+
+Watch For Import to Complete	[Arguments]				${category}			${version}
+	${status}=		Get Ruleset Status			${category}			${version}
+	Should Not Contain	${status}				ERROR
+	Should Contain		${status}				IMPORTED
+
+Import and Verify Target Ruleset
+        Set Suite Variable      ${VERSION}                              ${targetRuleset}
+        ${result}=              Run Keyword And Ignore Error            Import Ruleset          	${category}             ${targetRuleset}        wait=1200s
+	Sleep			15s
+	${status}=		Get Ruleset Status			${category}			${targetRuleset}
+	Log			${status}
+	Pass Execution If	"${status}"=="QA_TESTING"		Ruleset is already in QA_TESTING status
+	Run Keyword If		"${status}"=="AVAILABLE"		Validation Error	Target Ruleset is in AVAILABLE state
+	Run Keyword If		"${status}"=="BASELINING"		Validation Error	Target Ruleset is in BASELINING state
+	Run Keyword If		"${status}"=="QA_APPROVED"		Validation Error	Target Ruleset is in QA_APPROVED state
+	Run Keyword If		"${status}"=="IMPORTING"		Validation Error	Target Ruleset is in IMPORTING state
+        Log To Console          ${result}
+        Log                     ${result}
+        Should Not Contain      ${result}                               ERROR
+	Wait Until Keyword Succeeds	1200	30			Watch For Import to Complete	${category}	${targetRuleset}
+        Verify Ruleset Status   ${category}                             ${VERSION}
+
+Push Ruleset Diffs To iSensor
+        Set Ruleset Diff From Available
+        Run Keyword If          ${SECOND}<=${FIRST}                     Set Ruleset Diff One Back
+        Log To Console                                                  First: ${FIRST} Second: ${SECOND}
+        ${diff_file}=           Set Variable                            /tmp/${category}.${SNORTVERSION}.${FIRST}.${SECOND}.diffs
+	Set Suite Variable	${DIFF_FILE}				${diff_file}
+        ${diffs}=		Download Ruleset Diffs  		${SNORTVERSION}			${category}     ${FIRST}         ${SECOND}      save_file=${diff_file}
+	Set Test Message	${diffs}
+	Set Suite Variable	${RULESET_DIFFS}			${diffs}
+	Log To Mail		${diffs}
+        Put File                ${diff_file}                            ${diff_file}
+	Set Test Message	*HTML* <p><b>Differences between ${category}.${SNORT_VERSION}.${FIRST} and ${category}.${SNORT_VERSION}.${SECOND}</b></p>
+	Set Test Message	${diffs}				append=True
+
+Change Ruleset Category
+        Pass Execution If       '${RULESETCATEGORY}'=='${category}'     Policy ${POLICY} is already provisioned for the ${category} category
+        ${result}=              Set Ruleset Category                    ${UIN}                  ${POLICY}               1500     ${category}
+        Log                     ${result}                               # has job ID in case of error
+        ${success}=             Run Keyword And Return Status           Should Not Contain      ${result}       ERROR
+        Run Keyword If          ${success}!=True			Abort Test      failed to change ruleset category: ${result}
+	${success}=		Run Keyword And Return Status		Should Not Contain	${result}	Timed out waiting for job completion
+	Run Keyword If		${success}!=True			Abort Test		timed out after 10 minutes waiting on category to change
+	Set Test message						Ruleset category was successfully changed to ${category} 
+
+Check Subscription
+	${sub}=                 Get Ruleset Subscription                ${UIN}
+	[Return]		${sub}
+
+Push Ruleset
+        ${new}=			Execute Command                         /secureworks/bin/sw-info.sh |grep -A10 Policies |grep -A2 ${POLICY}: |pcregrep -o "(\\d{1,2}\\.){4}\\d{1,4}"
+	${chk}=			Run Keyword And Return Status		Check Subscription
+	Run Keyword If		${chk}!=True				CTP Service Error		UIN ${UIN} does not have a ruleset subscription
+	#${sub}=			Check Subscription
+        #Pass Execution If       '${new}'=='${VERSION}' and '${sub}'=='${VERSION}'          Version ${VERSION} has already been deployed to ${HOSTIP} ${UIN}
+        Pass Execution If       '${new}'=='${VERSION}'			Version ${VERSION} has already been deployed to ${HOSTIP} ${UIN}
+        Log                                                             Deploying ${VERSION} to ${UIN} for policy ${POLICY}
+        ${result}=              Deploy Ruleset                          ${category}             ${VERSION}      ${UIN}          ${POLICY}
+        Log                     ${result}                               # has job ID in case of error
+        #${chk1}=               Run Keyword And Return Status           Should Not Contain      ${result}       -1
+        ${success}=             Run Keyword And Return Status           Should Not Contain      ${result}       ERROR
+        Run Keyword If          ${success}!=True			Abort Test      failed to push ruleset to isensor: ${result}
+	Set Test Message						Successfully deployed ruleset ${VERSION} to ${UIN}
+
+Verify iSensor Version
+        ${new_version}=         Execute Command                         /secureworks/bin/sw-info.sh |grep -A10 Policies |grep -A2 ${POLICY}: |pcregrep -o "(\\d{1,2}\\.){4}\\d{1,4}"
+        Should Be Equal         ${new_version}                          ${VERSION}
+	Set Test Message						iSensor is running on the target ruleset version: ${VERSION}
+	
+
+Verify a SOC Test Alert Is Detected
+        ${resp}=                                                        Execute Command         rm -f /secureworks/msg/compound/alerts2* 2>&1
+	Sleep								5s
+        ${resp}=                                                        Execute Command         /secureworks/bin/soc-test-alert.sh 2>&1
+        Should Be Empty                                                 ${resp}
+        Wait Until Keyword Succeeds                                     320     		5              Read Alert
+	Set Test Message						the SOC Test Alert was triggered
+
+Mark Initial IPS Uptime
+	${svstat}=		Execute Command				${SVSTAT_PATH} /service/ips
+        ${uptime}=              Execute Command                         ${SVSTAT_PATH} /service/ips |pcregrep -o "(?<=\\)\\s)\\d+"
+        ${pid}=                 Execute Command                         ${SVSTAT_PATH} /service/ips |pcregrep -o "(?<=pid\\s)\\d+"
+	LOG			Initial Mark: ${svstat}
+        Log To Console          PID=${pid}, UPTIME=${uptime}
+	Set Test Message						Initial IPS pid and uptime are: ${pid},${uptime}
+        Set Suite Variable      ${INITIAL_PID}                          ${pid}
+        Set Suite Variable      ${INITIAL_UPTIME}                       ${uptime}
+
+Log Alerts			[Arguments]				${result}
+	${alerts}		${stderr}=				Execute Command		/secureworks/bin/xpdfoo /secureworks/msg/compound/*		return_stderr=True
+	LOG			${alerts}
+	${alerts2}		${stderr}=				Execute Command		/secureworks/bin/readalert /secureworks/msg/compound/*		return_stderr=True
+	LOG                     ${alerts2}
+	Fatal Error		False positive test failed
+	
+
+
+Run FalsePositive Test
+        Put File                lib/FalsePositive.py                    FalsePositive.py
+        ${result}		Execute Command				/bin/cat ${DIFF_FILE} 
+	Set Test Message	Input is: ${result}
+        ${result}               ${stderr}=				Execute Command         ~/FalsePositive.py ${DIFF_FILE}		return_stderr=True
+	LOG			${stderr}
+	Set Suite Variable	${FALSE_POSITIVE_RESULT}		${result}
+	Set Test Message	Output is: ${result}
+	${passed}=		Run Keyword and Return Status		Should Be Empty		${stderr}
+	Run Keyword Unless	${passed}				Fatal Error		False Positive script failed to execute properly
+	${passed}=		Run Keyword and Return Status		Should Not Contain      ${result}		failed
+	Run Keyword Unless	${passed}				Log Alerts		${result}
+	${passed}=		Run Keyword and Return Status		Should Not Contain      ${result}		FAILED	
+	Run Keyword Unless	${passed}				Log Alerts		${result}
+
+Run Check Script Test
+	${diff_file}=		Set Variable				${DIFF_FILE}.all
+	Put File		lib/check.py				check.py
+	Put File		${diff_file}				${diff_file}		
+	${result}		${rcode}=				Execute Command		~/check.py ${MINORV} ${category} ${SNORT_VERSION} ${diff_file}	return_rc=True
+
+	Set Suite Variable	${CHECK_SCRIPT_RESULT}			${result}
+	Run Keyword If		${rcode}!=0				Set Test Message	${result}
+	Run Keyword If		${rcode}!=0				Fatal Error		${result}
+	Run Keyword If		${rcode}==0				Set Test Message	${result}			
+
+Read iSensor swInfo
+        ${response}=            Execute Command                         /secureworks/bin/sw-info.sh
+        Log                     ${response}
+	Set Test Message	sw-info reports: ${response}
+
+Verify iSensor Uptime and sw-info
+	Sleep								60
+	${svstat}=		Execute Command				${SVSTAT_PATH} /service/ips
+        ${uptime}=                                                      Execute Command                         ${SVSTAT_PATH} /service/ips |pcregrep -o "(?<=\\)\\s)\\d+"
+        ${pid}=                                                         Execute Command                         ${SVSTAT_PATH} /service/ips |pcregrep -o "(?<=pid\\s)\\d+"
+	LOG			End Mark: ${svstat}
+        Log To Console                                                  PID=${pid}, UPTIME=${uptime}
+        Should Be Equal As Integers                                     ${INITIAL_PID}                          ${pid}		iSensor is unstable
+	Log								Comparing ${INITIAL_UPTIME} to ${uptime}
+        Run Keyword If                                                  ${INITIAL_UPTIME}>=${uptime}            Fatal Error	iSensor is unstable
+	Set Test Message						iSensor appears to be stable...IPS pid and uptime are now: ${pid},${uptime}
+
+Set HOME_NET
+	Set Test Message		Updating HOMENET from ${HOMENET} to ${HOME_NET_VALUE}
+	Log				Updating HOMENET from ${HOMENET} to ${HOME_NET_VALUE}
+	${result}=                      Update Ruleset Variable                 		${UIN}                          HOME_NET        ${HOME_NET_VALUE}
+	Should Not Contain		${result}						ERROR				Fatal Error	${result}
+	${homenet}=                     Execute Command         				/secureworks/bin/sw-info.sh |grep HOME_NET |pcregrep -o ': .*' |tr -d ': []'
+	Should Contain			${homenet}						${HOME_NET_VALUE}		Fatal Error	Could Not Set HOME_NET
+	Set Test Message		Successfully Changed HOMENET to ${homenet}	
+
+Enable Ruleset Group Customizations
+	${result}=			Add SCADA Customizations
+	Log				${result}
+	${result}=			Enable Customized Groups		${UIN}
+	Set Test Message		${result}
+	Log				${result}
+	${success}=                     Run Keyword And Return Status           Should Not Contain              ${result}       ERROR                   ignore_case=True
+	Run Keyword If                  ${success}==False                       Fatal Error			Error while enabling ruleset group customiztions
+	Sleep				15s
+	${homenet}=             	Execute Command         		/secureworks/bin/sw-info.sh |grep HOME_NET |pcregrep -o ': .*' |tr -d ': []'	
+	Run Keyword If			"${homenet}"!="${HOME_NET_VALUE}"	Set HOME_NET
+	Run Keyword Unless		"${homenet}"!="${HOME_NET_VALUE}"	Log			HOME_NET already set to ${HOME_NET}
+	${status}=			Execute Command				cat /secureworks/cm/ipsrules7/snort/snort-rules | ${DISABLED_GROUPS_FILTER}
+	Should Be Empty			${status}
+	
+
+Disable Ruleset Group Customizations
+	${result}=			Add SCADA Customizations
+	Log				${result}
+	Define Default Groups	
+	${result}=			Disable Customized Groups		${UIN}				exclude=${DEFAULT_GROUPS}
+	Set Test Message		${result}
+	Log				${result}
+	${success}=			Run Keyword And Return Status		Should Not Contain		${result}	ERROR			ignore_case=True
+	Run Keyword If			${success}==False			Fatal Error			Error while disabling ruleset group customiztions
+	Sleep				15s
+
+	#${verified}=			Run Keyword And Return Status 		Verify Default Groups Enabled
+	#Run Keyword Unless		${verified}				Fatal Error			A default group is not enabled and should not be
+
+	#${verified}=			Run Keyword And Return Status		Verify Non-Default Groups Disabled
+	#Run Keyword Unless		${verified}				Fatal Error			A group is enabled and it should not be
+
+	${homenet}=             	Execute Command         		/secureworks/bin/sw-info.sh |grep HOME_NET |pcregrep -o ': .*' |tr -d ': '	
+	Run Keyword If			"${homenet}"!="${HOME_NET_VALUE}"	Set HOME_NET
+	Run Keyword Unless		"${homenet}"!="${HOME_NET_VALUE}"	Log				HOME_NET already set to ${HOME_NET}
+
+Add SCADA Customizations
+	${added}=			Add Ruleset Variable			${UIN}			MODBUS_CLIENT		1.1.220.10	${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			MODBUS_SERVER		1.1.220.2	${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			MODBUS_PORTS		502		${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			DNP3_CLIENT		1.1.220.3	${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			DNP3_SERVER		1.1.220.4	${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			DNP3_PORTS		20000		${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			ICCP_CLIENT		1.1.220.5	${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			ICCP_SERVER		1.1.220.6	${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			ICCP_PORT		102		${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			OPC_CLIENT		1.1.220.7	${DEFER_DEPLOYMENT}	
+	${added}=			Add Ruleset Variable			${UIN}			OPC_SERVER		1.1.220.8	${DEFER_DEPLOYMENT}
+        Log                             ${category}
+        Log                             ${UIN}
+        Log                             ${VERSION}
+	${result}=			Deploy Customizations			${UIN}			${category}		${VERSION}
+
+Verify Default Groups Enabled
+	Pass Execution			work around
+	${enabled_groups}=		Execute Command			cat /secureworks/cm/ipsrules7/snort/snort-rules | ${ENABLED_GROUPS_FILTER}
+	@{default_groups}=		Set Variable			${DEFAULT_GROUPS.split(' ')}
+	: FOR				${group}			IN				@{default_groups}
+	\				Pass Execution If		"${group}"=="local.rules"	Work around
+	\				Should Contain			${enabled_groups}		${group}
+
+Verify Non-Default Groups Disabled
+	Pass Execution			work around
+	${enabled_groups}=		Execute Command			cat /secureworks/cm/ipsrules7/snort/snort-rules | ${ENABLED_GROUPS_FILTER}
+	@{enabled_group_list}=		Set Variable			${enabled_groups.split(' ')}
+	@{default_groups}=		Set Variable			${DEFAULT_GROUPS.split(' ')}
+	: FOR				${group}			IN				@{enabled_group_list}
+	\				Pass Execution If		"${group}"=="local.rules"	Work around
+	\				Run Keyword If			"${group}"!="${EMPTY}"		Should Contain		${default_groups}	${group}
+
+Define Default Groups
+	${groups}=			Set Variable						$PCS_BASE_DIR/so_rules/ensure_startup_so.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/badtrans.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/checkpoint.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/dns.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/dos.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/encrypted.zip.pop.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/encrypted.zip.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/exploit.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/extension-exe-strong.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/extension.exploit.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/extension.pop.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/extension.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/finger.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/ftp.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/gotomypc.weak.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/http-nonstandard.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/misc.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/netbios.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/netbios.strong.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/overflow.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/p2p.strong.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/phishing.pop.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/phishing.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/php-var.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/rservices.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/scan.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/sircam.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/smtp.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/spyware.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/sql.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/sw.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/telnet.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/virus.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/virus.smtp.worm.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/web.cgi.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/web.coldfusion.rules	
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/web.frontpage.attack.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/web.frontpage.strong.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/web.iis.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/web.misc.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/js.weak.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/mapp.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/web-install-script-access.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/scada-default.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/adware.rules	
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/apt.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/shellcode.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/rules/forensic.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/preproc_rules/preprocessor.rules
+	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/preproc_rules/swdns-preprocessor.rules
+#	${groups}=			Catenate				${groups}	$PCS_BASE_DIR/local.rules
+	Set Test Variable		${DEFAULT_GROUPS}			${groups}

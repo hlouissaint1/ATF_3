@@ -1,0 +1,109 @@
+*** Settings ***
+Documentation		Reserves and Releases Resources Needed for Tests
+
+
+*** Variables ***
+${TAF_URL}=     https://localhost:8080/
+${IPS_NET}              10.3.0.0/24
+${BPS_RSVPORT_V7P1}	'Not Allocated'
+${BPS_RSVPORT_V7P2}	'Not Allocated'
+${bpGroup}		'Not Allocated'
+
+*** Settings ***
+Library                 OperatingSystem
+Library                 SSHLibrary
+Library			String
+Library                 scwxBPlib2.BreakingPoint		${TestEnvironment}      ${ATF_User}	${VarFile}
+Library                 scwxDCIMlib.PathFinder         ${TestEnvironment}      ${ATF_User}
+Library                 scwxDCIMlib.LabManager         ${TestEnvironment}      ${ATF_User}
+Library                 scwxDCIMlib.Hybrid         ${TestEnvironment}      ${ATF_User}
+
+
+*** Keywords ***
+
+Set Topology Variable		
+			${is_set}		Run Keyword And Return Status	Environment Variable Should Be Set	bps_Topology
+			Run Keyword If		${is_set}			Set Suite Variable			${TOPOLOGY}	%{bps_Topology}
+			${var_exists}		Run Keyword And Return Status	Variable Should Exist			\${bps_Topology}
+			Run Keyword Unless	${var_exists}			Set Suite Variable			${TOPOLOGY}	UNASSIGNED
+
+
+Check Environment
+			${is_set}=		Run KeyWord And Return Status	Variable Should Exist			\${pan_IP}
+			Run Keyword Unless	${is_set}			Fatal Error				Pan address is not defined
+			Set Topology Variable			
+			
+Check Topology		
+			${is_set}=		Run KeyWord And Return Status	Is Variable Set			TOPOLOGY
+			
+			Run Keyword Unless	${is_set}			Set Environment Variable	TOPOLOGY		${bps_Topology}
+			Run Keyword If		${is_set}			Set Suite Variable		${TOPOLOGY}		%{bps_Topology}
+
+
+Reserve Resources	[Arguments]			${traffic}=None
+			Check Environment
+			${traffic_generator}=		Decode Bytes To String				${traffic}	ASCII	errors=strict
+			Run Keyword If			'${traffic_generator}'=='Breaking Point'	Reserve Breaking Point Resources
+			Run Keyword If			'${traffic_generator}'=='ione'			Reserve Ione Resources
+			Log				topology is ${TOPOLOGY}
+			Run Keyword Unless		'${TOPOLOGY}'=='None'				Reserve LabManager
+		
+
+Set Default BP Traffic File				[Arguments]					${traffic_file}
+			Set Suite Variable		${DEFAULT_TRAFFIC_FILE}				${traffic_file}
+		
+
+Release Resources
+			${result}			${error}=			Run keyword And Ignore Error	Release LabManager	
+			Close All Connections	
+
+Reserve Breaking Point Resources
+			Set Suite Variable		${BPS_RSVPORT_V7P1}	    	${bps_FirstPort}
+			Set Suite Variable		${BPS_RSVPORT_V7P2}	    	${bps_SecondPort}
+			${bpgp}=			Get Breaking Point Group
+			Run Keyword If			"${bpgp}"=="UNASSIGNED"		Fatal Error			Breaking Point topology is undefined
+			Should Not Contain		${bpgp}				ERROR
+			Set Suite Variable              ${bpGroup}		  	${bpgp}
+			${p1}=				Get Port From Port String	${bps_FirstPort}
+			${p2}=				Get Port From Port String       ${bps_SecondPort}
+			Set Suite Variable		${TOPOLOGY}			%{bps_Topology}
+			Log To Console			Breaking Point Ports ${p1} and ${p2} reserved for group ${bpgp}
+
+Reserve Ione Resources
+			Set Suite Variable             	${TOPOLOGY}			GeneralTest_ione_${pan_IP}
+
+Get Port From Port String	[Arguments]		${portstring}
+	@{ports_split}=		Split String		${portstring}	,	
+	${port}=		Convert To Integer	${ports_split}[1]
+	${rport}=		Evaluate		${port}+1
+	[Return]		${rport}
+
+Revert Back And Close Connections
+        Back-up And Clear Log File
+        Remove Log File
+        Close All Connections
+
+Remove Log File
+        Write   rm -f ${SET_OUTPUT}
+        Sleep   10 seconds
+
+
+Reserve LabManager
+	Run Keyword If		"${TOPOLOGY}"=="UNASSIGNED"	Pass Execution		No topology assigned for this test
+	Run Keyword If		"${TOPOLOGY}"=="DirectConnect"	Pass Execution		Direct connections require no topology
+	${response}=		Reserve LabManager Topology	${TOPOLOGY}
+	Log To Console		${response}
+	Should Not Contain	${response}			ERROR
+	Sleep			10 sec
+
+Release LabManager
+	Run Keyword If		'${TOPOLOGY}'=='UNASSIGNED'	Pass Execution		No topology assigned for this test
+	Run Keyword If		"${TOPOLOGY}"=="DirectConnect"	Pass Execution		Direct connections require no topology
+	${response}=            Release LabManager Topology
+	Log To Console		${response}
+	Should Not Contain	${response}			ERROR
+
+	
+			
+
+	

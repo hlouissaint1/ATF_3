@@ -1,0 +1,13 @@
+<sessions>
+  <session running="no" pid="0" user="CTU2" env="Production">
+    <topo dut="isensor" name="LabManager" address="172.16.250.200">
+      <bps bpgroup="12" topo="DirectConnect" Firstport="1,3" Secondport="1,2" address="172.16.192.9"/>
+      <ione topo="ione_172.16.240.244" ports="" address=""/>
+    </topo>
+    <email>Ruleset Group</email>
+    <isensor name="172.16.195.79" address="172.16.195.79">
+      <target-ruleset version="2.9.14.1.2050"/>
+    </isensor>
+    <tests/>
+  </session>
+</sessions>
