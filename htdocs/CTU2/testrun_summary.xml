@@ -1,8 +1,0 @@
-<testrun-summary>
-  <testrun total-failed="0" start-time="1664461348.54" total-blocked="0" total-tests="1" total-aborted="0" id="20220929_142225.CTU2" total-passed="1">
-    <test status="Completed" suite="Ruleset_Performance" group="Ruleset_Performance" result="Passed" name="Security" run-time="2075.00072098" heartbeat="1664463423.59">
-      <reportlink>https://r-atf.atf-prod.aws.secureworks.net/Ruleset_Performance/Ruleset_Performance/reports/Security/Production/20220929_142225.CTU2.Security.html</reportlink>
-      <loglink>https://r-atf.atf-prod.aws.secureworks.net/Ruleset_Performance/Ruleset_Performance/logs/Security/Production/20220929_142225.CTU2.Security.html</loglink>
-    </test>
-  </testrun>
-</testrun-summary>
